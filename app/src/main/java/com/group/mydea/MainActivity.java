@@ -16,6 +16,12 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // TODO Card Adapter (Enrico);
+    // TODO Classi degli oggetti (Maurizio);
+    // TODO Integrazione CouchBase (Andrea);
+    // TODO XML → Card, activity e menu (Ingrid + Matteo);
+//
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
