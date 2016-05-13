@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setAdapter(cardAdapter);
 
-        layoutManager = new GridLayoutManager(getApplicationContext(), 1, GridLayoutManager.VERTICAL, false);
+        layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
 
