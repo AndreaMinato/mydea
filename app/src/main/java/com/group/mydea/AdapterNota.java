@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import java.util.ArrayList;
@@ -48,7 +50,17 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
         cardHolder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Toast.makeText(ctx, "Ti piacerebbe premre la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
+
                 //TODO Chiamare la visualizzazione nota
+            }
+        });
+
+        cardHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
             }
         });
       /*  ViewAnimator
