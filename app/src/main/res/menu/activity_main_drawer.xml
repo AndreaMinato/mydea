@@ -4,19 +4,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navCatLavoro"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_work_24dp"
             android:title="Lavoro" />
         <item
             android:id="@+id/navCatPersonale"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_person_24dp"
             android:title="Personale" />
         <item
             android:id="@+id/navCatHobby"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_favorite_24dp"
             android:title="Hobby" />
         <item
             android:id="@+id/navCatTempoLibero"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_access_time_24dp"
             android:title="Tempo Libero" />
     </group>
 
