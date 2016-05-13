@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,17 +22,20 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // TODO Card Adapter (Enrico);
-    // TODO Classi degli oggetti (Maurizio);
-    // TODO Integrazione CouchBase (Andrea);
-    // TODO XML → Card, activity e menu (Ingrid + Matteo);
 
+    /** TODO Integrazione CouchBase (Andrea) (--Da testare--);
+     *  TODO XML → Card, activity e menu (Ingrid + Matteo);
+     *  TODO: lateralNavbar (Cap)
+    */
 
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private ArrayList<Nota> note;
-//
+    ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
+
+    public static String TAG="debug tag";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,22 +123,50 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        //Initialize category with 0 to avoid error. 0 = apply no filter (Show all posts.)
+        int category=0;
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.navCatLavoro) {
+            //Filter by category.
+            category=1;
+        } else if (id == R.id.navCatPersonale) {
+            category=2;
+        } else if (id == R.id.navCatHobby) {
+            category=3;
+        } else if (id == R.id.navCatTempoLibero) {
+            category=4;
         }
+
+        myFilteredNotes=filterPostByCategory(category);
+        Log.d(TAG,"Notes has been filtered:\n"+ myFilteredNotes.size()+" has been found with selected category.");
+
+        /**
+         * TODO: cambiare icone nell'xml.
+         * TODO: Show notes.
+         */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private ArrayList<Nota> filterPostByCategory(int category) {
+        ArrayList<Nota> tmpFilteredNotes = new ArrayList<Nota>();
+
+        if(category!=0) {
+
+            for (int i = 0; i < note.size(); i++) {
+                if (note.get(i).getTag() == category) {
+                    tmpFilteredNotes.add(note.get(i));
+                }
+            }
+
+            return tmpFilteredNotes;
+        }
+        else
+        {
+            return note;
+        }
+    }
+
 }
