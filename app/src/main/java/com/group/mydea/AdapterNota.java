@@ -51,11 +51,11 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                 //TODO Chiamare la visualizzazione nota
             }
         });
-        ViewAnimator
+      /*  ViewAnimator
                 .animate(cardHolder.itemView)
                 .bounceIn().interpolator(new BounceInterpolator())
                 .wave().duration(700)
-                .start();
+                .start();*/
     }
 
     @Override
