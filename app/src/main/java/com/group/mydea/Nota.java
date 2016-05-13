@@ -3,6 +3,9 @@ package com.group.mydea;
 /**
  * Created by andrea on 13/05/16.
  */
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,7 +15,7 @@ class MalformedHexColorException extends RuntimeException {
     }
 }
 
-public class Nota {
+public class Nota implements Comparable<Nota> {
 
     private static final String TAG = "Nota";
 
@@ -99,6 +102,11 @@ public class Nota {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public int compareTo(@NonNull Nota nota) {
+        return this.title.compareTo(nota.getTitle());
     }
 
 
