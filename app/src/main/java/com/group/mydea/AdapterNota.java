@@ -1,9 +1,13 @@
 package com.group.mydea;
 
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +28,10 @@ import java.util.Collections;
  */
 public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterNota> {
 
+    FragmentModificaNota mFragmentModificaNota;
+
+    public static String TAG_FRAGMENT_MODIFICA_NOTA="tagfragmentmodificanota";
+
     private ArrayList<Nota> note;  //lista di note
     private Context ctx;
 
@@ -38,8 +46,13 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     @Override
     public HolderAdapterNota onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
+
+        FragmentManager fragmentManager=((MainActivity)ctx).getSupportFragmentManager();
+        mFragmentModificaNota=(FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
+
         return new HolderAdapterNota(v);
     }
+
 
 
     @Override
@@ -55,6 +68,14 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                 Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
                 //TODO Chiamare la visualizzazione nota
+
+                if(mFragmentModificaNota==null){
+                    FragmentTransaction vTrans=((MainActivity)ctx).getSupportFragmentManager().beginTransaction();
+                    mFragmentModificaNota=FragmentModificaNota.getInstance();
+                    vTrans.add(R.id.container, mFragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA);
+                    vTrans.commit();
+                }
+
             }
         });
 

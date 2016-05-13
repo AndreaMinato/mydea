@@ -126,7 +126,9 @@ public class MainActivity extends AppCompatActivity
         //Initialize category with 0 to avoid error. 0 = apply no filter (Show all posts.)
         int category=0;
 
-        if (id == R.id.navCatLavoro) {
+        if(id==R.id.navCatAll){
+            category=0;
+        }else if (id == R.id.navCatLavoro) {
             //Filter by category.
             category=1;
         } else if (id == R.id.navCatPersonale) {
