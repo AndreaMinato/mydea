@@ -3,6 +3,9 @@ package com.group.mydea;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -20,6 +25,12 @@ public class MainActivity extends AppCompatActivity
     // TODO Classi degli oggetti (Maurizio);
     // TODO Integrazione CouchBase (Andrea);
     // TODO XML → Card, activity e menu (Ingrid + Matteo);
+
+
+    private AdapterNota cardAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private ArrayList<Nota> note;
 //
 
     @Override
@@ -34,7 +45,7 @@ public class MainActivity extends AppCompatActivity
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   //TODO Chiamare il fragment per salvare la nota
+                    //TODO Chiamare il fragment per salvare la nota
                 }
             });
         }
@@ -48,6 +59,26 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        recyclerView = (RecyclerView)findViewById(R.id.recycler);
+
+        note = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            Nota nota = new Nota();
+            nota.setTitle("Titolo Figo " + 1);
+            nota.setText("Testo Fighissimo");
+            note.add(i, nota);
+
+        }
+
+        cardAdapter = new AdapterNota(note, getApplicationContext());
+
+        recyclerView.setAdapter(cardAdapter);
+
+        layoutManager = new GridLayoutManager(getApplicationContext(), 1, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+
     }
 
     @Override
