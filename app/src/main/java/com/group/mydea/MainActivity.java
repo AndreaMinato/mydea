@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
         note = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             Nota nota = new Nota();
-            nota.setTitle("Titolo Figo " + 1);
+            nota.setTitle("Titolo Figo " + i);
             nota.setText("Testo Fighissimo");
             note.add(i, nota);
 
