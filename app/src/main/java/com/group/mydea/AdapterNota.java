@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -67,8 +68,12 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                         .setAction(R.string.delete, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+
+                                note.remove(position);
                                 Snackbar snackbar1 = Snackbar.make(view, R.string.deleted , Snackbar.LENGTH_SHORT);
                                 snackbar1.show();
+
+                                notifyDataSetChanged();
                             }
                         });
 

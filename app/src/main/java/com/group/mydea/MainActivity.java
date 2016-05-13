@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private ArrayList<Nota> note;
+    public ArrayList<Nota> note;
     ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
 
     public static String TAG="debug tag";
