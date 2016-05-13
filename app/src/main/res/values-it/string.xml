@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete">Cancella</string>
+    <string name="share">Condividi</string>
+
+    <string name="deleted">La nota è stata eliminata</string>
+</resources>

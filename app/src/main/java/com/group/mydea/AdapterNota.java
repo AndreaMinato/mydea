@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -84,20 +85,18 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
             public boolean onLongClick(View v) {
 
                 Snackbar snackbar = Snackbar
-                        .make(v, "Vediamo", Snackbar.LENGTH_LONG)
-                        .setAction("Cestina", new View.OnClickListener() {
+                        .make(v, " ", Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.delete, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Snackbar snackbar1 = Snackbar.make(view, "Eliminatoo?", Snackbar.LENGTH_SHORT);
+
+                                note.remove(position);
+                                Snackbar snackbar1 = Snackbar.make(view, R.string.deleted , Snackbar.LENGTH_SHORT);
                                 snackbar1.show();
+
+                                notifyDataSetChanged();
                             }
-                        })/*("Sharra", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Snackbar snackbar2 = Snackbar.make(view, "Sharrato?", Snackbar.LENGTH_SHORT);
-                                snackbar2.show();
-                            }
-                        })*/;
+                        });
 
                 snackbar.show();
                 //Toast.makeText(ctx, "Ti piacerebbe tenere premuto la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
