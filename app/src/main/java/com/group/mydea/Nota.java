@@ -33,7 +33,8 @@ public class Nota implements Comparable<Nota> {
     private String image;           //path immagine
     private String audio;           //path audio
     private Date creationDate;
-
+    private int priority;           //Priorità della nota definita dall'utente, convertita in un numero intero?
+                                    //1 Priorità alta, 2 Priorità media, 3 Priorità bassa
     public Nota() {
         id = UUID.randomUUID().toString();
     }

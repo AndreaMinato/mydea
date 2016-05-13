@@ -3,6 +3,7 @@ package com.group.mydea;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,7 +52,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(ctx, "Ti piacerebbe premre la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
                 //TODO Chiamare la visualizzazione nota
             }
@@ -60,7 +61,26 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
         cardHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return false;
+
+                Snackbar snackbar = Snackbar
+                        .make(v, "Vediamo", Snackbar.LENGTH_LONG)
+                        .setAction("Cestina", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Snackbar snackbar1 = Snackbar.make(view, "Eliminatoo?", Snackbar.LENGTH_SHORT);
+                                snackbar1.show();
+                            }
+                        })/*("Sharra", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Snackbar snackbar2 = Snackbar.make(view, "Sharrato?", Snackbar.LENGTH_SHORT);
+                                snackbar2.show();
+                            }
+                        })*/;
+
+                snackbar.show();
+                //Toast.makeText(ctx, "Ti piacerebbe tenere premuto la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
       /*  ViewAnimator
