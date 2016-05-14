@@ -104,6 +104,13 @@ public class Nota implements Comparable<Nota> {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 
     @Override
     public int compareTo(@NonNull Nota nota) {

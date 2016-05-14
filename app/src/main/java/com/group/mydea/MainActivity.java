@@ -1,5 +1,6 @@
 package com.group.mydea;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
                     //TODO Chiamare il fragment per salvare la nota
+                    Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
+                    Bundle vBundle = new Bundle();
+                    startActivity(vIntent);
                 }
             });
         }
