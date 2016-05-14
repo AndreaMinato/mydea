@@ -42,7 +42,7 @@ public class NuovaNota extends AppCompatActivity {
                     nuova.setId(nuova.getID() + 1);
                     nuova.setTitle(titolo.toString());
                     //nuova.setColor("Blue");
-                    nuova.setTag("Tag");
+                    nuova.setTag(1);
                     nuova.setText(corpo.toString());
                     nuova.setImage("immagine");
                     nuova.setAudio("audio");
