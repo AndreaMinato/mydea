@@ -1,8 +1,13 @@
 package com.group.mydea;
 
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,12 +21,17 @@ import android.widget.Toast;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 /**
  * Created by andrea on 13/05/16.
  */
 public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterNota> {
+
+    FragmentModificaNota mFragmentModificaNota;
+
+    public static String TAG_FRAGMENT_MODIFICA_NOTA="tagfragmentmodificanota";
 
     private ArrayList<Nota> note;  //lista di note
     private Context ctx;
@@ -37,8 +47,13 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     @Override
     public HolderAdapterNota onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
+
+        FragmentManager fragmentManager=((MainActivity)ctx).getSupportFragmentManager();
+        mFragmentModificaNota=(FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
+
         return new HolderAdapterNota(v);
     }
+
 
 
     @Override
@@ -51,16 +66,41 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(ctx, "Ti piacerebbe premre la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
                 //TODO Chiamare la visualizzazione nota
+
+                if(mFragmentModificaNota==null){
+                    FragmentTransaction vTrans=((MainActivity)ctx).getSupportFragmentManager().beginTransaction();
+                    mFragmentModificaNota=FragmentModificaNota.getInstance();
+                    vTrans.add(R.id.container, mFragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA);
+                    vTrans.commit();
+                }
+
             }
         });
 
         cardHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return false;
+
+                Snackbar snackbar = Snackbar
+                        .make(v, " ", Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.delete, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                note.remove(position);
+                                Snackbar snackbar1 = Snackbar.make(view, R.string.deleted , Snackbar.LENGTH_SHORT);
+                                snackbar1.show();
+
+                                notifyDataSetChanged();
+                            }
+                        });
+
+                snackbar.show();
+                //Toast.makeText(ctx, "Ti piacerebbe tenere premuto la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
       /*  ViewAnimator

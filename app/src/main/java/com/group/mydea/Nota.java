@@ -22,7 +22,13 @@ public class Nota implements Comparable<Nota> {
     private String id;
     private String title;
     private String color;
-    private String tag;
+    private int tag;
+    /** This is the Category of the posts:
+     * 1=Lavoro
+     * 2=Personale
+     * 3=Hobby
+     * 4=Tempo Libero
+     **/
     private String text;
     private String image;           //path immagine
     private String audio;           //path audio
@@ -45,11 +51,11 @@ public class Nota implements Comparable<Nota> {
         this.id = id;
     }
 
-    public String getTag() {
+    public int getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(int tag) {
         this.tag = tag;
     }
 
