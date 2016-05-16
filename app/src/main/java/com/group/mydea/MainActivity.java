@@ -20,6 +20,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.couchbase.lite.CouchbaseLiteException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -39,7 +42,8 @@ public class MainActivity extends AppCompatActivity
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    public ArrayList<Nota> note;
+    private CouchDB database;
+    private ArrayList<Nota> note;
     ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
 
     public static String TAG="debug tag";
@@ -76,15 +80,30 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         recyclerView = (RecyclerView)findViewById(R.id.recycler);
-        Random rnd=new Random();
-        note = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            Nota nota = new Nota();
-            nota.setTitle("Titolo Figo " + i);
-            nota.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-            nota.setTag(rnd.nextInt(4)+1);
-            note.add(i, nota);
 
+
+        database = new CouchDB(getApplicationContext());
+
+
+        try {
+            note = database.leggiNote();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (note.size() == 0) {
+            Random rnd = new Random();
+            note = new ArrayList<>();
+            for (int i = 0; i < 15; i++) {
+                Nota nota = new Nota();
+                nota.setTitle("Titolo Figo " + i);
+                nota.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                nota.setTag(rnd.nextInt(4) + 1);
+                note.add(i, nota);
+
+            }
         }
 
         showNotes(note);
