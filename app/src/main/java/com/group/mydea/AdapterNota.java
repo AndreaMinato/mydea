@@ -77,6 +77,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                     fragmentModificaNota = FragmentModificaNota.getInstance(note.get(position));
                     vTrans.replace(R.id.container_nota, fragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA).addToBackStack("looool");
                     vTrans.commit();
+
                 //}
 
             }
