@@ -1,6 +1,8 @@
 package com.group.mydea;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,17 +16,27 @@ import java.util.Date;
 
 public class NuovaNota extends AppCompatActivity {
 
+    private CouchDB database;
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        //TODO fare il dialog per avvisare l'utente che si sta uscendo (OK,ANNULLA)
+        new AlertDialog.Builder(this)
+                .setTitle("Sei sicuro di voler uscire?")
+                .setNegativeButton("Continua a scrivere", null)
+                .setPositiveButton("Esci", new DialogInterface.OnClickListener() {
 
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        NuovaNota.super.onBackPressed();
+                    }
+                }).create().show();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuova_nota);
+
+        database = new CouchDB(getApplicationContext());
 
         final EditText titolo = (EditText)findViewById(R.id.editTitle);
         final EditText corpo = (EditText)findViewById(R.id.editBody);
@@ -62,7 +74,14 @@ public class NuovaNota extends AppCompatActivity {
                         Log.d("RADIO", "alta");
                     }
 
-                    Toast.makeText(NuovaNota.this, "Nota salvata correttamente", Toast.LENGTH_LONG).show();
+                    try {
+                        database.salvaNota(nuova);
+                    } catch (Exception e) {
+
+                    }
+                    if(corpo.getText().toString() != null && !(corpo.getText().toString().trim().isEmpty())) {
+                        Toast.makeText(NuovaNota.this, "Nota salvata correttamente", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         }
