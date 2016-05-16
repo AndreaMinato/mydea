@@ -2,6 +2,13 @@
 <resources>
     <string name="delete">Cancella</string>
     <string name="share">Condividi</string>
-
     <string name="deleted">La nota è stata eliminata</string>
+
+    <string name="navCatAll">Tutte</string>
+    <string name="navCatWork">Lavoro</string>
+    <string name="navCatPersonal">Personale</string>
+    <string name="navCatHobby">Hobby</string>
+    <string name="navCatFreetime">Tempo Libero</string>
+
+    <string name="action_settings">Impostazioni</string>
 </resources>

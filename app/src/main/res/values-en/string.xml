@@ -2,6 +2,15 @@
 <resources>
     <string name="delete">Delete</string>
     <string name="share">Share</string>
-
     <string name="deleted">Your note has been deleted</string>
+
+    <string name="navCatAll">All</string>
+    <string name="navCatWork">Work</string>
+    <string name="navCatPersonal">Personal</string>
+    <string name="navCatHobby">Hobby</string>
+    <string name="navCatFreetime">Free Time</string>
+
+    <string name="action_settings">Settings</string>
+
+
 </resources>

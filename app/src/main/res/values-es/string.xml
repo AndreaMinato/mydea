@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="delete">Elimina</string>
+    <string name="share">Comparte</string>
+    <string name="deleted">La nota ha sido eliminada</string>
+
+    <string name="navCatAll">Todas</string>
+    <string name="navCatWork">Trabajo</string>
+    <string name="navCatPersonal">Personal</string>
+    <string name="navCatHobby">Afición</string>
+    <string name="navCatFreetime">Ocio</string>
+
+    <string name="action_settings">Ajustes</string>
+</resources>
