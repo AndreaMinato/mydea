@@ -74,14 +74,21 @@ public class NuovaNota extends AppCompatActivity {
                         Log.d("RADIO", "alta");
                     }
 
-                    try {
-                        database.salvaNota(nuova);
-                    } catch (Exception e) {
 
-                    }
-                    if(corpo.getText().toString() != null && !(corpo.getText().toString().trim().isEmpty())) {
+                    if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
+                        if (titolo.getText().toString().trim().isEmpty()) {
+                            nuova.setTitle("Senza titolo");
+                        }
+                        try {
+                            database.salvaNota(nuova);
+                        } catch (Exception e) {
+
+                        }
                         Toast.makeText(NuovaNota.this, "Nota salvata correttamente", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(NuovaNota.this, "Nulla da salvare", Toast.LENGTH_LONG).show();
                     }
+                    finish();
                 }
             });
         }
