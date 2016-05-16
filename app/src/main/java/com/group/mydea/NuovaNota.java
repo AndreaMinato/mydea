@@ -53,10 +53,10 @@ public class NuovaNota extends AppCompatActivity {
 
                     Nota nuova = new Nota();
                     nuova.setId(nuova.getID() + 1);
-                    nuova.setTitle(titolo.toString());
+                    nuova.setTitle(titolo.getText().toString());
                     //nuova.setColor("Blue");
                     nuova.setTag(1);
-                    nuova.setText(corpo.toString());
+                    nuova.setText(corpo.getText().toString());
                     nuova.setImage("immagine");
                     nuova.setAudio("audio");
                     nuova.setCreationDate(new Date());
