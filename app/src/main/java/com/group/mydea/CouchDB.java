@@ -102,7 +102,6 @@ public class CouchDB {
         ObjectMapper objectMapper = new ObjectMapper();
         String s = objectMapper.writeValueAsString(nota);
         properties.put(Nota.class.getName(), s);            // metto nelle properties una stringa json
-
         properties.put(TYPE_KEY, Nota.class.getName());
         document.putProperties(properties);
     }

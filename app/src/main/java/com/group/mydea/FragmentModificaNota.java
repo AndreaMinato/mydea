@@ -40,6 +40,7 @@ public class FragmentModificaNota extends Fragment {
 
     TextView mTvTitolo, mTvTestoNota;
     Button save;
+    String myID;
 
     public static FragmentModificaNota getInstance(Nota nota) {
 
@@ -82,6 +83,7 @@ public class FragmentModificaNota extends Fragment {
             //TODO settare testi della nota...
             mTvTitolo.setText(nota.getTitle());
             mTvTestoNota.setText(nota.getText());
+            myID = nota.getID();
         }
 
 
@@ -89,6 +91,7 @@ public class FragmentModificaNota extends Fragment {
             @Override
             public void onClick(View v) {
                 Nota nota = new Nota();
+                nota.setId(myID);
                 nota.setText(mTvTestoNota.getText().toString());
                 nota.setTitle(mTvTitolo.getText().toString());
 
