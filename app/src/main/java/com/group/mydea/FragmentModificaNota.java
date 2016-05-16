@@ -20,11 +20,11 @@ public class FragmentModificaNota extends Fragment {
 
     TextView mTvTitolo, mTvTestoNota;
 
-    public static FragmentModificaNota getInstance(int position) {
+    public static FragmentModificaNota getInstance(Nota nota) {
 
         FragmentModificaNota fragmentModificaNota = new FragmentModificaNota();
         Bundle bundle = new Bundle();
-        bundle.putInt(NOTA, position);
+        bundle.putParcelable(NOTA, nota);
         fragmentModificaNota.setArguments(bundle);
         return fragmentModificaNota;
     }
@@ -44,7 +44,9 @@ public class FragmentModificaNota extends Fragment {
             mTvTestoNota = (TextView) vView.findViewById(R.id.tvTestoNota);
             mTvTestoNota.setText("Modify text..");
         if (getArguments() != null) {
+            Nota nota = getArguments().getParcelable(NOTA);
             //TODO settare testi della nota...
+            mTvTitolo.setText(nota.getTitle());
         }
         return vView;
     }
