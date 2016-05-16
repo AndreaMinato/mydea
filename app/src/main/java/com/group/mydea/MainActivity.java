@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,
+        FragmentModificaNota.addedItem{
 
 
     public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
@@ -188,4 +189,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void itemAdded(Nota nota) {
+        note.add(nota);
+        cardAdapter.notifyDataSetChanged();
+    }
 }

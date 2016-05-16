@@ -1,6 +1,8 @@
 package com.group.mydea;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,8 +22,19 @@ import java.io.IOException;
  */
 public class FragmentModificaNota extends Fragment {
 
+    public interface addedItem {
+        public void itemAdded(Nota nota);
+    }
+
     public static String TAG = "debug tag";
     public static String NOTA = "gfcg";
+
+    private addedItem listener = new addedItem() {
+        @Override
+        public void itemAdded(Nota nota) {
+
+        }
+    };
     private CouchDB database;
 
 
@@ -39,6 +52,17 @@ public class FragmentModificaNota extends Fragment {
 
     public FragmentModificaNota() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+
+        super.onAttach(context);
+
+        Activity hostActivity = getActivity();
+        if (hostActivity instanceof addedItem) {
+            listener = (addedItem) hostActivity;
+        }
     }
 
 
@@ -76,8 +100,8 @@ public class FragmentModificaNota extends Fragment {
                 } catch (CouchbaseLiteException e) {
                     e.printStackTrace();
                 }
-
-
+                listener.itemAdded(nota);
+                getActivity().onBackPressed();
             }
         });
         return vView;
