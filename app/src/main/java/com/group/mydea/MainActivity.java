@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,11 +26,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
+
     /** TODO Integrazione CouchBase (Andrea) (--Da testare--);
      *  TODO XML → Card, activity e menu (Ingrid + Matteo);
      *  TODO: lateralNavbar (Cap)
     */
 
+    private FragmentModificaNota FragmentModificaNota;
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -85,6 +90,9 @@ public class MainActivity extends AppCompatActivity
 
         layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
 
 
     }
@@ -173,6 +181,17 @@ public class MainActivity extends AppCompatActivity
         {
             return note;
         }
+    }
+
+
+    public  void chiamaFragment(){
+        Log.i(TAG, "chiamaFragment: ");
+        if (FragmentModificaNota == null) {
+                    FragmentTransaction vTrans = getSupportFragmentManager().beginTransaction();
+                    FragmentModificaNota = FragmentModificaNota.getInstance();
+                    vTrans.add(R.id.container, FragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA);
+                    vTrans.commit();
+                }
     }
 
 }

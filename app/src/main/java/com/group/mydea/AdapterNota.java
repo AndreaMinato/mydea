@@ -1,7 +1,6 @@
 package com.group.mydea;
 
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,9 +28,10 @@ import java.util.Collections;
  */
 public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterNota> {
 
-    FragmentModificaNota mFragmentModificaNota;
 
-    public static String TAG_FRAGMENT_MODIFICA_NOTA="tagfragmentmodificanota";
+
+
+    public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
 
     private ArrayList<Nota> note;  //lista di note
     private Context ctx;
@@ -48,12 +48,13 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public HolderAdapterNota onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
 
-        FragmentManager fragmentManager=((MainActivity)ctx).getSupportFragmentManager();
-        mFragmentModificaNota=(FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
+
+
+      /*  FragmentManager fragmentManager = ((MainActivity) ctx).getSupportFragmentManager();
+        mFragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);*/
 
         return new HolderAdapterNota(v);
     }
-
 
 
     @Override
@@ -69,14 +70,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                 Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
                 //TODO Chiamare la visualizzazione nota
-
-                if(mFragmentModificaNota==null){
-                    FragmentTransaction vTrans=((MainActivity)ctx).getSupportFragmentManager().beginTransaction();
-                    mFragmentModificaNota=FragmentModificaNota.getInstance();
-                    vTrans.add(R.id.container, mFragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA);
-                    vTrans.commit();
-                }
-
+               
             }
         });
 
@@ -91,7 +85,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                             public void onClick(View view) {
 
                                 note.remove(position);
-                                Snackbar snackbar1 = Snackbar.make(view, R.string.deleted , Snackbar.LENGTH_SHORT);
+                                Snackbar snackbar1 = Snackbar.make(view, R.string.deleted, Snackbar.LENGTH_SHORT);
                                 snackbar1.show();
 
                                 notifyDataSetChanged();
