@@ -43,6 +43,14 @@ public class Nota implements Comparable<Nota> , Parcelable{
     //1 Priorità alta, 2 Priorità media, 3 Priorità bassa
     public Nota() {
         id = UUID.randomUUID().toString();
+        title = "titolo";
+        text = "testo";
+        color = "#FFFFFF";
+        tag=1;
+        image = "prova";
+        audio = "prova";
+        creationDate = new Date();
+        priority = 3;
     }
 
     public Nota(String uuid) {
@@ -78,11 +86,11 @@ public class Nota implements Comparable<Nota> , Parcelable{
     }
 
     public void setColor(String color) {
-        if (!color.matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")) {
+/*        if (!color.matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")) {
             throw new MalformedHexColorException();
-        } else {
+        } else {*/
             this.color = color;
-        }
+        //}
     }
 
     public String getText() {
@@ -148,7 +156,10 @@ public class Nota implements Comparable<Nota> , Parcelable{
         dest.writeString(audio);
         dest.writeInt(priority);
         dest.writeInt(tag);
-        dest.writeString(creationDate.toString());
+        if (creationDate != null)
+            dest.writeString(creationDate.toString());
+        else
+            dest.writeString("15/11/2999");
     }
 
     public final static Parcelable.Creator<Nota> CREATOR = new ClassLoaderCreator<Nota>() {

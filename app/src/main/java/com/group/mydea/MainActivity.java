@@ -20,10 +20,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.couchbase.lite.CouchbaseLiteException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,
+        FragmentModificaNota.addedItem{
 
 
     public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
@@ -37,7 +42,8 @@ public class MainActivity extends AppCompatActivity
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    public ArrayList<Nota> note;
+    private CouchDB database;
+    private ArrayList<Nota> note;
     ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
 
     public static String TAG="debug tag";
@@ -75,21 +81,32 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView = (RecyclerView)findViewById(R.id.recycler);
 
-        note = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            Nota nota = new Nota();
-            nota.setTitle("Titolo Figo " + i);
-            nota.setText("Testo Fighissimo");
-            note.add(i, nota);
 
+        database = new CouchDB(getApplicationContext());
+
+
+        try {
+            note = database.leggiNote();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        cardAdapter = new AdapterNota(note, getApplicationContext(),getSupportFragmentManager());
+        if (note.size() == 0) {
+            Random rnd = new Random();
+            note = new ArrayList<>();
+            for (int i = 0; i < 15; i++) {
+                Nota nota = new Nota();
+                nota.setTitle("Titolo Figo " + i);
+                nota.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                nota.setTag(rnd.nextInt(4) + 1);
+                note.add(i, nota);
 
-        recyclerView.setAdapter(cardAdapter);
+            }
+        }
 
-        layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        showNotes(note);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
@@ -154,14 +171,21 @@ public class MainActivity extends AppCompatActivity
         myFilteredNotes=filterPostByCategory(category);
         Log.d(TAG,"Notes has been filtered:\n"+ myFilteredNotes.size()+" has been found with selected category.");
 
-        /**
-         * TODO: cambiare icone nell'xml.
-         * TODO: Show notes.
-         */
+        showNotes(myFilteredNotes);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showNotes(ArrayList<Nota> note){
+        /*
+        TODO: Animations on showing notes.
+         */
+        cardAdapter = new AdapterNota(note, getApplicationContext(),getSupportFragmentManager());
+        recyclerView.setAdapter(cardAdapter);
+        layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private ArrayList<Nota> filterPostByCategory(int category) {
@@ -184,4 +208,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void itemAdded(Nota nota) {
+        note.add(nota);
+        cardAdapter.notifyDataSetChanged();
+    }
 }

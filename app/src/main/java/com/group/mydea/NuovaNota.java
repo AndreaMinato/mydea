@@ -1,6 +1,8 @@
 package com.group.mydea;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,17 +16,27 @@ import java.util.Date;
 
 public class NuovaNota extends AppCompatActivity {
 
+    private CouchDB database;
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        //TODO fare il dialog per avvisare l'utente che si sta uscendo (OK,ANNULLA)
+        new AlertDialog.Builder(this)
+                .setTitle("Sei sicuro di voler uscire?")
+                .setNegativeButton("Continua a scrivere", null)
+                .setPositiveButton("Esci", new DialogInterface.OnClickListener() {
 
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        NuovaNota.super.onBackPressed();
+                    }
+                }).create().show();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuova_nota);
+
+        database = new CouchDB(getApplicationContext());
 
         final EditText titolo = (EditText)findViewById(R.id.editTitle);
         final EditText corpo = (EditText)findViewById(R.id.editBody);
@@ -41,10 +53,10 @@ public class NuovaNota extends AppCompatActivity {
 
                     Nota nuova = new Nota();
                     nuova.setId(nuova.getID() + 1);
-                    nuova.setTitle(titolo.toString());
+                    nuova.setTitle(titolo.getText().toString());
                     //nuova.setColor("Blue");
                     nuova.setTag(1);
-                    nuova.setText(corpo.toString());
+                    nuova.setText(corpo.getText().toString());
                     nuova.setImage("immagine");
                     nuova.setAudio("audio");
                     nuova.setCreationDate(new Date());
@@ -62,7 +74,21 @@ public class NuovaNota extends AppCompatActivity {
                         Log.d("RADIO", "alta");
                     }
 
-                    Toast.makeText(NuovaNota.this, "Nota salvata correttamente", Toast.LENGTH_LONG).show();
+
+                    if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
+                        if (titolo.getText().toString().trim().isEmpty()) {
+                            nuova.setTitle("Senza titolo");
+                        }
+                        try {
+                            database.salvaNota(nuova);
+                        } catch (Exception e) {
+
+                        }
+                        Toast.makeText(NuovaNota.this, "Nota salvata correttamente", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(NuovaNota.this, "Nulla da salvare", Toast.LENGTH_LONG).show();
+                    }
+                    finish();
                 }
             });
         }

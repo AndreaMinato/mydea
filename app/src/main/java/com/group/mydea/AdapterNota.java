@@ -69,7 +69,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
                 //TODO Chiamare la visualizzazione nota
                 //if (fragmentModificaNota == null) {

@@ -1,2 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="appDescription">Sus notas siempre contigo</string>
+
+    <string name="navCatAll">Todas</string>
+    <string name="navCatWork">Trabajo</string>
+    <string name="navCatPersonal">Personal</string>
+    <string name="navCatHobby">Afición</string>
+    <string name="navCatFreetime">Ocio</string>
+
+    <string name="newTitle">Título (opcional)</string>
+    <string name="newNote">Escriba una nota...</string>
+    <string name="newPriority">Prioridad</string>
+    <string name="newPriorityHigh">Alta</string>
+    <string name="newPriorityMed">Media</string>
+    <string name="newPriorityLow">Baja</string>
+    <string name="newSave">Guardar</string>
+
+    <string name="delete">Elimina</string>
+    <string name="share">Comparte</string>
+    <string name="deleted">La nota ha sido eliminada</string>
+
+    <string name="action_settings">Ajustes</string>
+</resources>
