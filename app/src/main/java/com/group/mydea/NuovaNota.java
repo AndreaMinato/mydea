@@ -18,6 +18,7 @@ public class NuovaNota extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         //TODO fare il dialog per avvisare l'utente che si sta uscendo (OK,ANNULLA)
+
     }
 
     @Override
