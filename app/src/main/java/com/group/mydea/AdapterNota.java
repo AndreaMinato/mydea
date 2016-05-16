@@ -74,7 +74,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                 //TODO Chiamare la visualizzazione nota
                 //if (fragmentModificaNota == null) {
                     FragmentTransaction vTrans = fragmentManager.beginTransaction();
-                    fragmentModificaNota = FragmentModificaNota.getInstance(position);
+                    fragmentModificaNota = FragmentModificaNota.getInstance(note.get(position));
                     vTrans.replace(R.id.container_nota, fragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA).addToBackStack("looool");
                     vTrans.commit();
                 //}

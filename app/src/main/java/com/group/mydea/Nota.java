@@ -4,9 +4,12 @@ package com.group.mydea;
  * Created by andrea on 13/05/16.
  */
 
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,7 +19,7 @@ class MalformedHexColorException extends RuntimeException {
     }
 }
 
-public class Nota implements Comparable<Nota> {
+public class Nota implements Comparable<Nota> , Parcelable{
 
     private static final String TAG = "Nota";
 
@@ -125,6 +128,66 @@ public class Nota implements Comparable<Nota> {
     @Override
     public int compareTo(@NonNull Nota nota) {
         return this.title.compareTo(nota.getTitle());
+    }
+
+
+    // Parte per la parcellizzazione
+
+    @Override
+    public int describeContents() {
+        return getID().hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(text);
+        dest.writeString(color);
+        dest.writeString(image);
+        dest.writeString(audio);
+        dest.writeInt(priority);
+        dest.writeInt(tag);
+        dest.writeString(creationDate.toString());
+    }
+
+    public final static Parcelable.Creator<Nota> CREATOR = new ClassLoaderCreator<Nota>() {
+        @Override
+        public Nota createFromParcel(Parcel source, ClassLoader loader) {
+            return new Nota(source);
+        }
+
+        @Override
+        public Nota createFromParcel(Parcel source) {
+            return new Nota(source);
+        }
+
+        @Override
+        public Nota[] newArray(int size) {
+            return new Nota[size];
+        }
+    };
+
+    private Nota(Parcel in) {
+
+        String expectedPattern = "dd/MM/yyyy";
+        SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
+
+        id = in.readString();
+        title = in.readString();
+        text = in.readString();
+        color = in.readString();
+        image = in.readString();
+        audio = in.readString();
+        priority = in.readInt();
+        tag = in.readInt();
+        image = in.readString();
+        try {
+            creationDate = formatter.parse(in.readString());
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+
     }
 
 
