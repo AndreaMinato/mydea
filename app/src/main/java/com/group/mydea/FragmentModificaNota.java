@@ -14,12 +14,19 @@ import android.widget.TextView;
  */
 public class FragmentModificaNota extends Fragment {
 
-    public static String TAG="debug tag";
+    public static String TAG = "debug tag";
+    public static String NOTA = "gfcg";
 
-    TextView mTvTitolo,mTvTestoNota;
 
-    public static FragmentModificaNota getInstance(){
-        return new FragmentModificaNota();
+    TextView mTvTitolo, mTvTestoNota;
+
+    public static FragmentModificaNota getInstance(int position) {
+
+        FragmentModificaNota fragmentModificaNota = new FragmentModificaNota();
+        Bundle bundle = new Bundle();
+        bundle.putInt(NOTA, position);
+        fragmentModificaNota.setArguments(bundle);
+        return fragmentModificaNota;
     }
 
     public FragmentModificaNota() {
@@ -31,13 +38,14 @@ public class FragmentModificaNota extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View vView=inflater.inflate(R.layout.fragment_fragment_modifica_nota, container, false);
+        View vView = inflater.inflate(R.layout.fragment_fragment_modifica_nota, container, false);
 
-        mTvTitolo=(TextView)vView.findViewById(R.id.tvTitoloNota);
-        mTvTestoNota=(TextView)vView.findViewById(R.id.tvTestoNota);
-
-        mTvTestoNota.setText("Modify text..");
-
+            mTvTitolo = (TextView) vView.findViewById(R.id.tvTitoloNota);
+            mTvTestoNota = (TextView) vView.findViewById(R.id.tvTestoNota);
+            mTvTestoNota.setText("Modify text..");
+        if (getArguments() != null) {
+            //TODO settare testi della nota...
+        }
         return vView;
     }
 

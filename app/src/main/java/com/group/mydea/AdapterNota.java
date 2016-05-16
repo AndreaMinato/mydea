@@ -35,12 +35,15 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
     private ArrayList<Nota> note;  //lista di note
     private Context ctx;
+    private FragmentManager fragmentManager;
+    private FragmentModificaNota fragmentModificaNota;
 
     private static final String TAG = "AdapterNote";
 
-    public AdapterNota(ArrayList<Nota> note, Context ctx) {
+    public AdapterNota(ArrayList<Nota> note, Context ctx, FragmentManager fragmentManager) {
         this.note = note;
         this.ctx = ctx;
+        this.fragmentManager=fragmentManager;
         Collections.sort(this.note);
     }
 
@@ -50,8 +53,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
 
 
-      /*  FragmentManager fragmentManager = ((MainActivity) ctx).getSupportFragmentManager();
-        mFragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);*/
+        fragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
 
         return new HolderAdapterNota(v);
     }
@@ -70,7 +72,13 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                 Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
                 //TODO Chiamare la visualizzazione nota
-               
+                //if (fragmentModificaNota == null) {
+                    FragmentTransaction vTrans = fragmentManager.beginTransaction();
+                    fragmentModificaNota = FragmentModificaNota.getInstance(position);
+                    vTrans.replace(R.id.container_nota, fragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA).addToBackStack("looool");
+                    vTrans.commit();
+                //}
+
             }
         });
 

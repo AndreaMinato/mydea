@@ -3,6 +3,7 @@ package com.group.mydea;
 /**
  * Created by andrea on 13/05/16.
  */
+
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
@@ -23,7 +24,8 @@ public class Nota implements Comparable<Nota> {
     private String title;
     private String color;
     private int tag;
-    /** This is the Category of the posts:
+    /**
+     * This is the Category of the posts:
      * 1=Lavoro
      * 2=Personale
      * 3=Hobby
@@ -34,7 +36,8 @@ public class Nota implements Comparable<Nota> {
     private String audio;           //path audio
     private Date creationDate;
     private int priority;           //Priorità della nota definita dall'utente, convertita in un numero intero?
-                                    //1 Priorità alta, 2 Priorità media, 3 Priorità bassa
+
+    //1 Priorità alta, 2 Priorità media, 3 Priorità bassa
     public Nota() {
         id = UUID.randomUUID().toString();
     }
@@ -110,6 +113,7 @@ public class Nota implements Comparable<Nota> {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
     public int getPriority() {
         return priority;
     }

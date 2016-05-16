@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        cardAdapter = new AdapterNota(note, getApplicationContext());
+        cardAdapter = new AdapterNota(note, getApplicationContext(),getSupportFragmentManager());
 
         recyclerView.setAdapter(cardAdapter);
 
@@ -183,15 +183,5 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    public  void chiamaFragment(){
-        Log.i(TAG, "chiamaFragment: ");
-        if (FragmentModificaNota == null) {
-                    FragmentTransaction vTrans = getSupportFragmentManager().beginTransaction();
-                    FragmentModificaNota = FragmentModificaNota.getInstance();
-                    vTrans.add(R.id.container, FragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA);
-                    vTrans.commit();
-                }
-    }
 
 }
