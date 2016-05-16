@@ -15,7 +15,7 @@
         android:id="@+id/editTitle"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:hint="Titolo (opzionale)" />
+        android:hint="@string/newTitle" />
 
     <EditText
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:id="@+id/editBody"
         android:layout_below="@+id/editTitle"
         android:layout_centerHorizontal="true"
-        android:hint="Nota..."
+        android:hint="@string/newNote"
         android:gravity="top"
         android:layout_above="@+id/textView2" />
 
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Priorità"
+        android:text="@string/newPriority"
         android:id="@+id/textView2"
         android:textAlignment="center"
         android:layout_above="@+id/radioGroup"
@@ -52,7 +52,7 @@
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Alta"
+                android:text="@string/newPriorityHigh"
                 android:id="@+id/radioHigh"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -62,7 +62,7 @@
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Media"
+                android:text="@string/newPriorityMed"
                 android:id="@+id/radioAverage"
                 android:checked="false"
                 android:layout_alignTop="@+id/radioHigh"
@@ -72,7 +72,7 @@
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Bassa"
+                android:text="@string/newPriorityLow"
                 android:id="@+id/radioSlow"
                 android:checked="true"
                 android:layout_alignTop="@+id/radioAverage"
@@ -84,7 +84,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Salva"
+        android:text="@string/newSave"
         android:id="@+id/btnSave"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

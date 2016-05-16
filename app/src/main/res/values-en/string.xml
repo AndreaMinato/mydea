@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="delete">Delete</string>
-    <string name="share">Share</string>
-    <string name="deleted">Your note has been deleted</string>
+    <string name="appDescription">Your notes always with you</string>
 
     <string name="navCatAll">All</string>
     <string name="navCatWork">Work</string>
@@ -10,7 +8,17 @@
     <string name="navCatHobby">Hobby</string>
     <string name="navCatFreetime">Free Time</string>
 
+    <string name="newTitle">Title (optional)</string>
+    <string name="newNote">Write a note...</string>
+    <string name="newPriority">Priority</string>
+    <string name="newPriorityHigh">High</string>
+    <string name="newPriorityMed">Medium</string>
+    <string name="newPriorityLow">Low</string>
+    <string name="newSave">Save</string>
+
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="deleted">Your note has been deleted</string>
+
     <string name="action_settings">Settings</string>
-
-
 </resources>
