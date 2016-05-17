@@ -17,12 +17,16 @@ import com.couchbase.lite.Mapper;
 import com.couchbase.lite.Query;
 import com.couchbase.lite.QueryEnumerator;
 import com.couchbase.lite.QueryRow;
+import com.couchbase.lite.UnsavedRevision;
 import com.couchbase.lite.View;
 import com.couchbase.lite.android.AndroidContext;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,16 +99,17 @@ public class CouchDB {
      */
     public void salvaNota(Nota nota) throws IOException, CouchbaseLiteException {
         Document document = db.getDocument(nota.getID());
-        Map<String, Object> properties = document.getProperties();
-        if (properties == null)
-            properties = new HashMap<>();
-
+        Log.i(TAG, "salvaNota: " + nota.getID());
+        Map<String, Object> properties = new HashMap<>();
+        if (document.getProperties() != null)
+            properties.putAll(document.getProperties());
         ObjectMapper objectMapper = new ObjectMapper();
         String s = objectMapper.writeValueAsString(nota);
         properties.put(Nota.class.getName(), s);            // metto nelle properties una stringa json
         properties.put(TYPE_KEY, Nota.class.getName());
         document.putProperties(properties);
     }
+
 
     /**
      * Salva un ArrayList di oggetti di tipo Nota nel database

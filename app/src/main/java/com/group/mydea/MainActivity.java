@@ -209,8 +209,8 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void itemAdded(Nota nota) {
-        note.add(nota);
+    public void itemUpdated(Nota nota, int pos) {
+        note.set(pos, nota);
         cardAdapter.notifyDataSetChanged();
     }
 }
