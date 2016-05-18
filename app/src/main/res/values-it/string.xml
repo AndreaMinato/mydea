@@ -20,5 +20,6 @@
     <string name="share">Condividi</string>
     <string name="deleted">La nota è stata eliminata</string>
 
+    <string name="action_search">Cerca</string>
     <string name="action_settings">Impostazioni</string>
 </resources>

@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity
             add the search icon in the action bar
             TODO: trovare un icona decente.
             */
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_search));
+            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search_24dp));
 
             isSearchOpened = false;
         } else { //open the search entry
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity
             /*add the close icon
             TODO: trovare un icona decente.
             */
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_menu_send));
+            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_clear_24dp));
 
             isSearchOpened = true;
         }
