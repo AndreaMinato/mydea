@@ -107,7 +107,6 @@ public class FragmentModificaNota extends DialogFragment {
 
         mTvTitolo = (TextView) vView.findViewById(R.id.tvtTitoloNota);
         mTvTestoNota = (TextView) vView.findViewById(R.id.tvtTestoNota);
-        save = (Button) vView.findViewById(R.id.save);
         if (getArguments() != null) {
             pos=getArguments().getInt("POS");
             oldNota = getArguments().getParcelable(NOTA);
@@ -118,13 +117,6 @@ public class FragmentModificaNota extends DialogFragment {
             Log.i(TAG, "onCreateView: " + myID);
         }
 
-
-        /*save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        }*/
 
         return vView;
     }
