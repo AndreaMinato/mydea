@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.couchbase.lite.CouchbaseLiteException;
@@ -145,12 +146,9 @@ public class MainActivity extends AppCompatActivity
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
 
-            /*
-            add the search icon in the action bar
-            */
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search_24dp));
-
             isSearchOpened = false;
+
         } else { //open the search entry
 
             action.setDisplayShowCustomEnabled(true); //enable it to display a
@@ -212,7 +210,7 @@ public class MainActivity extends AppCompatActivity
 
                     showNotes(note);
                     setTitle(R.string.app_name);
-                    imm.hideSoftInputFromInputMethod(edtSeach.getWindowToken(),InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    imm.hideSoftInputFromInputMethod(edtSeach.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     fab.show();
                     return false;
                 }

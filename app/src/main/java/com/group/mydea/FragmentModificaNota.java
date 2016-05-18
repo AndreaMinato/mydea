@@ -15,6 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -152,8 +156,23 @@ public class FragmentModificaNota extends DialogFragment {
             mTvTestoNota.setText(oldNota.getText());
             myID = oldNota.getID();
             path = oldNota.getAudio();
-            Log.i(TAG, "onCreateView: " + myID);
+            Log.d(TAG, "onCreateView: " + myID);
         }
+
+        mTvTitolo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "mTvTitolo pressed!");
+
+               //mTvTitolo.setCursorVisible(true);
+               /* Animation animation=new ScaleAnimation(
+                        1f,1.2f,
+                        0.6f,1.2f);
+                animation.setDuration(600);
+                animation.setFillAfter(true);
+                mTvTitolo.startAnimation(animation);*/
+            }
+        });
 
         Button btnRec = (Button) vView.findViewById(R.id.btnRec);
         btnRec.setOnClickListener(new View.OnClickListener() {
