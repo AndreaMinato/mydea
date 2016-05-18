@@ -111,6 +111,12 @@ public class CouchDB {
     }
 
 
+    public void eliminaNota(Nota nota) throws IOException, CouchbaseLiteException {
+        Document document = db.getDocument(nota.getID());
+        document.delete();
+    }
+
+
     /**
      * Salva un ArrayList di oggetti di tipo Nota nel database
      *

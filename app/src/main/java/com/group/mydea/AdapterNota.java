@@ -17,8 +17,10 @@ import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.couchbase.lite.CouchbaseLiteException;
 import com.github.florent37.viewanimator.ViewAnimator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -34,16 +36,18 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
 
     private ArrayList<Nota> note;  //lista di note
+    private CouchDB db;
     private Context ctx;
-    private FragmentManager fragmentManager;
+    private android.app.FragmentManager fragmentManager;
     private FragmentModificaNota fragmentModificaNota;
 
     private static final String TAG = "AdapterNote";
 
-    public AdapterNota(ArrayList<Nota> note, Context ctx, FragmentManager fragmentManager) {
+    public AdapterNota(ArrayList<Nota> note, Context ctx, android.app.FragmentManager fragmentManager) {
         this.note = note;
         this.ctx = ctx;
         this.fragmentManager=fragmentManager;
+        db = new CouchDB(ctx);
         Collections.sort(this.note);
     }
 
@@ -51,7 +55,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public HolderAdapterNota onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
 
-        fragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
+       // fragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
 
         return new HolderAdapterNota(v);
     }
@@ -71,10 +75,15 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
                 //TODO Chiamare la visualizzazione nota
                 //if (fragmentModificaNota == null) {
-                    FragmentTransaction vTrans = fragmentManager.beginTransaction();
+                    /*FragmentTransaction vTrans = fragmentManager.beginTransaction();
                     fragmentModificaNota = FragmentModificaNota.getInstance(note.get(position),position);
                     vTrans.replace(R.id.container_nota, fragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA).addToBackStack("looool");
-                    vTrans.commit();
+                    vTrans.commit();*/
+
+                FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(position),position);
+                fragmentModificaNota.show(fragmentManager , "VEDIAMO LA NOTA");
+
+
 
                 //}
 
@@ -90,12 +99,35 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                         .setAction(R.string.delete, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                final Nota tmpNote = note.get(position);
                                 note.remove(position);
+                                notifyDataSetChanged();
                                 Snackbar snackbar1 = Snackbar.make(view, R.string.deleted, Snackbar.LENGTH_SHORT);
+                                snackbar1.setAction("Annulla", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        note.add(position, tmpNote);
+                                        notifyDataSetChanged();
+                                    }
+                                });
+                                snackbar1.setCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        if(event!=DISMISS_EVENT_ACTION) {
+                                            try {
+                                                db.eliminaNota(tmpNote);
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            } catch (CouchbaseLiteException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        super.onDismissed(snackbar, event);
+                                    }
+                                });
                                 snackbar1.show();
 
-                                notifyDataSetChanged();
+
                             }
                         });
 
