@@ -84,8 +84,6 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                 FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(position),position);
                 fragmentModificaNota.show(fragmentManager, "VEDIAMO LA NOTA");
 
-
-
                 //}
 
             }
@@ -137,7 +135,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                 return true;
             }
         });
-      /*  ViewAnimator
+      /*ViewAnimator
                 .animate(cardHolder.itemView)
                 .bounceIn().interpolator(new BounceInterpolator())
                 .wave().duration(700)

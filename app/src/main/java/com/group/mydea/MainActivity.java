@@ -195,9 +195,7 @@ public class MainActivity extends AppCompatActivity
             imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
 
 
-            /*add the close icon
-            TODO: trovare un icona decente.
-            */
+            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_name));
 
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_clear_24dp));
 
