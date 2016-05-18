@@ -17,20 +17,26 @@ import java.util.Date;
 public class NuovaNota extends AppCompatActivity {
 
     private CouchDB database;
+    EditText titolo;
+    EditText corpo;
 
     public static String TAG="debug tag";
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Sei sicuro di voler uscire?")
-                .setNegativeButton("Continua a scrivere", null)
-                .setPositiveButton("Esci", new DialogInterface.OnClickListener() {
+        if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Uscire senza salvare?")
+                    .setNegativeButton("No", null)
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        NuovaNota.super.onBackPressed();
-                    }
-                }).create().show();
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            NuovaNota.super.onBackPressed();
+                        }
+                    }).create().show();
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -40,8 +46,8 @@ public class NuovaNota extends AppCompatActivity {
 
         database = new CouchDB(getApplicationContext());
 
-        final EditText titolo = (EditText)findViewById(R.id.editTitle);
-        final EditText corpo = (EditText)findViewById(R.id.editBody);
+        titolo = (EditText)findViewById(R.id.editTitle);
+        corpo = (EditText)findViewById(R.id.editBody);
         final RadioButton bassa = (RadioButton)findViewById(R.id.radioSlow);
         final RadioButton media = (RadioButton)findViewById(R.id.radioAverage);
         final RadioButton alta = (RadioButton)findViewById(R.id.radioHigh);
