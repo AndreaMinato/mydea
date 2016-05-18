@@ -51,11 +51,13 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private CouchDB database;
+    FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText edtSeach;
+    private InputMethodManager imm;
 
     public static String TAG="debug tag";
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity
             // custom view in the action bar.
             action.setCustomView(R.layout.search_bar);//add the custom view
             action.setDisplayShowTitleEnabled(false); //hide the title
-
+            fab.hide();
             edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
             edtSeach.requestFocus();
 
@@ -192,7 +194,7 @@ public class MainActivity extends AppCompatActivity
 
 
             //open the keyboard focused in the edtSearch
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
 
 
@@ -207,10 +209,14 @@ public class MainActivity extends AppCompatActivity
             mSearchAction.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    /**Show all posts.*/
+                    /**Show all posts.
+                     * TODO: hide keyboard.
+                     */
 
                     showNotes(note);
                     setTitle(R.string.app_name);
+                    imm.hideSoftInputFromInputMethod(edtSeach.getWindowToken(),InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    fab.show();
                     return false;
                 }
             });

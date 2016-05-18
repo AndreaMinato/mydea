@@ -23,6 +23,7 @@
     <string name="delete">Delete</string>
     <string name="share">Share</string>
     <string name="deleted">Your note has been deleted</string>
+    <string name="searchHint">Find notes...</string>
 
     <string name="cat1">Work</string>
     <string name="cat2">Personal</string>
