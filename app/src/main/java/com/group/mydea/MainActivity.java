@@ -204,6 +204,15 @@ public class MainActivity extends AppCompatActivity
 
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_clear_24dp));
 
+            mSearchAction.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    /**Show all posts.*/
+
+                    showNotes(note);
+                    return false;
+                }
+            });
 
             isSearchOpened = true;
         }
