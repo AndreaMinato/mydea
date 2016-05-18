@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity
                     /**Show all posts.*/
 
                     showNotes(note);
+                    setTitle(R.string.app_name);
                     return false;
                 }
             });
@@ -285,15 +286,20 @@ public class MainActivity extends AppCompatActivity
 
         if(id==R.id.navCatAll){
             category=0;
+            setTitle(R.string.app_name);
         }else if (id == R.id.navCatLavoro) {
             //Filter by category.
             category=1;
+            setTitle(R.string.cat1);
         } else if (id == R.id.navCatPersonale) {
             category=2;
+            setTitle(R.string.cat2);
         } else if (id == R.id.navCatHobby) {
             category=3;
+            setTitle(R.string.cat3);
         } else if (id == R.id.navCatTempoLibero) {
             category=4;
+            setTitle(R.string.cat4);
         }
 
         myFilteredNotes=filterPostByCategory(category);

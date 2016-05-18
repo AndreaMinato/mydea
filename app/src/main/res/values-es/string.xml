@@ -20,6 +20,11 @@
     <string name="share">Comparte</string>
     <string name="deleted">La nota ha sido eliminada</string>
 
+    <string name="cat1">Trabajo</string>
+    <string name="cat2">Personal</string>
+    <string name="cat3">Afición</string>
+    <string name="cat4">Tiempo Libre</string>
+
     <string name="action_search">Buscar</string>
     <string name="action_settings">Ajustes</string>
 </resources>

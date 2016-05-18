@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     private android.app.FragmentManager fragmentManager;
     private FragmentModificaNota fragmentModificaNota;
 
+
     private static final String TAG = "AdapterNote";
 
     public AdapterNota(ArrayList<Nota> note, Context ctx, android.app.FragmentManager fragmentManager) {
@@ -56,7 +58,6 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
 
        // fragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
-
         return new HolderAdapterNota(v);
     }
 
@@ -81,7 +82,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                     vTrans.commit();*/
 
                 FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(position),position);
-                fragmentModificaNota.show(fragmentManager , "VEDIAMO LA NOTA");
+                fragmentModificaNota.show(fragmentManager, "VEDIAMO LA NOTA");
 
 
 
@@ -113,7 +114,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                                 snackbar1.setCallback(new Snackbar.Callback() {
                                     @Override
                                     public void onDismissed(Snackbar snackbar, int event) {
-                                        if(event!=DISMISS_EVENT_ACTION) {
+                                        if (event != DISMISS_EVENT_ACTION) {
                                             try {
                                                 db.eliminaNota(tmpNote);
                                             } catch (IOException e) {
