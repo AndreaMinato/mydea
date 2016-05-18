@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity
      *  TODO XML → Card, activity e menu (Ingrid + Matteo);
     */
 
-    private FragmentModificaNota FragmentModificaNota;
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -61,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private InputMethodManager imm;
 
     public static String TAG="debug tag";
+    public static String TAG_FRAGMENT_IMG_NOTA="tagfragmentmodificanota";
 
 
     @Override
@@ -120,10 +120,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         showNotes(note);
-
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-       /* FragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);*/
-
 
     }
 

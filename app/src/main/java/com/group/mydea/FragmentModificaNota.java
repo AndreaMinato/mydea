@@ -3,9 +3,9 @@ package com.group.mydea;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,13 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
@@ -52,13 +47,14 @@ public class FragmentModificaNota extends DialogFragment {
     private Nota newNota;
     private int pos;
 
+    public static String TAG = "debug tag";
+    public static String NOTA = "gfcg";
+
 
     public interface addedItem {
         public void itemUpdated(Nota nota, int pos);
     }
 
-    public static String TAG = "debug tag";
-    public static String NOTA = "gfcg";
 
     private addedItem listener = new addedItem() {
         @Override
