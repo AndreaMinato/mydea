@@ -16,6 +16,10 @@
     <string name="newPriorityLow">Low</string>
     <string name="newSave">Save</string>
 
+    <string name="exitDialog">Are you sure to want to exit?</string>
+    <string name="exitDialogContinue">Continue to write</string>
+    <string name="exitDialogExit">Exit</string>
+
     <string name="delete">Delete</string>
     <string name="share">Share</string>
     <string name="deleted">Your note has been deleted</string>

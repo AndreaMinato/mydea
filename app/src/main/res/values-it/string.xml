@@ -16,10 +16,19 @@
     <string name="newPriorityLow">Bassa</string>
     <string name="newSave">Salva</string>
 
+    <string name="noteUntitled">Senza titolo</string>
+    <string name="noteSaved">Nota salvata correttamente</string>
+    <string name="noteEmpty">Nulla da salvare</string>
+
+    <string name="exitDialog">Uscire senza salvare?</string>
+    <string name="exitDialogContinue">No</string>
+    <string name="exitDialogExit">Si</string>
+
     <string name="delete">Cancella</string>
     <string name="share">Condividi</string>
     <string name="deleted">La nota è stata eliminata</string>
 
     <string name="action_search">Cerca</string>
+    <string name="searchHint">Cerca nelle note</string>
     <string name="action_settings">Impostazioni</string>
 </resources>

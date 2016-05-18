@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity
 
             /*
             add the search icon in the action bar
-            TODO: trovare un icona decente.
             */
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search_24dp));
 
@@ -200,10 +199,18 @@ public class MainActivity extends AppCompatActivity
             TODO: trovare un icona decente.
             */
 
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_name));
-
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_clear_24dp));
 
+            mSearchAction.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    /**Show all posts.*/
+
+                    showNotes(note);
+                    setTitle(R.string.app_name);
+                    return false;
+                }
+            });
 
             isSearchOpened = true;
         }
@@ -276,15 +283,20 @@ public class MainActivity extends AppCompatActivity
 
         if(id==R.id.navCatAll){
             category=0;
+            setTitle(R.string.app_name);
         }else if (id == R.id.navCatLavoro) {
             //Filter by category.
             category=1;
+            setTitle(R.string.navCatWork);
         } else if (id == R.id.navCatPersonale) {
             category=2;
+            setTitle(R.string.navCatPersonal);
         } else if (id == R.id.navCatHobby) {
             category=3;
+            setTitle(R.string.navCatHobby);
         } else if (id == R.id.navCatTempoLibero) {
             category=4;
+            setTitle(R.string.navCatFreetime);
         }
 
         myFilteredNotes=filterPostByCategory(category);
