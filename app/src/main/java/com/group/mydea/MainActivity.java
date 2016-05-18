@@ -199,11 +199,11 @@ public class MainActivity extends AppCompatActivity
             /*add the close icon
             TODO: trovare un icona decente.
             */
-<<<<<<< HEAD
+
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_name));
-=======
+
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_clear_24dp));
->>>>>>> 993250b7e4ff6fae8e3a00ebaf1e4311fe9f5e08
+
 
             isSearchOpened = true;
         }
