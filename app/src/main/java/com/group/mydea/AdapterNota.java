@@ -51,8 +51,6 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public HolderAdapterNota onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
 
-
-
         fragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
 
         return new HolderAdapterNota(v);
@@ -74,7 +72,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
                 //TODO Chiamare la visualizzazione nota
                 //if (fragmentModificaNota == null) {
                     FragmentTransaction vTrans = fragmentManager.beginTransaction();
-                    fragmentModificaNota = FragmentModificaNota.getInstance(note.get(position));
+                    fragmentModificaNota = FragmentModificaNota.getInstance(note.get(position),position);
                     vTrans.replace(R.id.container_nota, fragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA).addToBackStack("looool");
                     vTrans.commit();
 

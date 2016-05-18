@@ -53,8 +53,8 @@ public class Nota implements Comparable<Nota> , Parcelable{
         priority = 3;
     }
 
-    public Nota(String uuid) {
-        id = uuid;
+    public Nota(String id) {
+        id = id;
     }
 
     public String getID() {

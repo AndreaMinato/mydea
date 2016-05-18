@@ -18,6 +18,8 @@ public class NuovaNota extends AppCompatActivity {
 
     private CouchDB database;
 
+    public static String TAG="debug tag";
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -63,15 +65,15 @@ public class NuovaNota extends AppCompatActivity {
 
                     if ((bassa).isChecked()) {
                         nuova.setPriority(3);
-                        Log.d("RADIO","bassa");
+                        Log.d(TAG,"bassa");
                     }
                     if ((media.isChecked())) {
                         nuova.setPriority(2);
-                        Log.d("RADIO", "media");
+                        Log.d(TAG, "media");
                     }
                     if (alta.isChecked()) {
                         nuova.setPriority(1);
-                        Log.d("RADIO", "alta");
+                        Log.d(TAG, "alta");
                     }
 
 
