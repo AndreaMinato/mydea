@@ -51,11 +51,13 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private CouchDB database;
+    FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText edtSeach;
+    private InputMethodManager imm;
 
     public static String TAG="debug tag";
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,7 +147,6 @@ public class MainActivity extends AppCompatActivity
 
             /*
             add the search icon in the action bar
-            TODO: trovare un icona decente.
             */
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search_24dp));
 
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity
             // custom view in the action bar.
             action.setCustomView(R.layout.search_bar);//add the custom view
             action.setDisplayShowTitleEnabled(false); //hide the title
-
+            fab.hide();
             edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
             edtSeach.requestFocus();
 
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity
 
 
             //open the keyboard focused in the edtSearch
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
 
 
@@ -200,6 +201,20 @@ public class MainActivity extends AppCompatActivity
 
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_clear_24dp));
 
+            mSearchAction.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    /**Show all posts.
+                     * TODO: hide keyboard.
+                     */
+
+                    showNotes(note);
+                    setTitle(R.string.app_name);
+                    imm.hideSoftInputFromInputMethod(edtSeach.getWindowToken(),InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    fab.show();
+                    return false;
+                }
+            });
 
             isSearchOpened = true;
         }
@@ -272,15 +287,20 @@ public class MainActivity extends AppCompatActivity
 
         if(id==R.id.navCatAll){
             category=0;
+            setTitle(R.string.app_name);
         }else if (id == R.id.navCatLavoro) {
             //Filter by category.
             category=1;
+            setTitle(R.string.navCatWork);
         } else if (id == R.id.navCatPersonale) {
             category=2;
+            setTitle(R.string.navCatPersonal);
         } else if (id == R.id.navCatHobby) {
             category=3;
+            setTitle(R.string.navCatHobby);
         } else if (id == R.id.navCatTempoLibero) {
             category=4;
+            setTitle(R.string.navCatFreetime);
         }
 
         myFilteredNotes=filterPostByCategory(category);

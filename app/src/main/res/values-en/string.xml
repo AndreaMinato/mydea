@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<string name="appDescription">Your notes always with you</string>
+    <string name="appDescription">Your notes always with you</string>
 
     <string name="navCatAll">All</string>
     <string name="navCatWork">Work</string>
@@ -23,7 +23,8 @@
     <string name="delete">Delete</string>
     <string name="share">Share</string>
     <string name="deleted">Your note has been deleted</string>
+    <string name="searchHint">Find notes...</string>
 
     <string name="action_search">Search</string>
-    <string name="action_settings">Settings</string>-->
+    <string name="action_settings">Settings</string>
 </resources>
