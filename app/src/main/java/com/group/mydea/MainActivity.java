@@ -118,8 +118,8 @@ public class MainActivity extends AppCompatActivity
 
         showNotes(note);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+       /* FragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);*/
 
 
     }
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity
         /*
         TODO: Animations on showing notes.
          */
-        cardAdapter = new AdapterNota(note, getApplicationContext(),getSupportFragmentManager());
+        cardAdapter = new AdapterNota(note, getApplicationContext(),getFragmentManager());
         recyclerView.setAdapter(cardAdapter);
         layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);

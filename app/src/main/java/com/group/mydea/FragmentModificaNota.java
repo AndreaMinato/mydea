@@ -2,7 +2,9 @@ package com.group.mydea;
 
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +23,7 @@ import java.io.IOException;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentModificaNota extends Fragment {
+public class FragmentModificaNota extends DialogFragment {
 
     private Nota oldNota;
     private Nota newNota;
@@ -63,6 +65,27 @@ public class FragmentModificaNota extends Fragment {
     }
 
     @Override
+    public void onDismiss(DialogInterface dialog) {
+        newNota = new Nota();
+        newNota.setId(myID);
+        newNota.setText(mTvTestoNota.getText().toString());
+        newNota.setTitle(mTvTitolo.getText().toString());
+        Log.i(TAG, "onClick: " + newNota.getID());
+
+
+        try {
+            database.salvaNota(newNota);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+        listener.itemUpdated(newNota, pos);
+        //getActivity().onBackPressed();
+        super.onDismiss(dialog);
+    }
+
+    @Override
     public void onAttach(Context context) {
 
         super.onAttach(context);
@@ -96,28 +119,14 @@ public class FragmentModificaNota extends Fragment {
         }
 
 
-        save.setOnClickListener(new View.OnClickListener() {
+        /*save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newNota = new Nota();
-                newNota.setId(myID);
-                newNota.setText(mTvTestoNota.getText().toString());
-                newNota.setTitle(mTvTitolo.getText().toString());
-                Log.i(TAG, "onClick: " + newNota.getID());
 
-
-                try {
-                    database.salvaNota(newNota);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (CouchbaseLiteException e) {
-                    e.printStackTrace();
-                }
-                listener.itemUpdated(newNota, pos);
-                getActivity().onBackPressed();
             }
-        });
+        }*/
+
         return vView;
     }
-
 }
+        
