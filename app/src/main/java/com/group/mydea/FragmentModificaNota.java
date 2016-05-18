@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,8 +39,8 @@ public class FragmentModificaNota extends DialogFragment {
     private MediaRecorder mediaRecorder;
     private Timer recTimer;
     private boolean isRecording;
-    private String audioOutputPath = null;
-    private LinearLayout linearLayout;
+    private String audioOutputPath = " ";
+    private FrameLayout linearLayout;
 
     private Snackbar timeProgressSnackbar;
 
@@ -67,6 +68,7 @@ public class FragmentModificaNota extends DialogFragment {
     TextView mTvTitolo, mTvTestoNota;
     Button save;
     String myID;
+    String path;
 
     public static FragmentModificaNota getInstance(Nota nota, int position) {
 
@@ -88,6 +90,10 @@ public class FragmentModificaNota extends DialogFragment {
         newNota.setId(myID);
         newNota.setText(mTvTestoNota.getText().toString());
         newNota.setTitle(mTvTitolo.getText().toString());
+        if(audioOutputPath!=" ")
+            newNota.setAudio(audioOutputPath);
+        else
+            newNota.setAudio(path);
         Log.i(TAG, "onClick: " + newNota.getID());
 
 
@@ -121,7 +127,7 @@ public class FragmentModificaNota extends DialogFragment {
         // Inflate the layout for this fragment
         View vView = inflater.inflate(R.layout.fragment_fragment_modifica_nota, container, false);
 
-        linearLayout = (LinearLayout) vView.findViewById(R.id.layoutfrag);
+        linearLayout = (FrameLayout) vView.findViewById(R.id.layoutfrag);
         mediaRecorder = new MediaRecorder();
         mediaRecorder.reset();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -145,6 +151,7 @@ public class FragmentModificaNota extends DialogFragment {
             mTvTitolo.setText(oldNota.getTitle());
             mTvTestoNota.setText(oldNota.getText());
             myID = oldNota.getID();
+            path = oldNota.getAudio();
             Log.i(TAG, "onCreateView: " + myID);
         }
 
