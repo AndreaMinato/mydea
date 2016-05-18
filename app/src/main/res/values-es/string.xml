@@ -16,10 +16,24 @@
     <string name="newPriorityLow">Baja</string>
     <string name="newSave">Guardar</string>
 
+    <string name="noteUntitled">Sin título</string>
+    <string name="noteSaved">Guardado correctamente</string>
+    <string name="noteEmpty">Nada para guardar</string>
+
+    <string name="exitDialog">¿Quiere salir sin guardar?</string>
+    <string name="exitDialogContinue">No</string>
+    <string name="exitDialogExit">Si</string>
+
     <string name="delete">Elimina</string>
     <string name="share">Comparte</string>
     <string name="deleted">La nota ha sido eliminada</string>
 
+    <string name="cat1">Trabajo</string>
+    <string name="cat2">Personal</string>
+    <string name="cat3">Afición</string>
+    <string name="cat4">Tiempo Libre</string>
+
     <string name="action_search">Buscar</string>
+    <string name="searchHint">Buscar entre las notas</string>
     <string name="action_settings">Ajustes</string>
 </resources>

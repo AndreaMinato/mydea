@@ -26,9 +26,9 @@ public class NuovaNota extends AppCompatActivity {
     public void onBackPressed() {
         if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
             new AlertDialog.Builder(this)
-                    .setTitle("Uscire senza salvare?")
-                    .setNegativeButton("No", null)
-                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.exitDialog)
+                    .setNegativeButton(R.string.exitDialogContinue, null)
+                    .setPositiveButton(R.string.exitDialogExit, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface arg0, int arg1) {
                             NuovaNota.super.onBackPressed();
@@ -85,16 +85,16 @@ public class NuovaNota extends AppCompatActivity {
 
                     if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
                         if (titolo.getText().toString().trim().isEmpty()) {
-                            nuova.setTitle("Senza titolo");
+                            nuova.setTitle(""+R.string.noteUntitled);
                         }
                         try {
                             database.salvaNota(nuova);
                         } catch (Exception e) {
 
                         }
-                        Toast.makeText(NuovaNota.this, "Nota salvata correttamente", Toast.LENGTH_LONG).show();
+                        Toast.makeText(NuovaNota.this, R.string.noteSaved, Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(NuovaNota.this, "Nulla da salvare", Toast.LENGTH_LONG).show();
+                        Toast.makeText(NuovaNota.this, R.string.noteEmpty, Toast.LENGTH_LONG).show();
                     }
                     finish();
                 }

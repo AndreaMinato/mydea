@@ -3,6 +3,36 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="appDescription">Your notes always with you</string>
+
+    <string name="navCatAll">All</string>
+    <string name="navCatWork">Work</string>
+    <string name="navCatPersonal">Personal</string>
+    <string name="navCatHobby">Hobby</string>
+    <string name="navCatFreetime">Free Time</string>
+
+    <string name="newTitle">Title (optional)</string>
+    <string name="newNote">Write a note...</string>
+    <string name="newPriority">Priority</string>
+    <string name="newPriorityHigh">High</string>
+    <string name="newPriorityMed">Medium</string>
+    <string name="newPriorityLow">Low</string>
+    <string name="newSave">Save</string>
+
+    <string name="noteUntitled">Untitled</string>
+    <string name="noteSaved">Saved with success</string>
+    <string name="noteEmpty">Nothing to save</string>
+
+    <string name="exitDialog">Do you want to exit without save?</string>
+    <string name="exitDialogContinue">No</string>
+    <string name="exitDialogExit">Yes</string>
+
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="deleted">Your note has been deleted</string>
+
+    <string name="action_search">Search</string>
+    <string name="searchHint">Find in notes</string>
+    <string name="action_settings">Settings</string>
 </resources>
