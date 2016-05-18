@@ -30,6 +30,7 @@
                 android:id="@+id/txtTitoloNota"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:transitionName="@string/transition_name_title"
                 android:text="Titolo Nota"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -37,6 +38,7 @@
                 android:id="@+id/txtTestoNota"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:transitionName="@string/transition_name_text"
                 android:text="Testo Nota"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
