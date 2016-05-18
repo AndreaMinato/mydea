@@ -35,12 +35,12 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
     private ArrayList<Nota> note;  //lista di note
     private Context ctx;
-    private FragmentManager fragmentManager;
+    private android.app.FragmentManager fragmentManager;
     private FragmentModificaNota fragmentModificaNota;
 
     private static final String TAG = "AdapterNote";
 
-    public AdapterNota(ArrayList<Nota> note, Context ctx, FragmentManager fragmentManager) {
+    public AdapterNota(ArrayList<Nota> note, Context ctx, android.app.FragmentManager fragmentManager) {
         this.note = note;
         this.ctx = ctx;
         this.fragmentManager=fragmentManager;
@@ -51,7 +51,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public HolderAdapterNota onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
 
-        fragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
+       // fragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
 
         return new HolderAdapterNota(v);
     }
@@ -71,10 +71,15 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
                 //TODO Chiamare la visualizzazione nota
                 //if (fragmentModificaNota == null) {
-                    FragmentTransaction vTrans = fragmentManager.beginTransaction();
+                    /*FragmentTransaction vTrans = fragmentManager.beginTransaction();
                     fragmentModificaNota = FragmentModificaNota.getInstance(note.get(position),position);
                     vTrans.replace(R.id.container_nota, fragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA).addToBackStack("looool");
-                    vTrans.commit();
+                    vTrans.commit();*/
+
+                FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(position),position);
+                fragmentModificaNota.show(fragmentManager , "VEDIAMO LA NOTA");
+
+
 
                 //}
 

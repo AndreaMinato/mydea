@@ -20,5 +20,6 @@
     <string name="share">Share</string>
     <string name="deleted">Your note has been deleted</string>
 
+    <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
 </resources>
