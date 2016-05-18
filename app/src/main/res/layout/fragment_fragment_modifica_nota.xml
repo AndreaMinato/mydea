@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
+    android:id="@+id/layoutfrag"
     tools:context="com.group.mydea.FragmentModificaNota">
 
     <!-- TODO: Update blank fragment layout -->
@@ -10,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:orientation="vertical">
@@ -38,6 +40,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="true" />
+
+
+                <android.support.v7.widget.ButtonBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btnRec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </android.support.v7.widget.ButtonBarLayout>
 
             </LinearLayout>
 

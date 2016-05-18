@@ -147,7 +147,6 @@ public class MainActivity extends AppCompatActivity
 
             /*
             add the search icon in the action bar
-            TODO: trovare un icona decente.
             */
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search_24dp));
 
@@ -201,8 +200,6 @@ public class MainActivity extends AppCompatActivity
             /*add the close icon
             TODO: trovare un icona decente.
             */
-
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_name));
 
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_clear_24dp));
 
@@ -296,16 +293,16 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.navCatLavoro) {
             //Filter by category.
             category=1;
-            setTitle(R.string.cat1);
+            setTitle(R.string.navCatWork);
         } else if (id == R.id.navCatPersonale) {
             category=2;
-            setTitle(R.string.cat2);
+            setTitle(R.string.navCatPersonal);
         } else if (id == R.id.navCatHobby) {
             category=3;
-            setTitle(R.string.cat3);
+            setTitle(R.string.navCatHobby);
         } else if (id == R.id.navCatTempoLibero) {
             category=4;
-            setTitle(R.string.cat4);
+            setTitle(R.string.navCatFreetime);
         }
 
         myFilteredNotes=filterPostByCategory(category);

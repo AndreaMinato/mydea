@@ -25,11 +25,6 @@
     <string name="deleted">Your note has been deleted</string>
     <string name="searchHint">Find notes...</string>
 
-    <string name="cat1">Work</string>
-    <string name="cat2">Personal</string>
-    <string name="cat3">Hobby</string>
-    <string name="cat4">Free Time</string>
-
     <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
 </resources>
