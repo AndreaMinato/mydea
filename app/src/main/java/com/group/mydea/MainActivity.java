@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-<<<<<<< HEAD
                     //TODO Chiamare il fragment per salvare la nota
 //                    Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
 //                    Bundle vBundle = new Bundle();
@@ -86,15 +85,7 @@ public class MainActivity extends AppCompatActivity
                     note.add(new Nota());
                     FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(note.size()-1),note.size()-1);
                     fragmentModificaNota.show(getFragmentManager(), "VEDIAMO LA NOTA");
-=======
-                    /**TODO Chiamare il fragment per salvare la nota
-                     * Animazione figa: https://android-arsenal.com/details/1/2763
-                     */
 
-                    Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
-                    Bundle vBundle = new Bundle();
-                    startActivity(vIntent);
->>>>>>> master
                 }
             });
         }
