@@ -43,4 +43,5 @@ dependencies {
     compile 'com.couchbase.lite:couchbase-lite-android:1.2.0'
     compile 'com.github.florent37:viewanimator:1.0.3@aar'
     compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
 }

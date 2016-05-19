@@ -68,12 +68,12 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public void onBindViewHolder(final HolderAdapterNota cardHolder, final int position) {
 
         substrTitoloNota=note.get(position).getTitle();
-        substrTestoNota=note.get(position).getText().substring(0,50);
+        substrTestoNota=note.get(position).getText();//.substring(0,50);
 
         if(substrTitoloNota.length()>15) {
             substrTitoloNota = note.get(position).getTitle().substring(0, 12)+"...";
         }
-        
+
         cardHolder.titolo.setText(substrTitoloNota);
         cardHolder.testo.setText(substrTestoNota);
 

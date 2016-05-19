@@ -34,6 +34,7 @@ import com.couchbase.lite.CouchbaseLiteException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     private boolean isSearchOpened = false;
     private EditText edtSeach;
     private InputMethodManager imm;
+    List<FloatingActionButton> fabList = new ArrayList<>();
 
     public static String TAG="debug tag";
     public static String TAG_FRAGMENT_IMG_NOTA="tagfragmentmodificanota";
@@ -76,7 +78,10 @@ public class MainActivity extends AppCompatActivity
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO Chiamare il fragment per salvare la nota
+                    /**TODO Chiamare il fragment per salvare la nota
+                     * Animazione figa: https://android-arsenal.com/details/1/2763
+                     */
+
                     Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
                     Bundle vBundle = new Bundle();
                     startActivity(vIntent);
