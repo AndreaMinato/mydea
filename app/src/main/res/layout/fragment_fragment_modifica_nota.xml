@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutfrag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:id="@+id/layoutfrag"
     tools:context="com.group.mydea.FragmentModificaNota">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,87 +12,96 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
+        android:minHeight="250dp"
+        android:minWidth="200dp"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cardView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:minHeight="300dp"
-            android:layout_weight="10"
-            card_view:cardElevation="0dp"
-            card_view:cardUseCompatPadding="true">
-
-
-            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:id="@+id/contenitoreImgNota"
-                tools:context="com.group.mydea.FragmentModificaNota"
-                />
-
-        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/relativeLayoutCorpoNota">
-
-            <EditText
+            android:minHeight="250dp"
+            android:minWidth="200dp">
+            <!--card_view:cardUseCompatPadding="true"-->
+            <!--card_view:cardElevation="8dp"-->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvtTitoloNota"
-                android:cursorVisible="true"
-                android:textSize="25dp"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:background="@null"
-                android:transitionName="@string/transition_name_title"/>
+                android:layout_height="match_parent"
+                android:minHeight="300dp"
+                android:orientation="vertical"
+                card_view:cardElevation="0dp"
+                card_view:cardUseCompatPadding="true"
+                android:layout_weight="1">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/relativeLayoutImg"
-                android:layout_below="@+id/tvtTitoloNota">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageViewNota"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="0dp"/>
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fabImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/contenitoreImgNota"
+                    android:layout_width="match_parent"
+                    android:layout_height="108dp"
                     android:clickable="true"
-                    android:src="@drawable/ic_menu_camera"
-                    android:color="@color/colorFab"
-                    android:layout_marginTop="0dp"
-                    android:layout_below="@+id/imageViewNota"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvtTestoNota"
-                android:layout_below="@+id/relativeLayoutImg"
-                android:layout_marginTop="10dp"
-                android:background="@null"
-                android:cursorVisible="true"
-                android:transitionName="@string/transition_name_text"/>
+                    tools:context="com.group.mydea.FragmentModificaNota" />
 
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutCorpoNota"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/tvtTitoloNota"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:cursorVisible="true"
+                        android:textAlignment="center"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:transitionName="@string/transition_name_title" />
+
+                    <EditText
+                        android:id="@+id/tvtTestoNota"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:cursorVisible="true"
+                        android:transitionName="@string/transition_name_text"
+                        android:layout_weight="1" />
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayoutImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvtTitoloNota">
+
+                        <ImageView
+                            android:id="@+id/imageViewNota"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="0dp" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/fabImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/imageViewNota"
+                            android:layout_marginTop="0dp"
+                            android:clickable="true"
+                            android:color="@color/colorFab"
+                            android:src="@drawable/ic_menu_camera" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
+
         <RelativeLayout
+            android:id="@+id/relativeLayoutBarraSotto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/relativeLayoutBarraSotto"
             android:layout_below="@+id/relativeLayoutCorpoNota"
             android:layout_gravity="bottom"
             android:gravity="bottom">
@@ -101,8 +110,8 @@
             <android.support.v7.widget.ButtonBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="12dp"
+                android:gravity="center_horizontal">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btnRec"

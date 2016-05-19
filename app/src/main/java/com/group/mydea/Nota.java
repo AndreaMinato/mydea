@@ -43,18 +43,18 @@ public class Nota implements Comparable<Nota> , Parcelable{
     //1 Priorità alta, 2 Priorità media, 3 Priorità bassa
     public Nota() {
         id = UUID.randomUUID().toString();
-        title = "titolo";
-        text = "testo";
+        title = "Nota senza Titolo";
+        text = "...";
         color = "#FFFFFF";
         tag=1;
-        image = "prova";
-        audio = "prova";
+        image = " ";
+        audio = " ";
         creationDate = new Date();
         priority = 3;
     }
 
     public Nota(String id) {
-        id = id;
+        this.id = id;
     }
 
     public String getID() {
