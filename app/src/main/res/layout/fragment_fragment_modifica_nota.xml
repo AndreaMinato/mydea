@@ -87,10 +87,10 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_below="@+id/imageViewNota"
-                            android:layout_marginTop="0dp"
                             android:clickable="true"
                             android:color="@color/colorFab"
                             android:src="@drawable/ic_menu_camera" />
+
                     </RelativeLayout>
 
                 </RelativeLayout>

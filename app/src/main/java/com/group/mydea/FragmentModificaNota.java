@@ -159,18 +159,9 @@ public class FragmentModificaNota extends DialogFragment {
 
         imgNota=(ImageView) vView.findViewById(R.id.imageViewNota);
 
-       /* try {
-            if(isValidPath(myImgNota))
-                setImg(myImgNota);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d(TAG,"Error on settigng img in OnCreateView(): "+e);
-        }*/
-
         fabImg = (FloatingActionButton) vView.findViewById(R.id.fabImg);
 
-            fabImg.setOnClickListener(new View.OnClickListener() {
+        fabImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -181,19 +172,14 @@ public class FragmentModificaNota extends DialogFragment {
                             .setPositiveButton("Yep!", new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface arg0, int arg1) {
-                                    modImg();
+                                    takePicture();
                                 }
                             })
                             .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface arg0, int arg1) {
                                     /**Select file from gallery*/
-
-                                    Intent intent = new Intent();
-                                    intent.setType("image/*");
-                                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                                    startActivityForResult(Intent.createChooser(intent,
-                                            "Select Picture"), SELECT_PICTURE);
+                                    getImgFromGallery();
                                 }
                             }).create().show();
 
@@ -237,6 +223,28 @@ public class FragmentModificaNota extends DialogFragment {
     }
 
 
+    private void postHasImage(){
+        /**
+         * TODO: implement img check
+         */
+        try {
+            //setImg(myImgNota);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG,"Error on settigng img in OnCreateView(): "+e);
+        }
+
+    }
+
+    private void getImgFromGallery() {
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), SELECT_PICTURE);
+    }
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -244,15 +252,15 @@ public class FragmentModificaNota extends DialogFragment {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 Log.d(TAG, "Selected img path: " + selectedImageUri.getPath());
+                setImg(new File(selectedImageUri.getPath()));
                 oldNota.setImage(selectedImageUri.getPath());
-                setImg(selectedImageUri.getPath());
             }
         }
     }
 
 
 
-    private void modImg(){
+    private void takePicture(){
 
         final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
         File newdir = new File(dir);
@@ -260,84 +268,74 @@ public class FragmentModificaNota extends DialogFragment {
         if(!newdir.exists())
             newdir.mkdirs();
 
-        if (oldNota.getImage() != null) {
+
+        Log.d(TAG, "Take a pic, bro!");
+
+        int time=(int)(System.currentTimeMillis());
+        String timeStp="imgPost"+"_"+new Timestamp(time).toString().replace("-","").replace(" ","").replace(".","").replace(":","");
+        String myPicFile = dir + timeStp + ".jpg";
+        File newImgfile = new File(myPicFile) ;
+        try {
+
+            newImgfile.createNewFile();
+
+            Uri outputFileUri = Uri.fromFile(newImgfile);
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
             /*
-            TODO: show dialog "Vuoi modificare l'img?"
+            TODO: callback (wait for pic)
+            TODO: handle permission.
              */
-            Log.d(TAG, "This Note has an image yet.");
-            Log.d(TAG,"Path: "+oldNota.getImage());
 
-            //fileImg=new File(oldNota.getImage());
-            if(isValidPath(myImgNota))
-                setImg(myImgNota);
-
-        } else {
-            Log.d(TAG, "Take a pic...");
-
-            int time=(int)(System.currentTimeMillis());
-            String timeStp="imgPost"+"_"+new Timestamp(time).toString().replace("-","").replace(" ","").replace(".","").replace(":","");
-            Log.d(TAG,"TimeStamp: "+timeStp);
-            String myPicFile = dir + timeStp + ".jpg";
-            File newImgfile = new File(myPicFile) ;
-            try {
-                 /*
-                TODO: handle permission.
-                 */
-                newImgfile.createNewFile();
-
-                Uri outputFileUri = Uri.fromFile(newImgfile);
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
-                /*
-                TODO: callback (wait for pic)
-                 */
-                if(isValidPath(newImgfile.getPath())) {
-                    Log.d(TAG, "Setting img: \n Path: " + newImgfile.getAbsolutePath());
-                    oldNota.setImage(newImgfile.getAbsolutePath());
-                    setImg(newImgfile.getAbsolutePath());
-                }
-
-
+            setImg(newImgfile);
+            oldNota.setImage(newImgfile.getAbsolutePath());
 
             } catch (IOException e) {
                 Log.d(TAG, "Error on taking a pic: "+ e.toString());
             }
 
-        }
-
     }
 
-    private void setImg(String fileImg) {
+    private void setImg(File fileImg) {
         /*
-        *TODO: getContext()
         *       getActivity() it's like getContext() 'cos it's a context itself #stackoverflowsays
         */
-        Log.d(TAG, "Setting img: " + fileImg);
+        Log.d(TAG, "Setting img: " + fileImg.getPath());
 
-        try {
-            Picasso.with(getActivity())
-                    .load(fileImg)
-                    .error(R.drawable.logo_alfa)
-                    .resize(600, 400)
-                    .centerCrop()
-                    .into(imgNota, new Callback() {
+        Picasso picasso = new Picasso.Builder(getActivity()).listener(new Picasso.Listener() {
+            @Override public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                exception.printStackTrace();
+                Log.d(TAG, "EXCEPTION PICASSO: "+exception);
+            }
+        }).build();
 
-                        @Override
-                        public void onSuccess() {
+        if(isValidPath(fileImg.getAbsolutePath())) {
+        /*
+        *TODO: fixHere.
+         */
+            try {
+                Picasso.with(getActivity())
+                        .load("file://"+fileImg.getPath())
+                        .error(R.drawable.couldnotloadimg)
+                        .into(imgNota, new Callback()
+                        {
 
-                            Log.d(TAG, "Image setted correctly.");
-                        }
+                            @Override
+                            public void onSuccess() {
 
-                        @Override
-                        public void onError() {
+                                Log.d(TAG, "Image setted correctly.");
+                            }
 
-                            Log.d(TAG, "Image not setted correctly.");
-                        }
-                    });
-        }
-        catch (Exception e){
-            Log.d(TAG, "Image not setted correctly: "+e);
+                            @Override
+                            public void onError() {
+
+                                Log.d(TAG, "Image not setted correctly.");
+                            }
+                        });
+            } catch (Exception e) {
+                Log.d(TAG, "Image not setted correctly: " + e);
+            }
         }
     }
 
@@ -349,7 +347,6 @@ public class FragmentModificaNota extends DialogFragment {
         else {
             Log.d(TAG,"File Path not valid!!\n Path: " + imgPath + "\nResetting file to null...");
             oldNota.setImage(null);
-            //TODO: RICAMBIA A FALSE QUANDO VA
             return false;
         }
     }
