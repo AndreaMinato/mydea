@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -51,6 +52,10 @@ public class NuovaNota extends AppCompatActivity {
         final RadioButton bassa = (RadioButton)findViewById(R.id.radioSlow);
         final RadioButton media = (RadioButton)findViewById(R.id.radioAverage);
         final RadioButton alta = (RadioButton)findViewById(R.id.radioHigh);
+        final RadioButton lavoro = (RadioButton)findViewById(R.id.radioWork);
+        final RadioButton personale = (RadioButton)findViewById(R.id.radioPersonal);
+        final RadioButton hobby = (RadioButton)findViewById(R.id.radioHobby);
+        final RadioButton tempolibero = (RadioButton)findViewById(R.id.radioFreetime);
 
         Button salva = (Button)findViewById(R.id.btnSave);
         if (salva != null) {
@@ -63,7 +68,20 @@ public class NuovaNota extends AppCompatActivity {
                     nuova.setId(nuova.getID() + 1);
                     nuova.setTitle(titolo.getText().toString());
                     //nuova.setColor("Blue");
-                    nuova.setTag(1);
+
+                    if (lavoro.isChecked()) {
+                        nuova.setTag(1);
+                    }
+                    if (personale.isChecked()) {
+                        nuova.setTag(2);
+                    }
+                    if (hobby.isChecked()) {
+                        nuova.setTag(3);
+                    }
+                    if (tempolibero.isChecked()) {
+                        nuova.setTag(4);
+                    }
+
                     nuova.setText(corpo.getText().toString());
                     nuova.setImage("immagine");
                     nuova.setAudio("audio");
@@ -85,7 +103,7 @@ public class NuovaNota extends AppCompatActivity {
 
                     if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
                         if (titolo.getText().toString().trim().isEmpty()) {
-                            nuova.setTitle(""+R.string.noteUntitled);
+                            nuova.setTitle("Senza titolo");
                         }
                         try {
                             database.salvaNota(nuova);
