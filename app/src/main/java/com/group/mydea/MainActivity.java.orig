@@ -27,14 +27,12 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.couchbase.lite.CouchbaseLiteException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
@@ -48,21 +46,18 @@ public class MainActivity extends AppCompatActivity
      *  TODO XML → Card, activity e menu (Ingrid + Matteo);
     */
 
+    private FragmentModificaNota FragmentModificaNota;
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private CouchDB database;
-    FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText edtSeach;
-    private InputMethodManager imm;
-    List<FloatingActionButton> fabList = new ArrayList<>();
 
     public static String TAG="debug tag";
-    public static String TAG_FRAGMENT_IMG_NOTA="tagfragmentmodificanota";
 
 
     @Override
@@ -73,28 +68,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-<<<<<<< HEAD
                     //TODO Chiamare il fragment per salvare la nota
-//                    Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
-//                    Bundle vBundle = new Bundle();
-//                    startActivity(vIntent);
-                    note.add(new Nota());
-                    FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(note.size()-1),note.size()-1);
-                    fragmentModificaNota.show(getFragmentManager(), "VEDIAMO LA NOTA");
-=======
-                    /**TODO Chiamare il fragment per salvare la nota
-                     * Animazione figa: https://android-arsenal.com/details/1/2763
-                     */
-
                     Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
                     Bundle vBundle = new Bundle();
                     startActivity(vIntent);
->>>>>>> master
                 }
             });
         }
@@ -136,6 +118,10 @@ public class MainActivity extends AppCompatActivity
 
         showNotes(note);
 
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+       /* FragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);*/
+
+
     }
 
     @Override
@@ -157,16 +143,20 @@ public class MainActivity extends AppCompatActivity
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(edtSeach.getWindowToken(), 0);
 
+            /*
+            add the search icon in the action bar
+            TODO: trovare un icona decente.
+            */
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_search_24dp));
-            isSearchOpened = false;
 
+            isSearchOpened = false;
         } else { //open the search entry
 
             action.setDisplayShowCustomEnabled(true); //enable it to display a
             // custom view in the action bar.
             action.setCustomView(R.layout.search_bar);//add the custom view
             action.setDisplayShowTitleEnabled(false); //hide the title
-            fab.hide();
+
             edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
             edtSeach.requestFocus();
 
@@ -202,28 +192,18 @@ public class MainActivity extends AppCompatActivity
 
 
             //open the keyboard focused in the edtSearch
-            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(edtSeach, InputMethodManager.SHOW_IMPLICIT);
 
 
+            /*add the close icon
+            TODO: trovare un icona decente.
+            */
+<<<<<<< HEAD
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_name));
-
+=======
             mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_clear_24dp));
-
-            mSearchAction.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    /**Show all posts.
-                     * TODO: hide keyboard.
-                     */
-
-                    showNotes(note);
-                    setTitle(R.string.app_name);
-                    imm.hideSoftInputFromInputMethod(edtSeach.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    fab.show();
-                    return false;
-                }
-            });
+>>>>>>> 993250b7e4ff6fae8e3a00ebaf1e4311fe9f5e08
 
             isSearchOpened = true;
         }
@@ -296,20 +276,15 @@ public class MainActivity extends AppCompatActivity
 
         if(id==R.id.navCatAll){
             category=0;
-            setTitle(R.string.app_name);
         }else if (id == R.id.navCatLavoro) {
             //Filter by category.
             category=1;
-            setTitle(R.string.navCatWork);
         } else if (id == R.id.navCatPersonale) {
             category=2;
-            setTitle(R.string.navCatPersonal);
         } else if (id == R.id.navCatHobby) {
             category=3;
-            setTitle(R.string.navCatHobby);
         } else if (id == R.id.navCatTempoLibero) {
             category=4;
-            setTitle(R.string.navCatFreetime);
         }
 
         myFilteredNotes=filterPostByCategory(category);

@@ -19,13 +19,13 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/editBody"
         android:layout_below="@+id/editTitle"
         android:layout_centerHorizontal="true"
         android:hint="@string/newNote"
         android:gravity="top"
-        android:layout_above="@+id/textView2" />
+        android:layout_above="@+id/textView3" />
 
     <TextView
         android:layout_width="match_parent"
@@ -88,5 +88,59 @@
         android:id="@+id/btnSave"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Category"
+        android:id="@+id/textView3"
+        android:layout_above="@+id/radioCategory"
+        android:layout_centerHorizontal="true" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:id="@+id/radioCategory">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Work"
+            android:id="@+id/radioWork"
+            android:layout_gravity="center_vertical"
+            android:checked="false"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Personal"
+            android:id="@+id/radioPersonal"
+            android:layout_gravity="center_vertical"
+            android:checked="false"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Hobby"
+            android:id="@+id/radioHobby"
+            android:layout_gravity="center_vertical"
+            android:checked="false"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Free Time"
+            android:id="@+id/radioFreetime"
+            android:layout_gravity="center_vertical"
+            android:checked="false"
+            android:layout_weight="1" />
+    </RadioGroup>
 
 </RelativeLayout>

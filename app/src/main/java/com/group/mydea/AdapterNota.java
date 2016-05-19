@@ -35,15 +35,17 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
 
     public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
+    public static String TAG="debug tag";
+    public static String TAG_FRAGMENT_IMG_NOTA="tagfragmentmodificanota";
 
     private ArrayList<Nota> note;  //lista di note
     private CouchDB db;
     private Context ctx;
     private android.app.FragmentManager fragmentManager;
-    private FragmentModificaNota fragmentModificaNota;
+    private FragmentImmagine mFragmentImmagine;
+    private String substrTestoNota;
+    private String substrTitoloNota;
 
-
-    private static final String TAG = "AdapterNote";
 
     public AdapterNota(ArrayList<Nota> note, Context ctx, android.app.FragmentManager fragmentManager) {
         this.note = note;
@@ -65,8 +67,15 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     @Override
     public void onBindViewHolder(final HolderAdapterNota cardHolder, final int position) {
 
-        cardHolder.titolo.setText(note.get(position).getTitle());
-        cardHolder.testo.setText(note.get(position).getText());
+        substrTitoloNota=note.get(position).getTitle();
+        substrTestoNota=note.get(position).getText();//.substring(0,50);
+
+        if(substrTitoloNota.length()>15) {
+            substrTitoloNota = note.get(position).getTitle().substring(0, 12)+"...";
+        }
+
+        cardHolder.titolo.setText(substrTitoloNota);
+        cardHolder.testo.setText(substrTestoNota);
 
         cardHolder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,17 +83,13 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
                 //Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
-                //TODO Chiamare la visualizzazione nota
-                //if (fragmentModificaNota == null) {
-                    /*FragmentTransaction vTrans = fragmentManager.beginTransaction();
-                    fragmentModificaNota = FragmentModificaNota.getInstance(note.get(position),position);
-                    vTrans.replace(R.id.container_nota, fragmentModificaNota, TAG_FRAGMENT_MODIFICA_NOTA).addToBackStack("looool");
-                    vTrans.commit();*/
+                //TODO Chiamare la visualizzazione nota e il fragment imgNOTA
 
-                FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(position),position);
-                fragmentModificaNota.show(fragmentManager, "VEDIAMO LA NOTA");
+                FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(position), position);
+                fragmentModificaNota.show(fragmentManager, TAG_FRAGMENT_MODIFICA_NOTA);
 
-                //}
+               /* mFragmentImmagine=FragmentImmagine.getIstance();
+                mFragmentImmagine.onCreate(fragmentManager,TAG_FRAGMENT_IMG_NOTA);*/
 
             }
         });
