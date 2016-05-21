@@ -27,6 +27,16 @@
         android:clickable="true"
         android:color="@color/colorFab"
         android:src="@drawable/ic_menu_camera" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabGal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:color="@color/colorFab"
+        android:src="@drawable/ic_menu_gallery"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textView3"
+        android:layout_toEndOf="@+id/textView3" />
 
     <EditText
         android:layout_width="match_parent"

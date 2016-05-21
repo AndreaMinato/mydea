@@ -50,6 +50,7 @@ public class NuovaNota extends AppCompatActivity {
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int PICK_IMAGE = 1;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -102,8 +103,20 @@ public class NuovaNota extends AppCompatActivity {
         final RadioButton hobby = (RadioButton)findViewById(R.id.radioHobby);
         final RadioButton tempolibero = (RadioButton)findViewById(R.id.radioFreetime);
         final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
+        final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);
         immagine = (ImageView)findViewById(R.id.imgviewFoto);
 
+
+        assert fabGal != null;
+        fabGal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+            }
+        });
 
         assert fabImg != null;
         fabImg.setOnClickListener(new View.OnClickListener() {
