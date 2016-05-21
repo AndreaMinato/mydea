@@ -14,18 +14,30 @@
         android:layout_height="wrap_content"
         android:id="@+id/editTitle"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:hint="@string/newTitle" />
+        android:hint="@string/newTitle"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:clickable="true"
+        android:color="@color/colorFab"
+        android:src="@drawable/ic_menu_camera" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editBody"
         android:layout_below="@+id/editTitle"
-        android:layout_centerHorizontal="true"
         android:hint="@string/newNote"
         android:gravity="top"
-        android:layout_above="@+id/textView3" />
+        android:layout_above="@+id/textView3"
+        android:layout_alignRight="@+id/editTitle"
+        android:layout_alignEnd="@+id/editTitle" />
 
     <TextView
         android:layout_width="match_parent"
@@ -142,5 +154,15 @@
             android:checked="false"
             android:layout_weight="1" />
     </RadioGroup>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgviewFoto"
+        android:layout_alignBottom="@+id/editBody"
+        android:layout_toRightOf="@+id/textView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/fabImg" />
 
 </RelativeLayout>

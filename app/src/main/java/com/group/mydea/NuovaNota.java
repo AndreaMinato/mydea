@@ -1,7 +1,15 @@
 package com.group.mydea;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,19 +17,56 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.couchbase.lite.CouchbaseLiteException;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.Timer;
 
 public class NuovaNota extends AppCompatActivity {
+
+
+
 
     private CouchDB database;
     EditText titolo;
     EditText corpo;
+    ImageView immagine;
+
+
+
 
     public static String TAG="debug tag";
+
+
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            immagine.setImageBitmap(imageBitmap);
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -56,6 +101,17 @@ public class NuovaNota extends AppCompatActivity {
         final RadioButton personale = (RadioButton)findViewById(R.id.radioPersonal);
         final RadioButton hobby = (RadioButton)findViewById(R.id.radioHobby);
         final RadioButton tempolibero = (RadioButton)findViewById(R.id.radioFreetime);
+        final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
+        immagine = (ImageView)findViewById(R.id.imgviewFoto);
+
+
+        assert fabImg != null;
+        fabImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
 
         Button salva = (Button)findViewById(R.id.btnSave);
         if (salva != null) {
@@ -121,6 +177,8 @@ public class NuovaNota extends AppCompatActivity {
 
 
     }
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
