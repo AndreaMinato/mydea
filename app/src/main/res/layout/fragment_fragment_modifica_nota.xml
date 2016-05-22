@@ -46,8 +46,7 @@
                 <RelativeLayout
                     android:id="@+id/relativeLayoutCorpoNota"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content" >
 
                     <EditText
                         android:id="@+id/tvtTitoloNota"
@@ -58,40 +57,40 @@
                         android:textAlignment="center"
                         android:textSize="25dp"
                         android:textStyle="bold"
-                        android:transitionName="@string/transition_name_title" />
+                         />
 
                     <EditText
                         android:id="@+id/tvtTestoNota"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:cursorVisible="true"
-                        android:transitionName="@string/transition_name_text"
-                        android:layout_weight="1" />
-
-                    <RelativeLayout
-                        android:id="@+id/relativeLayoutImg"
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvtTitoloNota">
+                        android:cursorVisible="true"
+                        android:layout_below="@+id/tvtTitoloNota"
+                         />
 
-                        <ImageView
-                            android:id="@+id/imageViewNota"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_margin="0dp" />
+                </RelativeLayout>
 
-                        <android.support.design.widget.FloatingActionButton
-                            android:id="@+id/fabImg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_below="@+id/imageViewNota"
-                            android:clickable="true"
-                            android:color="@color/colorFab"
-                            android:src="@drawable/ic_menu_camera" />
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvtTestoNota">
 
-                    </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/imageViewNota"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="0dp" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fabImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/imageViewNota"
+                        android:clickable="true"
+                        android:color="@color/colorFab"
+                        android:src="@drawable/ic_menu_camera" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -102,9 +101,9 @@
             android:id="@+id/relativeLayoutBarraSotto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relativeLayoutCorpoNota"
+            android:layout_below="@+id/relativeLayoutImg"
             android:layout_gravity="bottom"
-            android:gravity="bottom">
+            >
 
 
             <android.support.v7.widget.ButtonBarLayout
