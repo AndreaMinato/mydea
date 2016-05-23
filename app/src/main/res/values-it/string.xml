@@ -10,6 +10,7 @@
 
     <string name="newTitle">Titolo (opzionale)</string>
     <string name="newNote">Scrivi una nota...</string>
+    <string name="newCategory">Categoria</string>
     <string name="newPriority">Priorità</string>
     <string name="newPriorityHigh">Alta</string>
     <string name="newPriorityMed">Media</string>

@@ -14,6 +14,7 @@
 
     <string name="newTitle">Title (optional)</string>
     <string name="newNote">Write a note...</string>
+    <string name="newCategory">Category</string>
     <string name="newPriority">Priority</string>
     <string name="newPriorityHigh">High</string>
     <string name="newPriorityMed">Medium</string>
