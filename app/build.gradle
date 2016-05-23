@@ -9,9 +9,6 @@ android {
         preDexLibraries = false //delete the already predexed libraries
     }
 
-    defaultConfig {
-        multiDexEnabled true
-    }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -30,6 +27,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
