@@ -53,12 +53,12 @@
 
                 <RelativeLayout
                     android:id="@+id/relativeLayoutImg"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/imageViewNota"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:baselineAlignBottom="false" />
@@ -90,47 +90,74 @@
                         android:layout_below="@+id/tvtTitoloNota"/>
                 </RelativeLayout>
 
-                <android.support.design.widget.FloatingActionButton
+                <com.getbase.floatingactionbutton.FloatingActionsMenu
+                    android:id="@+id/multiple_actions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/fabImg"
-                    android:backgroundTint="@color/colorFab"
-                    android:src="@drawable/ic_menu_camera"
-                    app:layout_anchor="@id/relativeLayoutImg"
-                    app:layout_anchorGravity="right|end"/>
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp">
+
+                    <com.getbase.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btnRec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_btn_speak_now"/>
+
+                    <com.getbase.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fabImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_menu_camera"/>
+
+                </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+                <!--<android.support.design.widget.FloatingActionButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/fabImg"-->
+                    <!--android:backgroundTint="@color/colorFab"-->
+                    <!--android:src="@drawable/ic_menu_camera"-->
+                    <!--app:layout_anchor="@id/relativeLayoutImg"-->
+                    <!--app:layout_anchorGravity="bottom|right|end"/>-->
 
             </RelativeLayout>
 
            </ScrollView>
 
+
         </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/relativeLayoutBarraSotto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ScrollView01"
-                android:layout_gravity="bottom"
-                android:gravity="bottom">
-
-
-                <android.support.v7.widget.ButtonBarLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:gravity="center_horizontal">
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/btnRec"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Just Record." />
-
-                </android.support.v7.widget.ButtonBarLayout>
-
-            </RelativeLayout>
-
         </android.support.v7.widget.CardView>
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/relativeLayoutBarraSotto"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/relativeLayoutCorpoNota"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:gravity="bottom">-->
+
+
+            <!--&lt;!&ndash;<android.support.v7.widget.ButtonBarLayout&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginTop="12dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:gravity="center_horizontal">&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<android.support.v7.widget.AppCompatButton&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/btnRec"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="Just Record." />&ndash;&gt;-->
+
+            <!--&lt;!&ndash;</android.support.v7.widget.ButtonBarLayout>&ndash;&gt;-->
+
+
+        <!--</RelativeLayout>-->
 
     </LinearLayout>
 

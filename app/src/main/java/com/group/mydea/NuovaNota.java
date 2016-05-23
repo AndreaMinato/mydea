@@ -51,7 +51,7 @@ public class NuovaNota extends AppCompatActivity {
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int PICK_IMAGE = 1;
+    static final int PICK_IMAGE = 2; //il numero deve essere diverso da REQUEST_IMAGE_CAPTURE
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -63,6 +63,11 @@ public class NuovaNota extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        Log.d(TAG, "qui");
+
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
