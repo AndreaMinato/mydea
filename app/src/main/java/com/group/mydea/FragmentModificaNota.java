@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -252,7 +253,8 @@ public class FragmentModificaNota extends DialogFragment {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 Log.d(TAG, "Selected img path: " + selectedImageUri.getPath());
-                setImg(new File(selectedImageUri.getPath()));
+                setImg(selectedImageUri);
+                //setImgNotPicasso(selectedImageUri.getPath());
                 oldNota.setImage(selectedImageUri.getPath());
             }
         }
@@ -288,8 +290,8 @@ public class FragmentModificaNota extends DialogFragment {
             TODO: handle permission.
              */
 
-            setImg(newImgfile);
-            oldNota.setImage(newImgfile.getAbsolutePath());
+            setImg(outputFileUri);
+            oldNota.setImage(outputFileUri.toString());
 
             } catch (IOException e) {
                 Log.d(TAG, "Error on taking a pic: "+ e.toString());
@@ -297,46 +299,46 @@ public class FragmentModificaNota extends DialogFragment {
 
     }
 
-    private void setImg(File fileImg) {
+    private void setImgNotPicasso(Uri fileImg){
+
+       /* //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg+".jpg";
+        //Log.d(TAG, "myExtFilePath: " + myExtFilePath);
+
+        imgNota.setImageBitmap(BitmapFactory.decodeFile(new File(fileImg)));*/
+    }
+
+    private void setImg(Uri fileImg) {
         /*
         *       getActivity() it's like getContext() 'cos it's a context itself #stackoverflowsays
         */
-        Log.d(TAG, "Setting img: " + fileImg.getPath());
+        //String myFilePath= fileImg.getAbsolutePath()+".jpg";//"file://"
 
-        Picasso picasso = new Picasso.Builder(getActivity()).listener(new Picasso.Listener() {
-            @Override public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                exception.printStackTrace();
-                Log.d(TAG, "EXCEPTION PICASSO: "+exception);
-            }
-        }).build();
+        //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg.getAbsolutePath()+".jpg";
 
-        if(isValidPath(fileImg.getAbsolutePath())) {
-        /*
-        *TODO: fixHere.
-         */
+
+        Log.d(TAG, "myExtFilePath URI: "+fileImg);
+
             try {
                 Picasso.with(getActivity())
-                        .load("file://"+fileImg.getPath())
+                        .load(fileImg)
                         .error(R.drawable.couldnotloadimg)
-                        .into(imgNota, new Callback()
-                        {
+                        .into(imgNota, new Callback() {
 
-                            @Override
-                            public void onSuccess() {
+                                    @Override
+                                    public void onSuccess() {
 
-                                Log.d(TAG, "Image setted correctly.");
-                            }
+                                        Log.d(TAG, "Image setted correctly.");
+                                    }
 
-                            @Override
-                            public void onError() {
+                                    @Override
+                                    public void onError() {
 
-                                Log.d(TAG, "Image not setted correctly.");
-                            }
-                        });
+                                        Log.d(TAG, "Image not setted correctly.");
+                                    }
+                                });
             } catch (Exception e) {
                 Log.d(TAG, "Image not setted correctly: " + e);
             }
-        }
     }
 
     private Boolean isValidPath(String imgPath){
@@ -345,9 +347,10 @@ public class FragmentModificaNota extends DialogFragment {
         if(f.exists() && !f.isDirectory())
             return true;
         else {
-            Log.d(TAG,"File Path not valid!!\n Path: " + imgPath + "\nResetting file to null...");
+            Log.d(TAG,"File Path not valid!!\n Path: " + imgPath + "\n Resetting file to null...");
             oldNota.setImage(null);
-            return false;
+            /**TODO: RESET TO FALSE*/
+            return true;
         }
     }
 

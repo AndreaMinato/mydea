@@ -41,12 +41,13 @@ public class NuovaNota extends AppCompatActivity {
     EditText titolo;
     EditText corpo;
     ImageView immagine;
+    Bitmap temp;
 
 
 
 
     public static String TAG="debug tag";
-
+    private static String BITMAP = "bitmap";
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -65,7 +66,22 @@ public class NuovaNota extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            temp = imageBitmap;
             immagine.setImageBitmap(imageBitmap);
+        }
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+                temp = bitmap;
+                immagine.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -105,6 +121,11 @@ public class NuovaNota extends AppCompatActivity {
         final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
         final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);
         immagine = (ImageView)findViewById(R.id.imgviewFoto);
+
+        if (savedInstanceState != null) {
+            temp = savedInstanceState.getParcelable(BITMAP);
+            immagine.setImageBitmap(temp);
+        }
 
 
         assert fabGal != null;
@@ -196,5 +217,6 @@ public class NuovaNota extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putParcelable(BITMAP, temp);
     }
 }
