@@ -1,6 +1,7 @@
 package com.group.mydea;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -30,6 +31,12 @@ import android.widget.Toast;
 import android.os.Handler;
 
 import com.couchbase.lite.CouchbaseLiteException;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -141,6 +148,8 @@ public class FragmentModificaNota extends DialogFragment {
         // Inflate the layout for this fragment
         View vView = inflater.inflate(R.layout.fragment_fragment_modifica_nota, container, false);
 
+
+
         mTvTitolo = (TextView) vView.findViewById(R.id.tvtTitoloNota);
         mTvTestoNota = (TextView) vView.findViewById(R.id.tvtTestoNota);
 
@@ -163,59 +172,97 @@ public class FragmentModificaNota extends DialogFragment {
         fabImg = (FloatingActionButton) vView.findViewById(R.id.fabImg);
 
         fabImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                    Log.d(TAG, "Fab img hasbeen pressed.");
+                Log.d(TAG, "Fab img hasbeen pressed.");
 
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Do you want to take a pic?")
-                            .setPositiveButton("Yep!", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Do you want to take a pic?")
+                        .setPositiveButton("Yep!", new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    takePicture();
-                                }
-                            })
-                            .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                Dexter.checkPermission(new PermissionListener() {
+                                    @Override
+                                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                                        Toast.makeText(getActivity().getApplicationContext(), "Permessoooooo", Toast.LENGTH_LONG).show();
 
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    /**Select file from gallery*/
-                                    getImgFromGallery();
-                                }
-                            }).create().show();
+                                        takePicture();
+                                    }
+
+                                    @Override
+                                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                                        Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+
+                                    }
+
+                                    @Override
+                                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                                        Toast.makeText(getActivity().getApplicationContext(), "Cosa stranaaaaa", Toast.LENGTH_LONG).show();
+                                        token.continuePermissionRequest();
+
+                                    }
+                                }, Manifest.permission.CAMERA);
+
+                            }
+                        })
+                        .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                /**Select file from gallery*/
+                                getImgFromGallery();
+                            }
+                        }).create().show();
 
 
-
-                }
-            });
+            }
+        });
 
 
         linearLayout = (FrameLayout) vView.findViewById(R.id.layoutfrag);
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.reset();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        //mediaRecorder.setOutputFile();
-
-
-        recTimer = new Timer();
 
 
         database = new CouchDB(getActivity());
-
 
 
         Button btnRec = (Button) vView.findViewById(R.id.btnRec);
         btnRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isRecording) {
-                    startRecording();
-                } else {
-                    stopRecording();
-                }
+                Dexter.checkPermission(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Permessoooooo", Toast.LENGTH_LONG).show();
+
+                        mediaRecorder = new MediaRecorder();
+                        mediaRecorder.reset();
+                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+
+                        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                        //mediaRecorder.setOutputFile();
+                        recTimer = new Timer();
+                        if (!isRecording) {
+                            startRecording();
+                        } else {
+                            stopRecording();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Cosa stranaaaaa", Toast.LENGTH_LONG).show();
+                        token.continuePermissionRequest();
+
+                    }
+                }, Manifest.permission.RECORD_AUDIO);
+
             }
         });
 
@@ -404,17 +451,18 @@ public class FragmentModificaNota extends DialogFragment {
     }
 
     private MediaRecorder setupRecorderWithPermission() {
-        Permission.askForPermissions(getActivity());
+        /*Permission.askForPermissions(getActivity());
 
         if (!Permission.needsToAskForPermissions(getActivity())) {
             return setupRecorder();
         }
+        return null;*/
         return null;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        /*super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Permission.MY_PERMISSIONS_REQUEST_RECORD_AUDIO:
                 break;
@@ -422,7 +470,7 @@ public class FragmentModificaNota extends DialogFragment {
                 break;
             default:
                 break;
-        }
+        }*/
     }
 
     private TimerTask createTimerTask() {
