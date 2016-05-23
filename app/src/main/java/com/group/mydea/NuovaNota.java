@@ -51,7 +51,7 @@ public class NuovaNota extends AppCompatActivity {
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int PICK_IMAGE = 1;
+    static final int PICK_IMAGE = 2; //il numero deve essere diverso da REQUEST_IMAGE_CAPTURE
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -63,6 +63,11 @@ public class NuovaNota extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        Log.d(TAG, "qui");
+
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -73,7 +78,6 @@ public class NuovaNota extends AppCompatActivity {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
-            Log.d(TAG, "dopo inizializzazione URI");
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
@@ -137,7 +141,6 @@ public class NuovaNota extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-                Log.d(TAG, "galleria aperta");
             }
         });
 
