@@ -115,7 +115,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Category"
+        android:text="@string/newCategory"
         android:id="@+id/textView3"
         android:layout_above="@+id/radioCategory"
         android:layout_centerHorizontal="true" />
@@ -131,7 +131,7 @@
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Work"
+            android:text="@string/navCatWork"
             android:id="@+id/radioWork"
             android:layout_gravity="center_vertical"
             android:checked="false"
@@ -140,7 +140,7 @@
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Personal"
+            android:text="@string/navCatPersonal"
             android:id="@+id/radioPersonal"
             android:layout_gravity="center_vertical"
             android:checked="false"
@@ -149,7 +149,7 @@
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Hobby"
+            android:text="@string/navCatHobby"
             android:id="@+id/radioHobby"
             android:layout_gravity="center_vertical"
             android:checked="false"
@@ -158,7 +158,7 @@
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Free Time"
+            android:text="@string/navCatFreetime"
             android:id="@+id/radioFreetime"
             android:layout_gravity="center_vertical"
             android:checked="false"

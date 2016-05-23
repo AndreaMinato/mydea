@@ -7,6 +7,13 @@
     android:clickable="true"
     tools:context="com.group.mydea.FragmentModificaNota">
 
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
@@ -39,16 +46,31 @@
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/relativeLayoutImg"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
+                    <ImageView
+                        android:id="@+id/imageViewNota"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:baselineAlignBottom="false" />
+
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/relativeLayoutCorpoNota"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_below="@+id/relativeLayoutImg"
+                    android:layout_marginTop="10dp">
 
                     <EditText
                         android:id="@+id/tvtTitoloNota"
@@ -58,18 +80,17 @@
                         android:cursorVisible="true"
                         android:textAlignment="center"
                         android:textSize="25dp"
-                        android:textStyle="bold"
-                        android:transitionName="@string/transition_name_title" />
+                        android:textStyle="bold"/>
 
                     <EditText
                         android:id="@+id/tvtTestoNota"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:cursorVisible="true"
-                        android:transitionName="@string/transition_name_text"
-                        android:layout_weight="1" />
+                        android:layout_below="@+id/tvtTitoloNota"/>
                 </RelativeLayout>
 
+<<<<<<< HEAD
                 <RelativeLayout
                         android:id="@+id/relativeLayoutImg"
                         android:layout_width="match_parent"
@@ -120,10 +141,21 @@
                             android:src="@android:drawable/ic_menu_camera"/>
 
                     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+=======
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fabImg"
+                    android:backgroundTint="@color/colorFab"
+                    android:src="@drawable/ic_menu_camera"
+                    app:layout_anchor="@id/relativeLayoutImg"
+                    app:layout_anchorGravity="bottom|right|end"/>
+>>>>>>> master
 
-                </RelativeLayout>
+            </RelativeLayout>
 
            </ScrollView>
+
         </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -155,5 +187,7 @@
         <!--</RelativeLayout>-->
 
     </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>

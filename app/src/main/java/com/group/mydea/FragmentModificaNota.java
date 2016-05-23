@@ -355,32 +355,33 @@ public class FragmentModificaNota extends DialogFragment {
     }
 
     private void setImg(Uri fileImg) {
-        /*
-        *       getActivity() it's like getContext() 'cos it's a context itself #stackoverflowsays
-        */
-        //String myFilePath= fileImg.getAbsolutePath()+".jpg";//"file://"
 
         //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg.getAbsolutePath()+".jpg";
 
 
-        Log.d(TAG, "myExtFilePath URI: "+fileImg);
+        Log.d(TAG, "myExtFilePath URI: " + fileImg);
 
-            try {
+        /*.resize(800,600)
+                .onlyScaleDown()
+                .centerInside()*/
+
+        try {
                 Picasso.with(getActivity())
                         .load(fileImg)
+                        .resize(800,600).onlyScaleDown().centerInside()
                         .error(R.drawable.couldnotloadimg)
                         .into(imgNota, new Callback() {
 
-                                    @Override
-                                    public void onSuccess() {
+                            @Override
+                            public void onSuccess() {
 
-                                        Log.d(TAG, "Image setted correctly.");
-                                    }
+                                Log.d(TAG, "Image setted correctly.");
+                            }
 
-                                    @Override
-                                    public void onError() {
+                            @Override
+                            public void onError() {
 
-                                        Log.d(TAG, "Image not setted correctly.");
+                                Log.d(TAG, "Image not setted correctly.");
                                     }
                                 });
             } catch (Exception e) {

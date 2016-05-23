@@ -93,10 +93,7 @@ public class MainActivity extends AppCompatActivity
                     Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
                     Bundle vBundle = new Bundle();
                     startActivity(vIntent);
-//                    note.add(new Nota());
-//                    FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(note.size()-1),note.size()-1);
-//                    fragmentModificaNota.show(getFragmentManager(), "VEDIAMO LA NOTA");
-
+                    
                 }
             });
         }
