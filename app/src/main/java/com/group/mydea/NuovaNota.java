@@ -73,6 +73,7 @@ public class NuovaNota extends AppCompatActivity {
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
+            Log.d(TAG, "dopo inizializzazione URI");
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
@@ -136,6 +137,7 @@ public class NuovaNota extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                Log.d(TAG, "galleria aperta");
             }
         });
 
