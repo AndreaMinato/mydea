@@ -61,7 +61,7 @@ public class FragmentModificaNota extends DialogFragment {
     private FrameLayout linearLayout;
     private ImageView imgNota;
     private Snackbar timeProgressSnackbar;
-    private FloatingActionButton fabImg;
+    private View fabImg;
     private Nota oldNota;
     private Nota newNota;
     private int pos;
@@ -169,7 +169,7 @@ public class FragmentModificaNota extends DialogFragment {
 
         imgNota=(ImageView) vView.findViewById(R.id.imageViewNota);
 
-        fabImg = (FloatingActionButton) vView.findViewById(R.id.fabImg);
+        fabImg = vView.findViewById(R.id.fabImg);
 
         fabImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,7 +225,7 @@ public class FragmentModificaNota extends DialogFragment {
         database = new CouchDB(getActivity());
 
 
-        Button btnRec = (Button) vView.findViewById(R.id.btnRec);
+        View btnRec = vView.findViewById(R.id.btnRec);
         btnRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -450,27 +450,9 @@ public class FragmentModificaNota extends DialogFragment {
     }
 
     private MediaRecorder setupRecorderWithPermission() {
-        /*Permission.askForPermissions(getActivity());
-
-        if (!Permission.needsToAskForPermissions(getActivity())) {
-            return setupRecorder();
-        }
-        return null;*/
-        return null;
+        return setupRecorder();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        /*super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case Permission.MY_PERMISSIONS_REQUEST_RECORD_AUDIO:
-                break;
-            case Permission.MY_PERMISSIONS_REQUEST_STORAGE:
-                break;
-            default:
-                break;
-        }*/
-    }
 
     private TimerTask createTimerTask() {
         final Handler handler = new Handler();
