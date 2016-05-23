@@ -271,20 +271,6 @@ public class FragmentModificaNota extends DialogFragment {
     }
 
 
-    private void postHasImage(){
-        /**
-         * TODO: implement img check
-         */
-        try {
-            //setImg(myImgNota);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d(TAG,"Error on settigng img in OnCreateView(): "+e);
-        }
-
-    }
-
     private void getImgFromGallery() {
 
         Intent intent = new Intent();
@@ -306,7 +292,6 @@ public class FragmentModificaNota extends DialogFragment {
             }
         }
     }
-
 
 
     private void takePicture(){
@@ -346,24 +331,13 @@ public class FragmentModificaNota extends DialogFragment {
 
     }
 
-    private void setImgNotPicasso(Uri fileImg){
-
-       /* //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg+".jpg";
-        //Log.d(TAG, "myExtFilePath: " + myExtFilePath);
-
-        imgNota.setImageBitmap(BitmapFactory.decodeFile(new File(fileImg)));*/
-    }
 
     private void setImg(Uri fileImg) {
 
         //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg.getAbsolutePath()+".jpg";
 
-
         Log.d(TAG, "myExtFilePath URI: " + fileImg);
 
-        /*.resize(800,600)
-                .onlyScaleDown()
-                .centerInside()*/
 
         try {
                 Picasso.with(getActivity())
@@ -390,15 +364,14 @@ public class FragmentModificaNota extends DialogFragment {
     }
 
     private Boolean isValidPath(String imgPath){
-
+        /**TODO: TEST*/
         File f = new File(imgPath);
         if(f.exists() && !f.isDirectory())
             return true;
         else {
             Log.d(TAG,"File Path not valid!!\n Path: " + imgPath + "\n Resetting file to null...");
             oldNota.setImage(null);
-            /**TODO: RESET TO FALSE*/
-            return true;
+            return false;
         }
     }
 
