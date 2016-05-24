@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity
     public static String TAG = "debug tag";
     public static String TAG_FRAGMENT_IMG_NOTA = "tagfragmentmodificanota";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Dexter.initialize(getApplicationContext());
@@ -93,7 +92,6 @@ public class MainActivity extends AppCompatActivity
                     Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
                     Bundle vBundle = new Bundle();
                     startActivity(vIntent);
-                    
                 }
             });
         }
@@ -129,7 +127,6 @@ public class MainActivity extends AppCompatActivity
                 nota.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
                 nota.setTag(rnd.nextInt(4) + 1);
                 note.add(i, nota);
-
             }
         }
 
@@ -346,6 +343,11 @@ public class MainActivity extends AppCompatActivity
         } else {
             return note;
         }
+    }
+
+    public void refreshNotes(int pos, Nota nota){
+        note.set(pos, nota);
+        cardAdapter.notifyDataSetChanged();
     }
 
     @Override
