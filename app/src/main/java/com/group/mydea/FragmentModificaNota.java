@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.scottyab.aescrypt.AESCrypt;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -47,6 +49,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
+import java.security.GeneralSecurityException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -139,7 +142,6 @@ public class FragmentModificaNota extends DialogFragment {
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
 
-        AudioWife.getInstance().release();
         
         super.onDismiss(dialog);
     }
@@ -169,7 +171,6 @@ public class FragmentModificaNota extends DialogFragment {
         if (getArguments() != null) {
             pos = getArguments().getInt("POS");
             oldNota = getArguments().getParcelable(NOTA);
-            //TODO settare testi della nota...
             mTvTitolo.setText(oldNota.getTitle());
             mTvTestoNota.setText(oldNota.getText());
             myID = oldNota.getID();
@@ -179,6 +180,8 @@ public class FragmentModificaNota extends DialogFragment {
             Log.d(TAG, "onCreateView: " + myID);
         }
 
+        String myEncTit=encryptData("psw",oldNota.getText());
+        decryptData("psw",myEncTit);
 
         imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
 
@@ -278,13 +281,28 @@ public class FragmentModificaNota extends DialogFragment {
 
         LinearLayout player = (LinearLayout) vView.findViewById(R.id.player);
 
+
         if (path != null && !path.equals(" ")) {
             player.setVisibility(View.VISIBLE);
-            AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
-                    .useDefaultUi(player, inflater);
+            ImageView mPlayMedia = (ImageView)vView.findViewById(R.id.play);
+            ImageView mPauseMedia = (ImageView)vView.findViewById(R.id.pause);
+            SeekBar mMediaSeekBar = (SeekBar)vView.findViewById(R.id.media_seekbar);
+            TextView mRunTime = (TextView)vView.findViewById(R.id.playback_time);
+            //TextView mTotalTime = (TextView)vView.findViewById(R.id.total_time);
 
-        }
-        else{
+
+            AudioWife.getInstance()
+                    .init(getActivity().getApplicationContext(), Uri.parse(path))
+                    .setPlayView(mPlayMedia)
+                    .setPauseView(mPauseMedia)
+                    .setSeekBar(mMediaSeekBar)
+                    .setRuntimeView(mRunTime);
+                    //.setTotalTimeView(mTotalTime);
+
+           /* AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
+                    .useDefaultUi(player, inflater);*/
+
+        } else {
             player.setVisibility(View.GONE);
         }
 
@@ -351,19 +369,12 @@ public class FragmentModificaNota extends DialogFragment {
 
     }
 
-    private void setImgNotPicasso(Uri fileImg) {
-
-       /* //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg+".jpg";
-        //Log.d(TAG, "myExtFilePath: " + myExtFilePath);
-
-        imgNota.setImageBitmap(BitmapFactory.decodeFile(new File(fileImg)));*/
-    }
 
     private void setImg(Uri fileImg) {
 
         //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg.getAbsolutePath()+".jpg";
 
-        Log.d(TAG, "myExtFilePath URI: " + fileImg);
+        Log.d(TAG, "FilePath URI:" + fileImg);
 
 
         try {
@@ -389,19 +400,6 @@ public class FragmentModificaNota extends DialogFragment {
             Log.d(TAG, "Image not setted correctly: " + e);
         }
     }
-
-    private Boolean isValidPath(String imgPath){
-        /**TODO: TEST*/
-        File f = new File(imgPath);
-        if (f.exists() && !f.isDirectory())
-            return true;
-        else {
-            Log.d(TAG, "File Path not valid!!\n Path: " + imgPath + "\n Resetting file to null...");
-            oldNota.setImage(null);
-            return false;
-        }
-    }
-
 
     private void startRecording() {
 
@@ -472,6 +470,42 @@ public class FragmentModificaNota extends DialogFragment {
             }
         };
     }
+
+
+    public String encryptData(String psw,String text){
+        /*String password = "password";
+        String message = "hello world";*/
+        String encryptedTxt="";
+        try {
+
+            encryptedTxt = AESCrypt.encrypt(psw, text);
+            Log.d(TAG,"-------------------encryptData-----------\nPsw:"+psw+"\nText:"+text +"\nencryptedMsg:"+encryptedTxt);
+
+        }catch (GeneralSecurityException e){
+            //handle error
+            Log.d(TAG,"Error on encrypting data: " + e);
+        }
+
+        return encryptedTxt;
+    }
+
+    public String decryptData(String psw,String text){
+        /*String password = "password";
+        String encryptedMsg = "2B22cS3UC5s35WBihLBo8w==";*/
+
+        String decryptedTxt="";
+
+        try {
+            decryptedTxt = AESCrypt.decrypt(psw, text);
+            Log.d(TAG,"-------------------encryptData-----------\nPsw:"+psw+"\nText:" + text +"\nencryptedMsg:" + decryptedTxt);
+        }catch (GeneralSecurityException e){
+            //handle error - could be due to incorrect password or tampered encryptedMsg
+            Log.d(TAG,"Error on decrypting data: " + e);
+        }
+        return decryptedTxt;
+    }
+
+
 }
 
         
