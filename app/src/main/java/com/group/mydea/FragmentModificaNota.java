@@ -117,6 +117,9 @@ public class FragmentModificaNota extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
+        if (isRecording) {
+            stopRecording();
+        }
         newNota = new Nota();
         newNota.setId(myID);
         newNota.setText(mTvTestoNota.getText().toString());
@@ -182,7 +185,7 @@ public class FragmentModificaNota extends DialogFragment {
             Log.d(TAG, "onCreateView: " + myID);
         }
 
-        String myEncTit=encryptData("psw",oldNota.getText());
+        String myEncTit = encryptData("psw",oldNota.getText());
         decryptData("psw",myEncTit);
 
         imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
