@@ -80,7 +80,7 @@ public class FragmentModificaNota extends DialogFragment {
     Button save;
     String myID;
     String path;
-    String myImgNota;
+    String myImgNota; //String that contains the URI of the img.
 
 
     public interface addedItem {
@@ -115,6 +115,10 @@ public class FragmentModificaNota extends DialogFragment {
         newNota.setId(myID);
         newNota.setText(mTvTestoNota.getText().toString());
         newNota.setTitle(mTvTitolo.getText().toString());
+        /**TODO: Save img.*/
+        if(myImgNota!=null){
+            newNota.setImage(myImgNota.toString());
+        }
         if (audioOutputPath != " ")
             newNota.setAudio(audioOutputPath);
         else
@@ -172,6 +176,10 @@ public class FragmentModificaNota extends DialogFragment {
 
         imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
 
+        if(!myImgNota.equals(" ")) {
+            Log.d(TAG,"PostImg URI=" + myImgNota+".");
+            setImg(Uri.parse(myImgNota));
+        }
         fabImg = vView.findViewById(R.id.fabImg);
 
         fabImg.setOnClickListener(new View.OnClickListener() {
@@ -272,21 +280,6 @@ public class FragmentModificaNota extends DialogFragment {
         return vView;
     }
 
-
-    private void postHasImage() {
-        /**
-         * TODO: implement img check
-         */
-        try {
-            //setImg(myImgNota);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d(TAG, "Error on settigng img in OnCreateView(): " + e);
-        }
-
-    }
-
     private void getImgFromGallery() {
 
         Intent intent = new Intent();
@@ -302,9 +295,9 @@ public class FragmentModificaNota extends DialogFragment {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 Log.d(TAG, "Selected img path: " + selectedImageUri.getPath());
+
                 setImg(selectedImageUri);
-                //setImgNotPicasso(selectedImageUri.getPath());
-                oldNota.setImage(selectedImageUri.getPath());
+                myImgNota=selectedImageUri.toString();
             }
         }
     }
@@ -339,7 +332,7 @@ public class FragmentModificaNota extends DialogFragment {
              */
 
             setImg(outputFileUri);
-            oldNota.setImage(outputFileUri.toString());
+            myImgNota=outputFileUri.toString();
 
         } catch (IOException e) {
             Log.d(TAG, "Error on taking a pic: " + e.toString());
