@@ -48,6 +48,7 @@ public class NuovaNota extends AppCompatActivity {
     RadioButton hobby;
     RadioButton tempolibero;
     MainActivity myHome;
+    String pathImg,pathGal;
 
 
     public static String TAG="debug tag";
@@ -74,6 +75,12 @@ public class NuovaNota extends AppCompatActivity {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
+            Uri uriImg = data.getData();
+            if (uriImg != null) {
+                pathImg = uriImg.toString();
+            }
+            Log.d(TAG, "URL "+pathImg);
+
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             temp = imageBitmap;
             immagine.setImageBitmap(imageBitmap);
@@ -81,10 +88,12 @@ public class NuovaNota extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            Uri uri = data.getData();
+            Uri uriGal = data.getData();
+            pathGal = uriGal.toString();
+            Log.d(TAG, "URL "+pathGal);
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriGal);
                 // Log.d(TAG, String.valueOf(bitmap));
                 temp = bitmap;
                 immagine.setImageBitmap(bitmap);
@@ -189,8 +198,13 @@ public class NuovaNota extends AppCompatActivity {
                 }
 
                 nuova.setText(corpo.getText().toString());
-               /* nuova.setImage("immagine");
-                nuova.setAudio("audio");*/
+                if (pathGal != null) {
+                    nuova.setImage(pathGal);
+                }
+                if (pathImg != null) {
+                    nuova.setImage(pathImg);
+                }
+                //nuova.setAudio("audio");
                 nuova.setCreationDate(new Date());
 
                 if ((bassa).isChecked()) {
