@@ -52,7 +52,9 @@ import java.net.URI;
 import java.security.GeneralSecurityException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -81,6 +83,7 @@ public class FragmentModificaNota extends DialogFragment {
     private static final int SELECT_PICTURE = 1;
     int TAKE_PHOTO_CODE = 0;
 
+    CryptData myCypher=new CryptData();
     private CouchDB database;
     TextView mTvTitolo, mTvTestoNota;
     Button save;
@@ -117,32 +120,30 @@ public class FragmentModificaNota extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        newNota = new Nota();
-        newNota.setId(myID);
-        newNota.setText(mTvTestoNota.getText().toString());
-        newNota.setTitle(mTvTitolo.getText().toString());
-        /**TODO: Save img.*/
+
+        /**TODO: Controlla che myImgNota sia effettivamente valido*/
+
         if(myImgNota!=null){
-            newNota.setImage(myImgNota.toString());
+            myImgNota=myImgNota.toString();
         }
+
         if (audioOutputPath != " ")
-            newNota.setAudio(audioOutputPath);
-        else
-            newNota.setAudio(path);
-        Log.i(TAG, "onClick: " + newNota.getID());
+            path=audioOutputPath;
 
+        myCypher.encryptNota(database,
+                                myID,
+                                oldNota.getColor(),
+                                oldNota.getTag(),
+                                mTvTitolo.getText().toString(),
+                                mTvTestoNota.getText().toString(),
+                                myImgNota.toString(),
+                                path,
+                                oldNota.getCreationDate(),
+                                oldNota.getPriority());
 
-        try {
-            database.salvaNota(newNota);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
 
-        
         super.onDismiss(dialog);
     }
 
@@ -180,8 +181,6 @@ public class FragmentModificaNota extends DialogFragment {
             Log.d(TAG, "onCreateView: " + myID);
         }
 
-        String myEncTit=encryptData("psw",oldNota.getText());
-        decryptData("psw",myEncTit);
 
         imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
 
@@ -305,6 +304,28 @@ public class FragmentModificaNota extends DialogFragment {
         } else {
             player.setVisibility(View.GONE);
         }
+
+
+
+
+        /*---------------------------------PROVA ENCRYPTION------------------------*/
+
+        Nota encTryNote=new Nota();
+        encTryNote=myCypher.encryptNota(database,
+                myID,
+                oldNota.getColor(),
+                oldNota.getTag(),
+                oldNota.getTitle(),
+                oldNota.getText(),
+                oldNota.getImage(),
+                oldNota.getAudio(),
+                oldNota.getCreationDate(),
+                oldNota.getPriority());
+
+        myCypher.decryptNota(encTryNote);
+
+
+        /*---------------------------------PROVA ENCRYPTION------------------------*/
 
         return vView;
     }

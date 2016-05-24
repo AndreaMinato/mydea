@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -60,7 +61,9 @@ public class MainActivity extends AppCompatActivity
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
+
     private CouchDB database;
+    CryptData myCypher=new CryptData();
     FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
@@ -123,12 +126,20 @@ public class MainActivity extends AppCompatActivity
             note = new ArrayList<>();
             for (int i = 0; i < 15; i++) {
                 Nota nota = new Nota();
+                nota.setId(UUID.randomUUID().toString());
                 nota.setTitle("Titolo Figo " + i);
                 nota.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
                 nota.setTag(rnd.nextInt(4) + 1);
                 note.add(i, nota);
             }
         }
+
+        /**TODO: HERE ENCRYPT POSTS.*/
+        for(int i=0; i<note.size();i++) {
+            Log.d(TAG,"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++>"+ i);
+            myCypher.encryptNota(database, note.get(i).getID(),note.get(i).getColor(),note.get(i).getTag(),note.get(i).getTitle(),note.get(i).getText(),note.get(i).getImage(),note.get(i).getAudio(),note.get(i).getCreationDate(),note.get(i).getPriority());
+        }
+
 
         showNotes(note);
 
@@ -319,9 +330,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showNotes(ArrayList<Nota> note) {
-        /*
-        TODO: Animations on showing notes.
-         */
+
+        ArrayList<Nota> tempNote=new ArrayList<Nota>();
+
+        for(int i=0; i<note.size();i++) {
+            Log.d(TAG, "------------------------------------------------------------------------------------------------>" + i);
+            tempNote.add(myCypher.decryptNota(note.get(i)));
+        }
+        note=tempNote;
+
         cardAdapter = new AdapterNota(note, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(cardAdapter);
         layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
