@@ -218,6 +218,10 @@ public class NuovaNota extends AppCompatActivity {
 
                     }
                     Toast.makeText(NuovaNota.this, R.string.noteSaved, Toast.LENGTH_LONG).show();
+
+                    Intent myIntent = new Intent(NuovaNota.this, MainActivity.class);
+                    //myIntent.putExtra("key", value); Optional parameters
+                    NuovaNota.this.startActivity(myIntent);
                 } else {
                     Toast.makeText(NuovaNota.this, R.string.noteEmpty, Toast.LENGTH_LONG).show();
                 }
