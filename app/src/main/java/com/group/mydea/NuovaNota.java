@@ -203,6 +203,13 @@ public class NuovaNota extends AppCompatActivity {
                     Log.d(TAG, "alta");
                 }
 
+<<<<<<< Updated upstream
+=======
+                    nuova.setText(corpo.getText().toString());
+                  /*  nuova.setImage("immagine");
+                    nuova.setAudio("audio");*/
+                    nuova.setCreationDate(new Date());
+>>>>>>> Stashed changes
 
                 if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
                     if (titolo.getText().toString().trim().isEmpty()) {

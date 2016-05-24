@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
@@ -42,11 +43,14 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import nl.changer.audiowife.AudioWife;
 
 
 /**
@@ -111,7 +115,7 @@ public class FragmentModificaNota extends DialogFragment {
         newNota.setId(myID);
         newNota.setText(mTvTestoNota.getText().toString());
         newNota.setTitle(mTvTitolo.getText().toString());
-        if(audioOutputPath!=" ")
+        if (audioOutputPath != " ")
             newNota.setAudio(audioOutputPath);
         else
             newNota.setAudio(path);
@@ -149,7 +153,6 @@ public class FragmentModificaNota extends DialogFragment {
         View vView = inflater.inflate(R.layout.fragment_fragment_modifica_nota, container, false);
 
 
-
         mTvTitolo = (TextView) vView.findViewById(R.id.tvtTitoloNota);
         mTvTestoNota = (TextView) vView.findViewById(R.id.tvtTestoNota);
 
@@ -161,13 +164,13 @@ public class FragmentModificaNota extends DialogFragment {
             mTvTestoNota.setText(oldNota.getText());
             myID = oldNota.getID();
             path = oldNota.getAudio();
-            myImgNota=oldNota.getImage();
+            myImgNota = oldNota.getImage();
 
             Log.d(TAG, "onCreateView: " + myID);
         }
 
 
-        imgNota=(ImageView) vView.findViewById(R.id.imageViewNota);
+        imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
 
         fabImg = vView.findViewById(R.id.fabImg);
 
@@ -234,13 +237,6 @@ public class FragmentModificaNota extends DialogFragment {
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         Toast.makeText(getActivity().getApplicationContext(), "Permessoooooo", Toast.LENGTH_LONG).show();
 
-                        mediaRecorder = new MediaRecorder();
-                        mediaRecorder.reset();
-                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-
-                        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-                        //mediaRecorder.setOutputFile();
                         recTimer = new Timer();
                         if (!isRecording) {
                             startRecording();
@@ -266,10 +262,30 @@ public class FragmentModificaNota extends DialogFragment {
             }
         });
 
+        LinearLayout player = (LinearLayout) vView.findViewById(R.id.player);
+
+        if (path != null && !path.equals(" ")) {
+            AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
+                    .useDefaultUi(player, inflater);
+        }
 
         return vView;
     }
 
+
+    private void postHasImage() {
+        /**
+         * TODO: implement img check
+         */
+        try {
+            //setImg(myImgNota);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "Error on settigng img in OnCreateView(): " + e);
+        }
+
+    }
 
     private void getImgFromGallery() {
 
@@ -299,16 +315,16 @@ public class FragmentModificaNota extends DialogFragment {
         final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
         File newdir = new File(dir);
 
-        if(!newdir.exists())
+        if (!newdir.exists())
             newdir.mkdirs();
 
 
         Log.d(TAG, "Take a pic, bro!");
 
-        int time=(int)(System.currentTimeMillis());
-        String timeStp="imgPost"+"_"+new Timestamp(time).toString().replace("-","").replace(" ","").replace(".","").replace(":","");
+        int time = (int) (System.currentTimeMillis());
+        String timeStp = "imgPost" + "_" + new Timestamp(time).toString().replace("-", "").replace(" ", "").replace(".", "").replace(":", "");
         String myPicFile = dir + timeStp + ".jpg";
-        File newImgfile = new File(myPicFile) ;
+        File newImgfile = new File(myPicFile);
         try {
 
             newImgfile.createNewFile();
@@ -325,12 +341,19 @@ public class FragmentModificaNota extends DialogFragment {
             setImg(outputFileUri);
             oldNota.setImage(outputFileUri.toString());
 
-            } catch (IOException e) {
-                Log.d(TAG, "Error on taking a pic: "+ e.toString());
-            }
+        } catch (IOException e) {
+            Log.d(TAG, "Error on taking a pic: " + e.toString());
+        }
 
     }
 
+    private void setImgNotPicasso(Uri fileImg) {
+
+       /* //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg+".jpg";
+        //Log.d(TAG, "myExtFilePath: " + myExtFilePath);
+
+        imgNota.setImageBitmap(BitmapFactory.decodeFile(new File(fileImg)));*/
+    }
 
     private void setImg(Uri fileImg) {
 
@@ -340,36 +363,36 @@ public class FragmentModificaNota extends DialogFragment {
 
 
         try {
-                Picasso.with(getActivity())
-                        .load(fileImg)
-                        .resize(800,600).onlyScaleDown().centerInside()
-                        .error(R.drawable.couldnotloadimg)
-                        .into(imgNota, new Callback() {
+            Picasso.with(getActivity())
+                    .load(fileImg)
+                    .resize(800, 600).onlyScaleDown().centerInside()
+                    .error(R.drawable.couldnotloadimg)
+                    .into(imgNota, new Callback() {
 
-                            @Override
-                            public void onSuccess() {
+                        @Override
+                        public void onSuccess() {
 
-                                Log.d(TAG, "Image setted correctly.");
-                            }
+                            Log.d(TAG, "Image setted correctly.");
+                        }
 
-                            @Override
-                            public void onError() {
+                        @Override
+                        public void onError() {
 
-                                Log.d(TAG, "Image not setted correctly.");
-                                    }
-                                });
-            } catch (Exception e) {
-                Log.d(TAG, "Image not setted correctly: " + e);
-            }
+                            Log.d(TAG, "Image not setted correctly.");
+                        }
+                    });
+        } catch (Exception e) {
+            Log.d(TAG, "Image not setted correctly: " + e);
+        }
     }
 
     private Boolean isValidPath(String imgPath){
         /**TODO: TEST*/
         File f = new File(imgPath);
-        if(f.exists() && !f.isDirectory())
+        if (f.exists() && !f.isDirectory())
             return true;
         else {
-            Log.d(TAG,"File Path not valid!!\n Path: " + imgPath + "\n Resetting file to null...");
+            Log.d(TAG, "File Path not valid!!\n Path: " + imgPath + "\n Resetting file to null...");
             oldNota.setImage(null);
             return false;
         }
@@ -379,7 +402,7 @@ public class FragmentModificaNota extends DialogFragment {
     private void startRecording() {
 
 
-        mediaRecorder = setupRecorderWithPermission();
+        mediaRecorder = setupRecorder();
         if (mediaRecorder != null) {
             try {
                 mediaRecorder.prepare();
@@ -400,6 +423,7 @@ public class FragmentModificaNota extends DialogFragment {
     private void stopRecording() {
         isRecording = false;
         mediaRecorder.stop();
+        mediaRecorder.reset();
         mediaRecorder.release();
         mediaRecorder = null;
         recTimer.cancel();
@@ -421,10 +445,6 @@ public class FragmentModificaNota extends DialogFragment {
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         recorder.setOutputFile(audioOutputPath);
         return recorder;
-    }
-
-    private MediaRecorder setupRecorderWithPermission() {
-        return setupRecorder();
     }
 
 
