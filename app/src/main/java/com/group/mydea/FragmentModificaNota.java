@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +43,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.Timestamp;
@@ -131,6 +134,9 @@ public class FragmentModificaNota extends DialogFragment {
         }
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
+
+        AudioWife.getInstance().release();
+        
         super.onDismiss(dialog);
     }
 
@@ -228,6 +234,8 @@ public class FragmentModificaNota extends DialogFragment {
         database = new CouchDB(getActivity());
 
 
+
+
         View btnRec = vView.findViewById(R.id.btnRec);
         btnRec.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,7 +243,6 @@ public class FragmentModificaNota extends DialogFragment {
                 Dexter.checkPermission(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Permessoooooo", Toast.LENGTH_LONG).show();
 
                         recTimer = new Timer();
                         if (!isRecording) {
@@ -253,7 +260,6 @@ public class FragmentModificaNota extends DialogFragment {
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Cosa stranaaaaa", Toast.LENGTH_LONG).show();
                         token.continuePermissionRequest();
 
                     }
@@ -265,8 +271,13 @@ public class FragmentModificaNota extends DialogFragment {
         LinearLayout player = (LinearLayout) vView.findViewById(R.id.player);
 
         if (path != null && !path.equals(" ")) {
+            player.setVisibility(View.VISIBLE);
             AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
                     .useDefaultUi(player, inflater);
+
+        }
+        else{
+            player.setVisibility(View.GONE);
         }
 
         return vView;
