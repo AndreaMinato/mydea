@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
@@ -43,6 +45,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.security.GeneralSecurityException;
@@ -137,6 +141,8 @@ public class FragmentModificaNota extends DialogFragment {
         }
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
+
+        
         super.onDismiss(dialog);
     }
 
@@ -239,6 +245,8 @@ public class FragmentModificaNota extends DialogFragment {
         database = new CouchDB(getActivity());
 
 
+
+
         View btnRec = vView.findViewById(R.id.btnRec);
         btnRec.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,7 +254,6 @@ public class FragmentModificaNota extends DialogFragment {
                 Dexter.checkPermission(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Permessoooooo", Toast.LENGTH_LONG).show();
 
                         recTimer = new Timer();
                         if (!isRecording) {
@@ -264,7 +271,6 @@ public class FragmentModificaNota extends DialogFragment {
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Cosa stranaaaaa", Toast.LENGTH_LONG).show();
                         token.continuePermissionRequest();
 
                     }
@@ -275,9 +281,29 @@ public class FragmentModificaNota extends DialogFragment {
 
         LinearLayout player = (LinearLayout) vView.findViewById(R.id.player);
 
+
         if (path != null && !path.equals(" ")) {
-            AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
-                    .useDefaultUi(player, inflater);
+            player.setVisibility(View.VISIBLE);
+            ImageView mPlayMedia = (ImageView)vView.findViewById(R.id.play);
+            ImageView mPauseMedia = (ImageView)vView.findViewById(R.id.pause);
+            SeekBar mMediaSeekBar = (SeekBar)vView.findViewById(R.id.media_seekbar);
+            TextView mRunTime = (TextView)vView.findViewById(R.id.playback_time);
+            //TextView mTotalTime = (TextView)vView.findViewById(R.id.total_time);
+
+
+            AudioWife.getInstance()
+                    .init(getActivity().getApplicationContext(), Uri.parse(path))
+                    .setPlayView(mPlayMedia)
+                    .setPauseView(mPauseMedia)
+                    .setSeekBar(mMediaSeekBar)
+                    .setRuntimeView(mRunTime);
+                    //.setTotalTimeView(mTotalTime);
+
+           /* AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
+                    .useDefaultUi(player, inflater);*/
+
+        } else {
+            player.setVisibility(View.GONE);
         }
 
         return vView;

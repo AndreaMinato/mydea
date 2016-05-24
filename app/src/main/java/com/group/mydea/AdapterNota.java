@@ -3,6 +3,7 @@ package com.group.mydea;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -45,6 +46,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     private FragmentImmagine mFragmentImmagine;
     private String substrTestoNota;
     private String substrTitoloNota;
+    private int sfondoNota;
 
 
     public AdapterNota(ArrayList<Nota> note, Context ctx, android.app.FragmentManager fragmentManager) {
@@ -77,9 +79,28 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
         else
             substrTestoNota=note.get(position).getText();
 
+        switch (note.get(position).getTag()) {
+            case 1:
+                sfondoNota = Color.parseColor("#E97FDD");
+                break;
+            case 2:
+                sfondoNota = Color.parseColor("#E4ED99");
+                break;
+            case 3:
+                sfondoNota = Color.rgb(200, 200, 255);
+                break;
+            case 4:
+                sfondoNota = Color.parseColor("#E5B966");
+                break;
+            default:
+                sfondoNota = Color.WHITE;
+                break;
+        }
+
 
         cardHolder.titolo.setText(substrTitoloNota);
         cardHolder.testo.setText(substrTestoNota);
+        cardHolder.card.setCardBackgroundColor(sfondoNota);
 
         cardHolder.card.setOnClickListener(new View.OnClickListener() {
             @Override
