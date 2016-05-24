@@ -47,6 +47,7 @@ public class NuovaNota extends AppCompatActivity {
     RadioButton personale;
     RadioButton hobby;
     RadioButton tempolibero;
+    MainActivity myHome;
 
 
     public static String TAG="debug tag";
@@ -126,8 +127,10 @@ public class NuovaNota extends AppCompatActivity {
         personale = (RadioButton)findViewById(R.id.radioPersonal);
         hobby = (RadioButton)findViewById(R.id.radioHobby);
         tempolibero = (RadioButton)findViewById(R.id.radioFreetime);
-        final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
-        final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);
+        View fabImg = findViewById(R.id.fabImg);
+        View fabGal = findViewById(R.id.fabGal);
+        /*final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
+        final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);*/
         immagine = (ImageView)findViewById(R.id.imgviewFoto);
 
         if (savedInstanceState != null) {
@@ -214,10 +217,15 @@ public class NuovaNota extends AppCompatActivity {
                     }
                     try {
                         database.salvaNota(nuova);
+                        myHome.refreshNotes(0, nuova);
                     } catch (Exception e) {
 
                     }
                     Toast.makeText(NuovaNota.this, R.string.noteSaved, Toast.LENGTH_LONG).show();
+
+                    Intent myIntent = new Intent(NuovaNota.this, MainActivity.class);
+                    //myIntent.putExtra("key", value); Optional parameters
+                    NuovaNota.this.startActivity(myIntent);
                 } else {
                     Toast.makeText(NuovaNota.this, R.string.noteEmpty, Toast.LENGTH_LONG).show();
                 }
