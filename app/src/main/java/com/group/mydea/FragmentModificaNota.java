@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
@@ -139,7 +140,6 @@ public class FragmentModificaNota extends DialogFragment {
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
 
-        AudioWife.getInstance().release();
         
         super.onDismiss(dialog);
     }
@@ -278,13 +278,28 @@ public class FragmentModificaNota extends DialogFragment {
 
         LinearLayout player = (LinearLayout) vView.findViewById(R.id.player);
 
+
         if (path != null && !path.equals(" ")) {
             player.setVisibility(View.VISIBLE);
-            AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
-                    .useDefaultUi(player, inflater);
+            ImageView mPlayMedia = (ImageView)vView.findViewById(R.id.play);
+            ImageView mPauseMedia = (ImageView)vView.findViewById(R.id.pause);
+            SeekBar mMediaSeekBar = (SeekBar)vView.findViewById(R.id.media_seekbar);
+            TextView mRunTime = (TextView)vView.findViewById(R.id.playback_time);
+            //TextView mTotalTime = (TextView)vView.findViewById(R.id.total_time);
 
-        }
-        else{
+
+            AudioWife.getInstance()
+                    .init(getActivity().getApplicationContext(), Uri.parse(path))
+                    .setPlayView(mPlayMedia)
+                    .setPauseView(mPauseMedia)
+                    .setSeekBar(mMediaSeekBar)
+                    .setRuntimeView(mRunTime);
+                    //.setTotalTimeView(mTotalTime);
+
+           /* AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
+                    .useDefaultUi(player, inflater);*/
+
+        } else {
             player.setVisibility(View.GONE);
         }
 
