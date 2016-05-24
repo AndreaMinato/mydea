@@ -126,8 +126,10 @@ public class NuovaNota extends AppCompatActivity {
         personale = (RadioButton)findViewById(R.id.radioPersonal);
         hobby = (RadioButton)findViewById(R.id.radioHobby);
         tempolibero = (RadioButton)findViewById(R.id.radioFreetime);
-        final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
-        final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);
+        View fabImg = findViewById(R.id.fabImg);
+        View fabGal = findViewById(R.id.fabGal);
+        /*final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
+        final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);*/
         immagine = (ImageView)findViewById(R.id.imgviewFoto);
 
         if (savedInstanceState != null) {
