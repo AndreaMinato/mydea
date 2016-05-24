@@ -47,6 +47,7 @@ public class NuovaNota extends AppCompatActivity {
     RadioButton personale;
     RadioButton hobby;
     RadioButton tempolibero;
+    MainActivity myHome;
 
 
     public static String TAG="debug tag";
@@ -214,6 +215,7 @@ public class NuovaNota extends AppCompatActivity {
                     }
                     try {
                         database.salvaNota(nuova);
+                        myHome.refreshNotes(0, nuova);
                     } catch (Exception e) {
 
                     }
