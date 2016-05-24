@@ -363,12 +363,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void refreshNotes(int pos, Nota nota){
-        note.set(pos, nota);
+        note.add(nota);
         cardAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void itemUpdated(Nota nota, int pos) {
+        Log.i("PROVA", "itemUpdated: ");
         note.set(pos, nota);
         cardAdapter.notifyDataSetChanged();
     }
