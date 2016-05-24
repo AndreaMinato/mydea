@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.group.mydea.NuovaNota">
 
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +27,8 @@
         android:layout_marginTop="0dp"
         android:clickable="true"
         android:color="@color/colorFab"
-        android:src="@drawable/ic_menu_camera" />
+        android:src="@drawable/ic_menu_camera"
+        android:tint="@android:color/white" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabGal"
         android:layout_width="wrap_content"
@@ -36,7 +38,8 @@
         android:src="@drawable/ic_menu_gallery"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3" />
+        android:layout_toEndOf="@+id/textView3"
+        android:tint="@android:color/white" />
 
     <EditText
         android:layout_width="match_parent"
@@ -63,11 +66,11 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnSave"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/radioGroup"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
 
 
@@ -103,13 +106,6 @@
                 android:layout_weight="1" />
     </RadioGroup>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/newSave"
-        android:id="@+id/btnSave"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"

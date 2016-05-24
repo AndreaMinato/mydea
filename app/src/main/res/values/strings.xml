@@ -39,8 +39,5 @@
 
     <string name="transition_name_title">transition:TITLE</string>
     <string name="transition_name_text">transition:TEXT</string>
-    <string name="transition_name_phone">transition:PHONE</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

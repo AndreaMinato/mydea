@@ -3,7 +3,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navCatAll"
-            android:icon="@drawable/ic_add_24dp"
+            android:icon="@drawable/ic_line_weight_black_24dp"
             android:title="@string/navCatAll" />
         <item
             android:id="@+id/navCatLavoro"

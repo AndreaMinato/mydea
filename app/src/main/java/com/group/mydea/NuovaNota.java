@@ -14,8 +14,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,16 +35,18 @@ import java.util.Timer;
 
 public class NuovaNota extends AppCompatActivity {
 
-
-
-
     private CouchDB database;
     EditText titolo;
     EditText corpo;
     ImageView immagine;
     Bitmap temp;
-
-
+    RadioButton bassa;
+    RadioButton media;
+    RadioButton alta;
+    RadioButton lavoro;
+    RadioButton personale;
+    RadioButton hobby;
+    RadioButton tempolibero;
 
 
     public static String TAG="debug tag";
@@ -116,13 +119,13 @@ public class NuovaNota extends AppCompatActivity {
 
         titolo = (EditText)findViewById(R.id.editTitle);
         corpo = (EditText)findViewById(R.id.editBody);
-        final RadioButton bassa = (RadioButton)findViewById(R.id.radioSlow);
-        final RadioButton media = (RadioButton)findViewById(R.id.radioAverage);
-        final RadioButton alta = (RadioButton)findViewById(R.id.radioHigh);
-        final RadioButton lavoro = (RadioButton)findViewById(R.id.radioWork);
-        final RadioButton personale = (RadioButton)findViewById(R.id.radioPersonal);
-        final RadioButton hobby = (RadioButton)findViewById(R.id.radioHobby);
-        final RadioButton tempolibero = (RadioButton)findViewById(R.id.radioFreetime);
+        bassa = (RadioButton)findViewById(R.id.radioSlow);
+        media = (RadioButton)findViewById(R.id.radioAverage);
+        alta = (RadioButton)findViewById(R.id.radioHigh);
+        lavoro = (RadioButton)findViewById(R.id.radioWork);
+        personale = (RadioButton)findViewById(R.id.radioPersonal);
+        hobby = (RadioButton)findViewById(R.id.radioHobby);
+        tempolibero = (RadioButton)findViewById(R.id.radioFreetime);
         final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
         final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);
         immagine = (ImageView)findViewById(R.id.imgviewFoto);
@@ -151,73 +154,76 @@ public class NuovaNota extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
-
-        Button salva = (Button)findViewById(R.id.btnSave);
-        if (salva != null) {
-
-            salva.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Nota nuova = new Nota();
-                    nuova.setId(nuova.getID() + 1);
-                    nuova.setTitle(titolo.getText().toString());
-                    //nuova.setColor("Blue");
-
-                    if (lavoro.isChecked()) {
-                        nuova.setTag(1);
-                    }
-                    if (personale.isChecked()) {
-                        nuova.setTag(2);
-                    }
-                    if (hobby.isChecked()) {
-                        nuova.setTag(3);
-                    }
-                    if (tempolibero.isChecked()) {
-                        nuova.setTag(4);
-                    }
-
-                    nuova.setText(corpo.getText().toString());
-                    nuova.setImage("immagine");
-                    nuova.setAudio("audio");
-                    nuova.setCreationDate(new Date());
-
-                    if ((bassa).isChecked()) {
-                        nuova.setPriority(3);
-                        Log.d(TAG,"bassa");
-                    }
-                    if ((media.isChecked())) {
-                        nuova.setPriority(2);
-                        Log.d(TAG, "media");
-                    }
-                    if (alta.isChecked()) {
-                        nuova.setPriority(1);
-                        Log.d(TAG, "alta");
-                    }
-
-
-                    if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
-                        if (titolo.getText().toString().trim().isEmpty()) {
-                            nuova.setTitle("Senza titolo");
-                        }
-                        try {
-                            database.salvaNota(nuova);
-                        } catch (Exception e) {
-
-                        }
-                        Toast.makeText(NuovaNota.this, R.string.noteSaved, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(NuovaNota.this, R.string.noteEmpty, Toast.LENGTH_LONG).show();
-                    }
-                    finish();
-                }
-            });
-        }
-
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.salva_nuova_nota, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save_button:
+                Nota nuova = new Nota();
+                nuova.setId(nuova.getID() + 1);
+                nuova.setTitle(titolo.getText().toString());
+                //nuova.setColor("Blue");
+
+                if (lavoro.isChecked()) {
+                    nuova.setTag(1);
+                }
+                if (personale.isChecked()) {
+                    nuova.setTag(2);
+                }
+                if (hobby.isChecked()) {
+                    nuova.setTag(3);
+                }
+                if (tempolibero.isChecked()) {
+                    nuova.setTag(4);
+                }
+
+                nuova.setText(corpo.getText().toString());
+                nuova.setImage("immagine");
+                nuova.setAudio("audio");
+                nuova.setCreationDate(new Date());
+
+                if ((bassa).isChecked()) {
+                    nuova.setPriority(3);
+                    Log.d(TAG,"bassa");
+                }
+                if ((media.isChecked())) {
+                    nuova.setPriority(2);
+                    Log.d(TAG, "media");
+                }
+                if (alta.isChecked()) {
+                    nuova.setPriority(1);
+                    Log.d(TAG, "alta");
+                }
+
+
+                if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
+                    if (titolo.getText().toString().trim().isEmpty()) {
+                        nuova.setTitle("Senza titolo");
+                    }
+                    try {
+                        database.salvaNota(nuova);
+                    } catch (Exception e) {
+
+                    }
+                    Toast.makeText(NuovaNota.this, R.string.noteSaved, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(NuovaNota.this, R.string.noteEmpty, Toast.LENGTH_LONG).show();
+                }
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
