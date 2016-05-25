@@ -24,6 +24,7 @@ public class Nota implements Comparable<Nota> , Parcelable{
     private static final String TAG = "Nota";
 
     private String id;
+    private Boolean isEncrypted;
     private String title;
     private String color;
     private int tag;
@@ -42,7 +43,9 @@ public class Nota implements Comparable<Nota> , Parcelable{
 
     //1 Priorità alta, 2 Priorità media, 3 Priorità bassa
     public Nota() {
+
         id = UUID.randomUUID().toString();
+        isEncrypted=false;
         title = "Nota senza Titolo";
         text = "...";
         color = "#FFFFFF";
@@ -83,6 +86,14 @@ public class Nota implements Comparable<Nota> , Parcelable{
 
     public String getColor() {
         return color;
+    }
+
+    public Boolean getIsEncrypted() {
+        return isEncrypted;
+    }
+
+    public void setIsEncrypted(Boolean isEncrypted) {
+        this.isEncrypted = isEncrypted;
     }
 
     public void setColor(String color) {
@@ -149,6 +160,7 @@ public class Nota implements Comparable<Nota> , Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(isEncrypted.toString());
         dest.writeString(title);
         dest.writeString(text);
         dest.writeString(color);
@@ -185,6 +197,7 @@ public class Nota implements Comparable<Nota> , Parcelable{
         SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
 
         id = in.readString();
+        isEncrypted=Boolean.parseBoolean(in.readString());
         title = in.readString();
         text = in.readString();
         color = in.readString();

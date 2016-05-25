@@ -50,14 +50,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentModificaNota.addedItem {
 
-
-    public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
-
-    /**
-     * TODO Integrazione CouchBase (Andrea) (--Da testare--);
-     * TODO XML → Card, activity e menu (Ingrid + Matteo);
-     */
-
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -74,7 +66,13 @@ public class MainActivity extends AppCompatActivity
     List<FloatingActionButton> fabList = new ArrayList<>();
 
     public static String TAG = "debug tag";
-    public static String TAG_FRAGMENT_IMG_NOTA = "tagfragmentmodificanota";
+
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +85,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,39 +111,22 @@ public class MainActivity extends AppCompatActivity
 
         database = new CouchDB(getApplicationContext());
 
-
-        try {
-            note = database.leggiNote();
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        getNoteFromDB();
 
         if (note.size() == 0) {
-            Random rnd = new Random();
-            note = new ArrayList<>();
-            for (int i = 0; i < 15; i++) {
-                Nota nota = new Nota();
-                nota.setId(UUID.randomUUID().toString());
-                nota.setTitle("Titolo Figo " + i);
-                nota.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-                nota.setTag(rnd.nextInt(4) + 1);
-                note.add(i, nota);
-            }
+            createNotes();
+            myCypher.encryptAllNotes(note,database);
         }
-
-        /**TODO: HERE ENCRYPT POSTS.*/
-        for(int i=0; i<note.size();i++) {
-            Log.d(TAG,"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++>"+ i);
-            myCypher.encryptNota(database, note.get(i).getID(),note.get(i).getColor(),note.get(i).getTag(),note.get(i).getTitle(),note.get(i).getText(),note.get(i).getImage(),note.get(i).getAudio(),note.get(i).getCreationDate(),note.get(i).getPriority());
-        }
-
 
         showNotes(note);
 
-
     }
+
+
+
+
+
+
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -331,13 +313,7 @@ public class MainActivity extends AppCompatActivity
 
     private void showNotes(ArrayList<Nota> note) {
 
-        ArrayList<Nota> tempNote=new ArrayList<Nota>();
-
-        for(int i=0; i<note.size();i++) {
-            Log.d(TAG, "------------------------------------------------------------------------------------------------>" + i);
-            tempNote.add(myCypher.decryptNota(note.get(i)));
-        }
-        note=tempNote;
+        note=myCypher.decryptAllNotes(note);
 
         cardAdapter = new AdapterNota(note, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(cardAdapter);
@@ -369,8 +345,42 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void itemUpdated(Nota nota, int pos) {
-        Log.i("PROVA", "itemUpdated: ");
+
+        Log.d(TAG, "Nota["+pos+"] has been updated.");
+        Log.d(TAG, "Updating Lists...");
+
         note.set(pos, nota);
         cardAdapter.notifyDataSetChanged();
+    }
+
+    public void  getNoteFromDB(){
+        try {
+            note = database.leggiNote();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+            Log.d(TAG,"Impossibile leggere note dal DB: "+e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Impossibile leggere note dal DB: " + e);
+        }
+    }
+
+    private void createNotes(){
+
+        Log.d(TAG,"Creating 15 new notes...");
+
+        Random rnd = new Random();
+        note = new ArrayList<>();
+
+        for (int i = 0; i < 15; i++) {
+            Nota nota = new Nota();
+            nota.setId(UUID.randomUUID().toString());
+            nota.setIsEncrypted(false);
+            nota.setTitle("Titolo Figo " + i);
+            nota.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+            nota.setTag(rnd.nextInt(4) + 1);
+            note.add(i, nota);
+        }
+
     }
 }

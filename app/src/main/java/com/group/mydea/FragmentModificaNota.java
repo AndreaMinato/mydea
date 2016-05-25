@@ -130,16 +130,19 @@ public class FragmentModificaNota extends DialogFragment {
         if (audioOutputPath != " ")
             path=audioOutputPath;
 
-        myCypher.encryptNota(database,
-                                myID,
-                                oldNota.getColor(),
-                                oldNota.getTag(),
-                                mTvTitolo.getText().toString(),
-                                mTvTestoNota.getText().toString(),
-                                myImgNota.toString(),
-                                path,
-                                oldNota.getCreationDate(),
-                                oldNota.getPriority());
+
+
+        newNota= myCypher.encryptNota(database,
+                                        myID,
+                                        oldNota.getIsEncrypted(),
+                                        oldNota.getColor(),
+                                        oldNota.getTag(),
+                                        mTvTitolo.getText().toString(),
+                                        mTvTestoNota.getText().toString(),
+                                        myImgNota.toString(),
+                                        path,
+                                        oldNota.getCreationDate(),
+                                        oldNota.getPriority());
 
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
@@ -305,28 +308,6 @@ public class FragmentModificaNota extends DialogFragment {
             player.setVisibility(View.GONE);
         }
 
-
-
-
-        /*---------------------------------PROVA ENCRYPTION------------------------*/
-
-        Nota encTryNote=new Nota();
-        encTryNote=myCypher.encryptNota(database,
-                myID,
-                oldNota.getColor(),
-                oldNota.getTag(),
-                oldNota.getTitle(),
-                oldNota.getText(),
-                oldNota.getImage(),
-                oldNota.getAudio(),
-                oldNota.getCreationDate(),
-                oldNota.getPriority());
-
-        myCypher.decryptNota(encTryNote);
-
-
-        /*---------------------------------PROVA ENCRYPTION------------------------*/
-
         return vView;
     }
 
@@ -490,40 +471,6 @@ public class FragmentModificaNota extends DialogFragment {
                 );
             }
         };
-    }
-
-
-    public String encryptData(String psw,String text){
-        /*String password = "password";
-        String message = "hello world";*/
-        String encryptedTxt="";
-        try {
-
-            encryptedTxt = AESCrypt.encrypt(psw, text);
-            Log.d(TAG,"-------------------encryptData-----------\nPsw:"+psw+"\nText:"+text +"\nencryptedMsg:"+encryptedTxt);
-
-        }catch (GeneralSecurityException e){
-            //handle error
-            Log.d(TAG,"Error on encrypting data: " + e);
-        }
-
-        return encryptedTxt;
-    }
-
-    public String decryptData(String psw,String text){
-        /*String password = "password";
-        String encryptedMsg = "2B22cS3UC5s35WBihLBo8w==";*/
-
-        String decryptedTxt="";
-
-        try {
-            decryptedTxt = AESCrypt.decrypt(psw, text);
-            Log.d(TAG,"-------------------encryptData-----------\nPsw:"+psw+"\nText:" + text +"\nencryptedMsg:" + decryptedTxt);
-        }catch (GeneralSecurityException e){
-            //handle error - could be due to incorrect password or tampered encryptedMsg
-            Log.d(TAG,"Error on decrypting data: " + e);
-        }
-        return decryptedTxt;
     }
 
 
