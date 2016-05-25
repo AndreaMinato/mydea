@@ -345,12 +345,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void itemUpdated(Nota nota, int pos) {
 
-        Log.d(TAG, "Nota["+pos+"] has been updated.");
-        Log.d(TAG, "Updating Lists...");
+        scambioNota(nota,pos);
 
-        note.set(pos, nota);
+        Log.d(TAG, "Updating Lists...");
         cardAdapter.notifyDataSetChanged();
         showNotes(note);
+    }
+
+    private void scambioNota(Nota nota,int pos){
+
+        /**This method replace the oldNote with the updated one.*/
+
+        Nota tmpNote=new Nota();
+        tmpNote=nota;
+        note.remove(pos);
+        note.set(pos, tmpNote);
+
+        Log.d(TAG, "Nota[" + pos + "] has been updated.");
     }
 
     public void  getNoteFromDB(){
