@@ -39,8 +39,10 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public static String TAG="debug tag";
     public static String TAG_FRAGMENT_IMG_NOTA="tagfragmentmodificanota";
 
-    private ArrayList<Nota> note;  //lista di note
+
     private CouchDB db;
+    private CryptData myCypher=new CryptData();
+    private ArrayList<Nota> note;  //lista di note
     private Context ctx;
     private android.app.FragmentManager fragmentManager;
     private FragmentImmagine mFragmentImmagine;
@@ -61,13 +63,25 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public HolderAdapterNota onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
 
-       // fragmentModificaNota = (FragmentModificaNota) fragmentManager.findFragmentByTag(TAG_FRAGMENT_MODIFICA_NOTA);
+        /**TODO: HERE DECRYPT POSTS.*/
+        /*for(int i=0; i<note.size();i++) {
+            Log.d(TAG,"------------------------------------------------------------------------------------------------>"+ i);
+            myCypher.decryptNota(note.get(i));
+        }*/
+
         return new HolderAdapterNota(v);
     }
 
 
     @Override
     public void onBindViewHolder(final HolderAdapterNota cardHolder, final int position) {
+
+        /**TODO: HERE DECRYPT POSTS.*/
+       // myCypher.decryptNota(note.get(position));
+
+
+        Log.d(TAG,"Requested post id:"+note.get(position).getID());
+
 
         if(note.get(position).getTitle().length()>15)
             substrTitoloNota = note.get(position).getTitle().substring(0, 12)+"...";
