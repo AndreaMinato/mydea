@@ -41,11 +41,9 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
 
     private CouchDB db;
-    private CryptData myCypher=new CryptData();
     private ArrayList<Nota> note;  //lista di note
     private Context ctx;
     private android.app.FragmentManager fragmentManager;
-    private FragmentImmagine mFragmentImmagine;
     private String substrTestoNota;
     private String substrTitoloNota;
     private int sfondoNota;
@@ -63,11 +61,6 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public HolderAdapterNota onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_nota, viewGroup, false);
 
-        /**TODO: HERE DECRYPT POSTS.*/
-        /*for(int i=0; i<note.size();i++) {
-            Log.d(TAG,"------------------------------------------------------------------------------------------------>"+ i);
-            myCypher.decryptNota(note.get(i));
-        }*/
 
         return new HolderAdapterNota(v);
     }
@@ -76,11 +69,6 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     @Override
     public void onBindViewHolder(final HolderAdapterNota cardHolder, final int position) {
 
-        /**TODO: HERE DECRYPT POSTS.*/
-       // myCypher.decryptNota(note.get(position));
-
-
-        Log.d(TAG,"Requested post id:"+note.get(position).getID());
 
 
         if(note.get(position).getTitle().length()>15)
@@ -122,13 +110,8 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
                 //Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
-                //TODO Chiamare la visualizzazione nota e il fragment imgNOTA
-
                 FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(position), position);
                 fragmentModificaNota.show(fragmentManager, TAG_FRAGMENT_MODIFICA_NOTA);
-
-               /* mFragmentImmagine=FragmentImmagine.getIstance();
-                mFragmentImmagine.onCreate(fragmentManager,TAG_FRAGMENT_IMG_NOTA);*/
 
             }
         });

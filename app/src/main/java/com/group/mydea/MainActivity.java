@@ -46,8 +46,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         FragmentModificaNota.addedItem {
 
     private AdapterNota cardAdapter;
@@ -55,15 +54,15 @@ public class MainActivity extends AppCompatActivity
     private LinearLayoutManager layoutManager;
 
     private CouchDB database;
-    CryptData myCypher=new CryptData();
-    FloatingActionButton fab;
+    private CryptData myCypher=new CryptData();
+    private FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText edtSeach;
     private InputMethodManager imm;
-    List<FloatingActionButton> fabList = new ArrayList<>();
+    private List<FloatingActionButton> fabList = new ArrayList<>();
 
     public static String TAG = "debug tag";
 
@@ -351,6 +350,7 @@ public class MainActivity extends AppCompatActivity
 
         note.set(pos, nota);
         cardAdapter.notifyDataSetChanged();
+        showNotes(note);
     }
 
     public void  getNoteFromDB(){
