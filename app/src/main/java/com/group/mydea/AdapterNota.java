@@ -80,17 +80,17 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
             substrTestoNota=note.get(position).getText();
 
         switch (note.get(position).getTag()) {
-            case 1:
-                sfondoNota = Color.parseColor("#E97FDD");
+            case 1: //LAVORO
+                sfondoNota = Color.parseColor("#c6ecf0");
                 break;
-            case 2:
-                sfondoNota = Color.parseColor("#E4ED99");
+            case 2: //PERSONALE
+                sfondoNota = Color.parseColor("#fadbf6");
                 break;
-            case 3:
-                sfondoNota = Color.rgb(200, 200, 255);
+            case 3: //HOBBY
+                sfondoNota = Color.parseColor("#d7f7cf");
                 break;
-            case 4:
-                sfondoNota = Color.parseColor("#E5B966");
+            case 4: //TEMPO LIBERO
+                sfondoNota = Color.parseColor("#efdbae");
                 break;
             default:
                 sfondoNota = Color.WHITE;
