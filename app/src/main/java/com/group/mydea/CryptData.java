@@ -6,7 +6,10 @@ import com.couchbase.lite.CouchbaseLiteException;
 import com.scottyab.aescrypt.AESCrypt;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,8 +19,35 @@ import java.util.Date;
 public class CryptData {
 
     public static String TAG = "debug tag";
+    public static String CRYPT_PSW="password";
+    String psw=CRYPT_PSW;
 
-    String psw="password";
+
+    public String generateSha256(String psw) {
+
+        String mySha256Str="";
+
+        try {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(psw.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+        byte[] digest = md.digest();
+
+        //If you want to format to hex with left zero padding:
+        mySha256Str=String.format("%064x", new java.math.BigInteger(1, digest));
+
+        //Log.d(TAG,"Sha-256 of "+psw+" is:"+mySha256Str);
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Failed to generate Sha-256 of the password. Error:" + e);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Failed to generate Sha-256 of the password. Error:" + e);
+        }
+
+        return mySha256Str;
+    }
 
 
     public String encryptData(String text){

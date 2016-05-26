@@ -171,7 +171,7 @@ public class Nota implements Comparable<Nota> , Parcelable{
         if (creationDate != null)
             dest.writeString(creationDate.toString());
         else
-            dest.writeString("15/11/2999");
+            dest.writeString("01/01/2999");
     }
 
     public final static Parcelable.Creator<Nota> CREATOR = new ClassLoaderCreator<Nota>() {

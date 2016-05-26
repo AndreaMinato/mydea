@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO Chiamare il fragment per salvare la nota
+
                     Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
                     Bundle vBundle = new Bundle();
                     startActivity(vIntent);

@@ -100,7 +100,7 @@ public class CouchDB {
     public void salvaNota(Nota nota) throws IOException, CouchbaseLiteException {
         Document document = db.getDocument(nota.getID());
         Log.i(TAG, "salvaNota: " + nota.getID());
-        Map<String, Object> properties = new HashMap<>();
+        Map<String, Object> properties = new HashMap<>(   );
         if (document.getProperties() != null)
             properties.putAll(document.getProperties());
         ObjectMapper objectMapper = new ObjectMapper();
@@ -156,5 +156,18 @@ public class CouchDB {
         }
         Log.d(TAG, String.format("note lette in %s ms", System.currentTimeMillis() - time));
         return note;
+    }
+
+    /*TODO: questi 2 metodi*/
+    public void setEncryptionPassword(String newPsw)throws IOException, CouchbaseLiteException {
+        long time = System.currentTimeMillis();
+
+
+        Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
+
+    }
+
+    public void getEncryptionPassword(){
+
     }
 }
