@@ -338,8 +338,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.d(TAG, "Updating Lists...");
 
-        note.set(pos, nota);
+        //note.set(pos, nota);
         //cardAdapter.notifyDataSetChanged();
+
+        getNoteFromDB();
         showNotes(note);
     }
 
