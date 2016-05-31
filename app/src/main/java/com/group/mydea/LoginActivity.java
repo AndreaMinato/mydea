@@ -21,7 +21,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvStatus;
     Button btnCommitActions;
 
-    private CryptData myCypher=new CryptData();
+    private CryptData myCypher;//=new CryptData();
+    private String myEncPsw="";
     private CouchDB database;
     private String inputPsw;
     private Boolean pswIsSet=false;
@@ -43,6 +44,21 @@ public class LoginActivity extends AppCompatActivity {
 
         database = new CouchDB(getApplicationContext());
 
+        try {
+
+            myEncPsw=database.getEncryptionPassword();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+
+        /**
+         * TODO: gestire se La password per encriptare le note non è settata
+         */
+        myCypher=new CryptData(myEncPsw,LoginActivity.this);
+
 
         try {
 
@@ -63,10 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                /*
-                TODO: -salvare la password definita dall'utente la prima volta (gnerando lo sha256) nel db.
-                      -confrontare che lo sha256 della psw inserita sia uguale a quella presente nel db.
-                 */
                 inputPsw = etInputPsw.getText().toString();
 
                 try {
@@ -138,10 +150,9 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean isSet=false;
         String settedPsw=database.getEncryptionPassword();
-        Log.d(TAG, "settedPsw.len:"+settedPsw.length());
 
         if(settedPsw.length()>0) {//SHA256 d7cb62855cc3a04933d835db565be339b4727bab711fb4d7bc277538709b1d32 for "" lol
-            Log.d(TAG, "Password is setted yet. settedPsw.len:" + settedPsw.length());
+            Log.d(TAG, "Password is setted yet.");
             isSet = true;
         }
 

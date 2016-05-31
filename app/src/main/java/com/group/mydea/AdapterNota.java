@@ -33,7 +33,9 @@ import java.util.Collections;
 public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterNota> {
 
 
-
+    /**
+     * Here notes should be encrypted yet!
+     */
 
     public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
     public static String TAG="debug tag";

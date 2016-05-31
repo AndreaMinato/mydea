@@ -1,5 +1,6 @@
 package com.group.mydea;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.couchbase.lite.CouchbaseLiteException;
@@ -21,6 +22,13 @@ public class CryptData {
     public static String TAG = "debug tag";
     public static String CRYPT_PSW="password";
     String psw=CRYPT_PSW;
+    Context ctx;
+
+
+    public CryptData(String psw, Context ctx){
+        this.psw=psw;
+        this.ctx=ctx;
+    }
 
 
     public String generateSha256(String psw) {

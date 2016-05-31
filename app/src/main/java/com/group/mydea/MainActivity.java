@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
-    //private LinearLayoutManager layoutManager;
     private StaggeredGridLayoutManager layoutManager;
 
     private CouchDB database;
-    private CryptData myCypher = new CryptData();
+    private CryptData myCypher;;// = new CryptData();
+    private String myEncPsw="";
     private FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isSearchOpened = false;
     private EditText edtSeach;
     private InputMethodManager imm;
-    private List<FloatingActionButton> fabList = new ArrayList<>();
+    //private List<FloatingActionButton> fabList = new ArrayList<>();
 
     public static String TAG = "debug tag";
 
@@ -105,6 +105,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
         database = new CouchDB(getApplicationContext());
+
+        try {
+
+            myEncPsw=database.getEncryptionPassword();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+
+        /**
+         * TODO: gestire se La password per encriptare le note se non è settata
+         */
+        myCypher=new CryptData(myEncPsw,MainActivity.this);
 
         getNoteFromDB();
 

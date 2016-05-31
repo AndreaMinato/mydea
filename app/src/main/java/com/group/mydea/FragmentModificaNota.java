@@ -83,13 +83,15 @@ public class FragmentModificaNota extends DialogFragment {
     private static final int SELECT_PICTURE = 1;
     int TAKE_PHOTO_CODE = 0;
 
-    CryptData myCypher=new CryptData();
+    CryptData myCypher;
     private CouchDB database;
     TextView mTvTitolo, mTvTestoNota;
     Button save;
     String myID;
     String path;
     String myImgNota; //String that contains the URI of the img.
+
+    String myEncPsw="";
 
 
     public interface addedItem {
@@ -245,6 +247,21 @@ public class FragmentModificaNota extends DialogFragment {
 
 
         database = new CouchDB(getActivity());
+
+        try {
+
+            myEncPsw=database.getEncryptionPassword();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+
+        /**
+         * TODO: gestire se La password per encriptare le note non è settata
+         */
+        myCypher=new CryptData(myEncPsw,getActivity());
 
 
 
