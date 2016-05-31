@@ -34,8 +34,9 @@ public class CouchDB {
     private static final String TAG = "CouchDB";
     private static final String TYPE_KEY = "type";
     private static final String DB_NAME = "noteme";
-
     private static final String VIEW_NOTE = "viewNote";
+    private static final String VIEW_PSW="password";
+    private static final String TAG_PSW="tagencryptionpsw";
 
     private Manager man;
     private Database db;
@@ -44,6 +45,7 @@ public class CouchDB {
     public CouchDB(Context c) {
         ctx = c;
         createManager();
+        createViewForPassword();
         createViewForNota();
     }
 
@@ -158,16 +160,54 @@ public class CouchDB {
         return note;
     }
 
-    /*TODO: questi 2 metodi*/
-    public void setEncryptionPassword(String newPsw)throws IOException, CouchbaseLiteException {
-        long time = System.currentTimeMillis();
+
+    /*TODO: TEST*/
+
+    private void createViewForPassword() {
 
 
-        Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
+       /* View view = db.getView(VIEW_PSW);
+
+        view.setMap(new Mapper() {
+
+            @Override
+            public void map(Map<String, Object> document, Emitter emitter) {
+                if (document.containsKey(TYPE_KEY) && document.get(TYPE_KEY).equals(TAG_PSW)) {
+
+                     emitter.emit(TAG_PSW, document.get(TAG_PSW));
+                    Object createdAt = document.get(TAG_PSW);
+                    emitter.emit(TAG_PSW, null);
+                }
+            }
+        }, "1");*/
 
     }
 
-    public void getEncryptionPassword(){
+    public void setEncryptionPassword(String newPsw)throws IOException, CouchbaseLiteException {
+        long time = System.currentTimeMillis();
 
+        Document document = db.getDocument(TAG_PSW);
+        Map<String, Object> properties = new HashMap<>();
+
+        properties.put(TAG_PSW, newPsw);
+        document.putProperties(properties);
+
+        Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
+    }
+
+    public String getEncryptionPassword() throws IOException, CouchbaseLiteException {
+
+        try {
+            String encryptionPsw = "";
+            long time = System.currentTimeMillis();
+
+            Document document = db.getDocument(TAG_PSW);
+            Map<String, Object> map = document.getProperties();
+
+            return (String) map.get(TAG_PSW);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on getting psw: " + e);
+            return "";
+        }
     }
 }
