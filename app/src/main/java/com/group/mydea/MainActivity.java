@@ -44,8 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private StaggeredGridLayoutManager layoutManager;
 
     private CouchDB database;
-    private CryptData myCypher;;// = new CryptData();
-    private String myEncPsw="";
+    private CryptData myCypher;
+    ;// = new CryptData();
+    private String myEncPsw = "";
     private FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         try {
 
-            myEncPsw=database.getEncryptionPassword();
+            myEncPsw = database.getEncryptionPassword();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /**
          * TODO: gestire se La password per encriptare le note se non è settata
          */
-        myCypher=new CryptData(myEncPsw,MainActivity.this);
+        myCypher = new CryptData(myEncPsw, MainActivity.this);
 
         getNoteFromDB();
 
@@ -306,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         cardAdapter = new AdapterNota(note, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(cardAdapter);
         //layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
-        layoutManager = new StaggeredGridLayoutManager(getResources().getInteger(R.integer.resolution),StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(getResources().getInteger(R.integer.resolution), StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
     }
 
