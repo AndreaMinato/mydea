@@ -4,6 +4,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="decryptButton">Decrypt my notes</string>
+
     <string name="appDescription">Your notes always with you</string>
 
     <string name="navCatAll">All</string>

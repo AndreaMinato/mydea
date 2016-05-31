@@ -1,17 +1,14 @@
 package com.group.mydea;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,17 +25,10 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.couchbase.lite.CouchbaseLiteException;
 import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
+    //private LinearLayoutManager layoutManager;
+    private StaggeredGridLayoutManager layoutManager;
 
     private CouchDB database;
     private CryptData myCypher = new CryptData();
@@ -83,14 +74,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     Intent vIntent = new Intent(MainActivity.this, NuovaNota.class);
                     Bundle vBundle = new Bundle();
                     startActivity(vIntent);
                 }
             });
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -110,18 +99,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             createNotes();
             myCypher.encryptAllNotes(note, database);
         }
-
         showNotes(note);
-
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         mSearchAction = menu.findItem(R.id.action_search);
         return super.onPrepareOptionsMenu(menu);
     }
-
 
     protected void handleMenuSearch() {
         ActionBar action = getSupportActionBar(); //get the actionbar
@@ -207,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void doSearch(String inputText) {
-        Log.d(TAG, "Searching: " + inputText);
+        Log.d("lol", "Searching: " + inputText);
 
         ArrayList<Nota> tmpFilteredNotes = new ArrayList<Nota>();
 
@@ -216,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tmpFilteredNotes.add(note.get(i));
             }
         }
-        Log.d(TAG, "Note trovate: " + tmpFilteredNotes.size());
+        Log.d("lol", "Note trovate: " + tmpFilteredNotes.size());
         showNotes(tmpFilteredNotes);
     }
 
@@ -305,7 +290,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         cardAdapter = new AdapterNota(note, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(cardAdapter);
-        layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
+        //layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
+        layoutManager = new StaggeredGridLayoutManager(getResources().getInteger(R.integer.resolution),StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
     }
 
