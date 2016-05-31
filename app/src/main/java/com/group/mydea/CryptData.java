@@ -20,31 +20,31 @@ import java.util.Date;
 public class CryptData {
 
     public static String TAG = "debug tag";
-    public static String CRYPT_PSW="password";
-    String psw=CRYPT_PSW;
+    public static String CRYPT_PSW = "password";
+    String psw = CRYPT_PSW;
     Context ctx;
 
 
-    public CryptData(String psw, Context ctx){
-        this.psw=psw;
-        this.ctx=ctx;
+    public CryptData(String psw, Context ctx) {
+        this.psw = psw;
+        this.ctx = ctx;
     }
 
 
     public String generateSha256(String psw) {
 
-        String mySha256Str="";
+        String mySha256Str = "";
 
         try {
 
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(psw.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-        byte[] digest = md.digest();
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(psw.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
 
-        //If you want to format to hex with left zero padding:
-        mySha256Str=String.format("%064x", new java.math.BigInteger(1, digest));
+            //If you want to format to hex with left zero padding:
+            mySha256Str = String.format("%064x", new java.math.BigInteger(1, digest));
 
-        //Log.d(TAG,"Sha-256 of "+psw+" is:"+mySha256Str);
+            //Log.d(TAG,"Sha-256 of "+psw+" is:"+mySha256Str);
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -58,44 +58,44 @@ public class CryptData {
     }
 
 
-    public String encryptData(String text){
+    public String encryptData(String text) {
         /*String password = "password";
         String message = "hello world";*/
-        String encryptedTxt="";
+        String encryptedTxt = "";
         try {
 
             encryptedTxt = AESCrypt.encrypt(psw, text);
             //Log.d(TAG, "-------------------encryptData-----------\nText:" + text + "\nencryptedMsg:" + encryptedTxt);
 
-        }catch (GeneralSecurityException e){
+        } catch (GeneralSecurityException e) {
             //handle error
-            Log.d(TAG,"Error on encrypting data: " + e);
+            Log.d(TAG, "Error on encrypting data: " + e);
         }
 
         return encryptedTxt;
     }
 
-    public String decryptData(String text){
+    public String decryptData(String text) {
 
-        String decryptedTxt="decryptData";
+        String decryptedTxt = "decryptData";
 
         try {
             decryptedTxt = AESCrypt.decrypt(psw, text);
             //Log.d(TAG,"-------------------decryptData-----------\nText:" + text +"\nencryptedMsg:" + decryptedTxt);
-        }catch (GeneralSecurityException e){
+        } catch (GeneralSecurityException e) {
             //handle error - could be due to incorrect password or tampered encryptedMsg
-            Log.d(TAG,"Error on decrypting data: " + e);
+            Log.d(TAG, "Error on decrypting data: " + e);
         }
         return decryptedTxt;
     }
 
-    public Nota encryptNota(CouchDB database,String myID,Boolean isEncrypted,String color,int tag,String title,String text,String img, String audio,Date creationDate,int priority){
+    public Nota encryptNota(CouchDB database, String myID, Boolean isEncrypted, String color, int tag, String title, String text, String img, String audio, Date creationDate, int priority) {
 
         /*
         TODO: dopo i test cambiare a retun type void. aggiungere if is crypted
          */
 
-        Nota myNote=new Nota();
+        Nota myNote = new Nota();
 
         myNote.setId(myID);
         myNote.setIsEncrypted(true);
@@ -116,7 +116,7 @@ public class CryptData {
 
         try {
             Log.i(TAG, "Saving note....");
-                    database.salvaNota(myNote);
+            database.salvaNota(myNote);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CouchbaseLiteException e) {
@@ -129,12 +129,12 @@ public class CryptData {
 
     }
 
-    public Nota decryptNota(Nota requestedNote){
+    public Nota decryptNota(Nota requestedNote) {
 
-            Nota myNote = new Nota();
+        Nota myNote = new Nota();
         try {
 
-            if(requestedNote.getIsEncrypted()) {//Decrypt Note only if is actually crypted.
+            if (requestedNote.getIsEncrypted()) {//Decrypt Note only if is actually crypted.
 
                 myNote.setId(requestedNote.getID());
                 myNote.setIsEncrypted(requestedNote.getIsEncrypted());
@@ -154,8 +154,7 @@ public class CryptData {
                         "\nTEXT:" + myNote.getText() + "<----" + requestedNote.getText());*/
 
                 Log.d(TAG, "Note has been decrypted!");
-            }
-            else {
+            } else {
                 Log.d(TAG, "This note is not supposed to be encrypted.");
 
                 myNote.setId(requestedNote.getID());
@@ -169,45 +168,43 @@ public class CryptData {
                 myNote.setCreationDate(requestedNote.getCreationDate());
                 myNote.setPriority(requestedNote.getPriority());
             }
-        }
-
-        catch (Exception e){
-            Log.d(TAG, "Error on decrypting note: "+e);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on decrypting note: " + e);
         }
 
         return myNote;
     }
 
-    public ArrayList<Nota> encryptAllNotes(ArrayList<Nota> note,CouchDB database){
+    public ArrayList<Nota> encryptAllNotes(ArrayList<Nota> note, CouchDB database) {
 
-        ArrayList<Nota> tempNote=new ArrayList<Nota>();
+        ArrayList<Nota> tempNote = new ArrayList<Nota>();
 
-        for(int i=0; i<note.size();i++) {
+        for (int i = 0; i < note.size(); i++) {
             /*TODO: crypt note only if they have to.*/
             tempNote.add(encryptNota(database, note.get(i).getID(), note.get(i).getIsEncrypted(), note.get(i).getColor(), note.get(i).getTag(), note.get(i).getTitle(), note.get(i).getText(), note.get(i).getImage(), note.get(i).getAudio(), note.get(i).getCreationDate(), note.get(i).getPriority()));
         }
 
 
-        Log.d(TAG,"Encrypt All Notes:");
+        Log.d(TAG, "Encrypt All Notes:");
 
-        for(int i=0;i<tempNote.size();i++){
-            Log.d(TAG,"Nota [" + i + "] TITOLO:"+tempNote.get(i).getTitle());
+        for (int i = 0; i < tempNote.size(); i++) {
+            Log.d(TAG, "Nota [" + i + "] TITOLO:" + tempNote.get(i).getTitle());
         }
 
         return tempNote;
     }
 
-    public ArrayList<Nota> decryptAllNotes(ArrayList<Nota> note){
+    public ArrayList<Nota> decryptAllNotes(ArrayList<Nota> note) {
 
-        ArrayList<Nota> tempNote=new ArrayList<Nota>();
+        ArrayList<Nota> tempNote = new ArrayList<Nota>();
 
-        for(int i=0; i<note.size();i++) {
+        for (int i = 0; i < note.size(); i++) {
             tempNote.add(decryptNota(note.get(i)));
         }
 
-        Log.d(TAG,"Decrypting All Notes:");
+        Log.d(TAG, "Decrypting All Notes:");
 
-        for(int i=0;i<tempNote.size();i++){
+        for (int i = 0; i < tempNote.size(); i++) {
             Log.d(TAG, "Nota [" + i + "] TITOLO:" + tempNote.get(i).getTitle());
         }
 

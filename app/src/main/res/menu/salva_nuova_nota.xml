@@ -5,7 +5,6 @@
         android:id="@+id/save_button"
         android:icon="@drawable/ic_done_24dp"
         android:title="@string/newSave"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom"></item>
 
 </menu>

@@ -3,13 +3,8 @@ package com.group.mydea;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,20 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.couchbase.lite.CouchbaseLiteException;
-import com.squareup.picasso.Picasso;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Timer;
 
 public class NuovaNota extends AppCompatActivity {
 
@@ -48,10 +35,10 @@ public class NuovaNota extends AppCompatActivity {
     RadioButton hobby;
     RadioButton tempolibero;
     MainActivity myHome;
-    String pathImg,pathGal;
+    String pathImg, pathGal;
 
 
-    public static String TAG="debug tag";
+    public static String TAG = "debug tag";
     private static String BITMAP = "bitmap";
 
 
@@ -79,7 +66,7 @@ public class NuovaNota extends AppCompatActivity {
             if (uriImg != null) {
                 pathImg = uriImg.toString();
             }
-            Log.d(TAG, "URL "+pathImg);
+            Log.d(TAG, "URL " + pathImg);
 
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             temp = imageBitmap;
@@ -90,7 +77,7 @@ public class NuovaNota extends AppCompatActivity {
 
             Uri uriGal = data.getData();
             pathGal = uriGal.toString();
-            Log.d(TAG, "URL "+pathGal);
+            Log.d(TAG, "URL " + pathGal);
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriGal);
@@ -105,11 +92,11 @@ public class NuovaNota extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
+        if (!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.exitDialog)
-                    .setNegativeButton(R.string.exitDialogContinue, null)
-                    .setPositiveButton(R.string.exitDialogExit, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.dialogNo, null)
+                    .setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface arg0, int arg1) {
                             NuovaNota.super.onBackPressed();
@@ -127,20 +114,20 @@ public class NuovaNota extends AppCompatActivity {
 
         database = new CouchDB(getApplicationContext());
 
-        titolo = (EditText)findViewById(R.id.editTitle);
-        corpo = (EditText)findViewById(R.id.editBody);
-        bassa = (RadioButton)findViewById(R.id.radioSlow);
-        media = (RadioButton)findViewById(R.id.radioAverage);
-        alta = (RadioButton)findViewById(R.id.radioHigh);
-        lavoro = (RadioButton)findViewById(R.id.radioWork);
-        personale = (RadioButton)findViewById(R.id.radioPersonal);
-        hobby = (RadioButton)findViewById(R.id.radioHobby);
-        tempolibero = (RadioButton)findViewById(R.id.radioFreetime);
+        titolo = (EditText) findViewById(R.id.editTitle);
+        corpo = (EditText) findViewById(R.id.editBody);
+        bassa = (RadioButton) findViewById(R.id.radioSlow);
+        media = (RadioButton) findViewById(R.id.radioAverage);
+        alta = (RadioButton) findViewById(R.id.radioHigh);
+        lavoro = (RadioButton) findViewById(R.id.radioWork);
+        personale = (RadioButton) findViewById(R.id.radioPersonal);
+        hobby = (RadioButton) findViewById(R.id.radioHobby);
+        tempolibero = (RadioButton) findViewById(R.id.radioFreetime);
         View fabImg = findViewById(R.id.fabImg);
         View fabGal = findViewById(R.id.fabGal);
         /*final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
         final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);*/
-        immagine = (ImageView)findViewById(R.id.imgviewFoto);
+        immagine = (ImageView) findViewById(R.id.imgviewFoto);
 
         if (savedInstanceState != null) {
             temp = savedInstanceState.getParcelable(BITMAP);
@@ -209,7 +196,7 @@ public class NuovaNota extends AppCompatActivity {
 
                 if ((bassa).isChecked()) {
                     nuova.setPriority(3);
-                    Log.d(TAG,"bassa");
+                    Log.d(TAG, "bassa");
                 }
                 if ((media.isChecked())) {
                     nuova.setPriority(2);
@@ -220,12 +207,12 @@ public class NuovaNota extends AppCompatActivity {
                     Log.d(TAG, "alta");
                 }
 
-                    nuova.setText(corpo.getText().toString());
+                nuova.setText(corpo.getText().toString());
                   /*  nuova.setImage("immagine");
                     nuova.setAudio("audio");*/
-                    nuova.setCreationDate(new Date());
+                nuova.setCreationDate(new Date());
 
-                if(!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
+                if (!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
                     if (titolo.getText().toString().trim().isEmpty()) {
                         nuova.setTitle("Senza titolo");
                     }
