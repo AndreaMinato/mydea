@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void doSearch(String inputText) {
-        Log.d("lol", "Searching: " + inputText);
+        Log.d(TAG, "Searching: " + inputText);
 
         ArrayList<Nota> tmpFilteredNotes = new ArrayList<Nota>();
 
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tmpFilteredNotes.add(note.get(i));
             }
         }
-        Log.d("lol", "Note trovate: " + tmpFilteredNotes.size());
+        Log.d(TAG, "Note trovate: " + tmpFilteredNotes.size());
         showNotes(tmpFilteredNotes);
     }
 
@@ -253,6 +253,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //for search bar
         switch (id) {
             case R.id.action_settings:
+
+                /*TODO start activity*/
+
+                Intent vIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(vIntent);
+
                 return true;
             case R.id.action_search:
                 handleMenuSearch();

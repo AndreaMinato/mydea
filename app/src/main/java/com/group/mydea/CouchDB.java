@@ -195,6 +195,29 @@ public class CouchDB {
         Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
     }
 
+
+    public void overwriteEncryptionPassword(final String newPsw)throws IOException, CouchbaseLiteException {
+        long time = System.currentTimeMillis();
+
+        final Document document = db.getDocument(TAG_PSW);
+
+        document.update(new Document.DocumentUpdater() {
+            @Override
+            public boolean update(UnsavedRevision newRevision) {
+
+                Map<String, Object> properties = newRevision.getUserProperties();
+                properties.put(TAG_PSW,newPsw);
+
+                newRevision.setUserProperties(properties);
+
+                Log.d(TAG, "Encryption password Update setted!");
+                return true;
+            }
+        });
+
+        Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
+    }
+
     public String getEncryptionPassword() throws IOException, CouchbaseLiteException {
 
         try {

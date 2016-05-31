@@ -108,6 +108,9 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d(TAG, "Setting new encryptionPsw:" + inputPsw);
 
                                             setEncryptionPassword(inputPsw);
+
+                                            Intent vIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(vIntent);
                                     }
                                 })
                                 .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
@@ -136,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
     private void setUpGUI(){
 
         if(pswIsSet){
-            tvStatus.setText("Enter your to get your notes:");
+            tvStatus.setText("Enter your password to get your notes:");
             btnCommitActions.setText("Decrypt my Notes!");
         }
         else {
