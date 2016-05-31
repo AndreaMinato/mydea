@@ -60,7 +60,9 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
         Collections.sort(this.note, new Comparator<Nota>() {
             @Override
             public int compare(Nota lhs, Nota rhs) {
-                return (lhs.getPriority() - rhs.getPriority());
+                return (lhs.getPriority() - rhs.getPriority()) == 0
+                        ? lhs.getTitle().compareTo(rhs.getTitle())
+                        : (lhs.getPriority() - rhs.getPriority());
             }
         });
     }
