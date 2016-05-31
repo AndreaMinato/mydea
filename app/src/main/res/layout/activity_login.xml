@@ -25,15 +25,16 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:hint="Password" />
+        android:hint="@string/passwordHint"
+        android:inputType="textPassword" />
 
     <TextView
         android:id="@+id/tvEnterPsw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/pswText"
         android:layout_above="@+id/editTextPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp"
-        android:text="Enter your password to get your notes:"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_marginBottom="31dp" />
 </RelativeLayout>

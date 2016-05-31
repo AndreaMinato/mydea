@@ -3,13 +3,8 @@ package com.group.mydea;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.media.MediaRecorder;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,20 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.couchbase.lite.CouchbaseLiteException;
-import com.squareup.picasso.Picasso;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Timer;
 
 public class NuovaNota extends AppCompatActivity {
 
@@ -108,8 +95,8 @@ public class NuovaNota extends AppCompatActivity {
         if (!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.exitDialog)
-                    .setNegativeButton(R.string.exitDialogContinue, null)
-                    .setPositiveButton(R.string.exitDialogExit, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.dialogNo, null)
+                    .setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface arg0, int arg1) {
                             NuovaNota.super.onBackPressed();
