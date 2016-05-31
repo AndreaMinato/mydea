@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -51,10 +52,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
+    //private LinearLayoutManager layoutManager;
+    private StaggeredGridLayoutManager layoutManager;
 
     private CouchDB database;
-    private CryptData myCypher=new CryptData();
+    private CryptData myCypher = new CryptData();
     private FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
@@ -65,12 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<FloatingActionButton> fabList = new ArrayList<>();
 
     public static String TAG = "debug tag";
-
-
-
-
-
-
 
 
     @Override
@@ -114,17 +110,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (note.size() == 0) {
             createNotes();
-            myCypher.encryptAllNotes(note,database);
+            myCypher.encryptAllNotes(note, database);
         }
 
         showNotes(note);
 
     }
-
-
-
-
-
 
 
     @Override
@@ -218,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void doSearch(String inputText) {
-        Log.d(TAG, "Searching: " + inputText);
+        Log.d("lol", "Searching: " + inputText);
 
         ArrayList<Nota> tmpFilteredNotes = new ArrayList<Nota>();
 
@@ -227,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tmpFilteredNotes.add(note.get(i));
             }
         }
-        Log.d(TAG, "Note trovate: " + tmpFilteredNotes.size());
+        Log.d("lol", "Note trovate: " + tmpFilteredNotes.size());
         showNotes(tmpFilteredNotes);
     }
 
@@ -312,11 +303,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showNotes(ArrayList<Nota> note) {
 
-        note=myCypher.decryptAllNotes(note);
+        note = myCypher.decryptAllNotes(note);
 
         cardAdapter = new AdapterNota(note, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(cardAdapter);
-        layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
+        //layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
+        layoutManager = new StaggeredGridLayoutManager(getResources().getInteger(R.integer.resolution),StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
     }
 
@@ -337,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void refreshNotes(int pos, Nota nota){
+    public void refreshNotes(int pos, Nota nota) {
         note.add(nota);
         cardAdapter.notifyDataSetChanged();
     }
@@ -345,40 +337,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void itemUpdated(Nota nota, int pos) {
 
-        scambioNota(nota,pos);
+        // scambioNota(nota,pos);
 
         Log.d(TAG, "Updating Lists...");
-        cardAdapter.notifyDataSetChanged();
+
+        //note.set(pos, nota);
+        //cardAdapter.notifyDataSetChanged();
+
+        getNoteFromDB();
         showNotes(note);
     }
 
-    private void scambioNota(Nota nota,int pos){
+ /*   private void scambioNota(Nota nota,int pos){
 
-        /**This method replace the oldNote with the updated one.*/
+        /**This method replace the oldNote with the updated one.
 
         Nota tmpNote=new Nota();
         tmpNote=nota;
-        note.remove(pos);
+        //note.remove(pos);
         note.set(pos, tmpNote);
 
         Log.d(TAG, "Nota[" + pos + "] has been updated.");
-    }
+    }*/
 
-    public void  getNoteFromDB(){
+    public void getNoteFromDB() {
         try {
             note = database.leggiNote();
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
-            Log.d(TAG,"Impossibile leggere note dal DB: "+e);
+            Log.d(TAG, "Impossibile leggere note dal DB: " + e);
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(TAG, "Impossibile leggere note dal DB: " + e);
         }
     }
 
-    private void createNotes(){
+    private void createNotes() {
 
-        Log.d(TAG,"Creating 15 new notes...");
+        Log.d(TAG, "Creating 15 new notes...");
 
         Random rnd = new Random();
         note = new ArrayList<>();
