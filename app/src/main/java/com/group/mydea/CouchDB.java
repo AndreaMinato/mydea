@@ -35,8 +35,8 @@ public class CouchDB {
     private static final String TYPE_KEY = "type";
     private static final String DB_NAME = "noteme";
     private static final String VIEW_NOTE = "viewNote";
-    private static final String VIEW_PSW="password";
-    private static final String TAG_PSW="tagencryptionpsw";
+    private static final String VIEW_PSW = "password";
+    private static final String TAG_PSW = "tagencryptionpsw";
 
     private Manager man;
     private Database db;
@@ -102,7 +102,7 @@ public class CouchDB {
     public void salvaNota(Nota nota) throws IOException, CouchbaseLiteException {
         Document document = db.getDocument(nota.getID());
         Log.i(TAG, "salvaNota: " + nota.getID());
-        Map<String, Object> properties = new HashMap<>(   );
+        Map<String, Object> properties = new HashMap<>();
         if (document.getProperties() != null)
             properties.putAll(document.getProperties());
         ObjectMapper objectMapper = new ObjectMapper();
@@ -183,7 +183,7 @@ public class CouchDB {
 
     }
 
-    public void setEncryptionPassword(String newPsw)throws IOException, CouchbaseLiteException {
+    public void setEncryptionPassword(String newPsw) throws IOException, CouchbaseLiteException {
         long time = System.currentTimeMillis();
 
         Document document = db.getDocument(TAG_PSW);
@@ -191,6 +191,29 @@ public class CouchDB {
 
         properties.put(TAG_PSW, newPsw);
         document.putProperties(properties);
+
+        Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
+    }
+
+
+    public void overwriteEncryptionPassword(final String newPsw)throws IOException, CouchbaseLiteException {
+        long time = System.currentTimeMillis();
+
+        final Document document = db.getDocument(TAG_PSW);
+
+        document.update(new Document.DocumentUpdater() {
+            @Override
+            public boolean update(UnsavedRevision newRevision) {
+
+                Map<String, Object> properties = newRevision.getUserProperties();
+                properties.put(TAG_PSW,newPsw);
+
+                newRevision.setUserProperties(properties);
+
+                Log.d(TAG, "Encryption password Update setted!");
+                return true;
+            }
+        });
 
         Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
     }

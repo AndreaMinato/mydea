@@ -13,13 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-class MalformedHexColorException extends RuntimeException {
-    public MalformedHexColorException() {
-        super("Colore non valido (HEX exception)");
-    }
-}
-
-public class Nota implements Comparable<Nota> , Parcelable{
+public class Nota implements Comparable<Nota>, Parcelable {
 
     private static final String TAG = "Nota";
 
@@ -45,11 +39,11 @@ public class Nota implements Comparable<Nota> , Parcelable{
     public Nota() {
 
         id = UUID.randomUUID().toString();
-        isEncrypted=false;
+        isEncrypted = false;
         title = "Nota senza Titolo";
         text = "...";
         color = "#FFFFFF";
-        tag=1;
+        tag = 1;
         image = " ";
         audio = " ";
         creationDate = new Date();
@@ -100,7 +94,7 @@ public class Nota implements Comparable<Nota> , Parcelable{
 /*        if (!color.matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")) {
             throw new MalformedHexColorException();
         } else {*/
-            this.color = color;
+        this.color = color;
         //}
     }
 
@@ -197,7 +191,7 @@ public class Nota implements Comparable<Nota> , Parcelable{
         SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
 
         id = in.readString();
-        isEncrypted=Boolean.parseBoolean(in.readString());
+        isEncrypted = Boolean.parseBoolean(in.readString());
         title = in.readString();
         text = in.readString();
         color = in.readString();
@@ -208,7 +202,7 @@ public class Nota implements Comparable<Nota> , Parcelable{
         image = in.readString();
         try {
             creationDate = formatter.parse(in.readString());
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

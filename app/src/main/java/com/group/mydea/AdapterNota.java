@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by andrea on 13/05/16.
@@ -33,11 +34,13 @@ import java.util.Collections;
 public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterNota> {
 
 
-
+    /**
+     * Here notes should be encrypted yet!
+     */
 
     public static final String TAG_FRAGMENT_MODIFICA_NOTA = "tagfragmentmodificanota";
-    public static String TAG="debug tag";
-    public static String TAG_FRAGMENT_IMG_NOTA="tagfragmentmodificanota";
+    public static String TAG = "debug tag";
+    public static String TAG_FRAGMENT_IMG_NOTA = "tagfragmentmodificanota";
 
 
     private CouchDB db;
@@ -52,9 +55,16 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public AdapterNota(ArrayList<Nota> note, Context ctx, android.app.FragmentManager fragmentManager) {
         this.note = note;
         this.ctx = ctx;
-        this.fragmentManager=fragmentManager;
+        this.fragmentManager = fragmentManager;
         db = new CouchDB(ctx);
-        Collections.sort(this.note);
+        Collections.sort(this.note, new Comparator<Nota>() {
+            @Override
+            public int compare(Nota lhs, Nota rhs) {
+                return (lhs.getPriority() - rhs.getPriority()) == 0
+                        ? lhs.getTitle().compareTo(rhs.getTitle())
+                        : (lhs.getPriority() - rhs.getPriority());
+            }
+        });
     }
 
     @Override
@@ -70,16 +80,15 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
     public void onBindViewHolder(final HolderAdapterNota cardHolder, final int position) {
 
 
-
-        if(note.get(position).getTitle().length()>15)
-            substrTitoloNota = note.get(position).getTitle().substring(0, 12)+"...";
+        if (note.get(position).getTitle().length() > 15)
+            substrTitoloNota = note.get(position).getTitle().substring(0, 12) + "...";
         else
-            substrTitoloNota=note.get(position).getTitle();
+            substrTitoloNota = note.get(position).getTitle();
 
-        if(note.get(position).getText().length()>50)
-            substrTestoNota=note.get(position).getText().substring(0,47) + "...";
+        if (note.get(position).getText().length() > 50)
+            substrTestoNota = note.get(position).getText().substring(0, 47) + "...";
         else
-            substrTestoNota=note.get(position).getText();
+            substrTestoNota = note.get(position).getText();
 
         switch (note.get(position).getTag()) {
             case 1: //LAVORO
@@ -110,7 +119,7 @@ public class AdapterNota extends RecyclerView.Adapter<AdapterNota.HolderAdapterN
 
                 //Toast.makeText(ctx, "Ti piacerebbe premere la card numero " + position + " eh?", Toast.LENGTH_SHORT).show();
 
-                FragmentModificaNota fragmentModificaNota= FragmentModificaNota.getInstance(note.get(position), position);
+                FragmentModificaNota fragmentModificaNota = FragmentModificaNota.getInstance(note.get(position), position);
                 fragmentModificaNota.show(fragmentManager, TAG_FRAGMENT_MODIFICA_NOTA);
 
             }

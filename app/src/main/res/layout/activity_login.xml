@@ -8,32 +8,42 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.group.mydea.LoginActivity"
-    android:background="@color/colorAccent">
+    android:background="@drawable/login_background">
 
     <Button
+        android:id="@+id/button_decrypt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/decryptButton"
-        android:id="@+id/button_decrypt"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp" />
+        android:layout_marginBottom="150dp"
+        android:text="@string/decryptButton" />
 
     <EditText
+        android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPassword"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:hint="Password"/>
+        android:layout_centerVertical="true"
+        android:hint="@string/passwordHint"
+        android:inputType="textPassword" />
 
     <TextView
+        android:id="@+id/tvEnterPsw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Enter your password to get your notes:"
-        android:id="@+id/tvEnterPsw"
+        android:text="@string/pswText"
         android:layout_above="@+id/editTextPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="31dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:id="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo_mydea"
+        android:layout_above="@+id/tvEnterPsw" />
 </RelativeLayout>
