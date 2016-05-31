@@ -91,7 +91,7 @@ public class FragmentModificaNota extends DialogFragment {
     String path;
     String myImgNota; //String that contains the URI of the img.
 
-    String myEncPsw="";
+    String myEncPsw = "";
 
 
     public interface addedItem {
@@ -125,26 +125,25 @@ public class FragmentModificaNota extends DialogFragment {
 
         /**TODO: Controlla che myImgNota sia effettivamente valido*/
 
-        if(myImgNota!=null){
-            myImgNota=myImgNota.toString();
+        if (myImgNota != null) {
+            myImgNota = myImgNota.toString();
         }
 
         if (audioOutputPath != " ")
-            path=audioOutputPath;
+            path = audioOutputPath;
 
 
-
-        newNota= myCypher.encryptNota(database,
-                                        myID,
-                                        oldNota.getIsEncrypted(),
-                                        oldNota.getColor(),
-                                        oldNota.getTag(),
-                                        mTvTitolo.getText().toString(),
-                                        mTvTestoNota.getText().toString(),
-                                        myImgNota.toString(),
-                                        path,
-                                        oldNota.getCreationDate(),
-                                        oldNota.getPriority());
+        newNota = myCypher.encryptNota(database,
+                myID,
+                oldNota.getIsEncrypted(),
+                oldNota.getColor(),
+                oldNota.getTag(),
+                mTvTitolo.getText().toString(),
+                mTvTestoNota.getText().toString(),
+                myImgNota.toString(),
+                path,
+                oldNota.getCreationDate(),
+                oldNota.getPriority());
 
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
@@ -189,8 +188,8 @@ public class FragmentModificaNota extends DialogFragment {
 
         imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
 
-        if(!myImgNota.equals(" ")) {
-            Log.d(TAG,"PostImg URI=" + myImgNota+".");
+        if (!myImgNota.equals(" ")) {
+            Log.d(TAG, "PostImg URI=" + myImgNota + ".");
             setImg(Uri.parse(myImgNota));
         }
         fabImg = vView.findViewById(R.id.fabImg);
@@ -250,7 +249,7 @@ public class FragmentModificaNota extends DialogFragment {
 
         try {
 
-            myEncPsw=database.getEncryptionPassword();
+            myEncPsw = database.getEncryptionPassword();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -261,9 +260,7 @@ public class FragmentModificaNota extends DialogFragment {
         /**
          * TODO: gestire se La password per encriptare le note non è settata
          */
-        myCypher=new CryptData(myEncPsw,getActivity());
-
-
+        myCypher = new CryptData(myEncPsw, getActivity());
 
 
         View btnRec = vView.findViewById(R.id.btnRec);
@@ -303,10 +300,10 @@ public class FragmentModificaNota extends DialogFragment {
 
         if (path != null && !path.equals(" ")) {
             player.setVisibility(View.VISIBLE);
-            ImageView mPlayMedia = (ImageView)vView.findViewById(R.id.play);
-            ImageView mPauseMedia = (ImageView)vView.findViewById(R.id.pause);
-            SeekBar mMediaSeekBar = (SeekBar)vView.findViewById(R.id.media_seekbar);
-            TextView mRunTime = (TextView)vView.findViewById(R.id.playback_time);
+            ImageView mPlayMedia = (ImageView) vView.findViewById(R.id.play);
+            ImageView mPauseMedia = (ImageView) vView.findViewById(R.id.pause);
+            SeekBar mMediaSeekBar = (SeekBar) vView.findViewById(R.id.media_seekbar);
+            TextView mRunTime = (TextView) vView.findViewById(R.id.playback_time);
             //TextView mTotalTime = (TextView)vView.findViewById(R.id.total_time);
 
 
@@ -316,7 +313,7 @@ public class FragmentModificaNota extends DialogFragment {
                     .setPauseView(mPauseMedia)
                     .setSeekBar(mMediaSeekBar)
                     .setRuntimeView(mRunTime);
-                    //.setTotalTimeView(mTotalTime);
+            //.setTotalTimeView(mTotalTime);
 
            /* AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
                     .useDefaultUi(player, inflater);*/
@@ -345,13 +342,13 @@ public class FragmentModificaNota extends DialogFragment {
                 Log.d(TAG, "Selected img path: " + selectedImageUri.getPath());
 
                 setImg(selectedImageUri);
-                myImgNota=selectedImageUri.toString();
+                myImgNota = selectedImageUri.toString();
             }
         }
     }
 
 
-    private void takePicture(){
+    private void takePicture() {
 
         final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
         File newdir = new File(dir);
@@ -380,7 +377,7 @@ public class FragmentModificaNota extends DialogFragment {
              */
 
             setImg(outputFileUri);
-            myImgNota=outputFileUri.toString();
+            myImgNota = outputFileUri.toString();
 
         } catch (IOException e) {
             Log.d(TAG, "Error on taking a pic: " + e.toString());

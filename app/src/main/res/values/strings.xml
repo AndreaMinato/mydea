@@ -4,7 +4,13 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="pswText">Enter your password to get your notes</string>
+    <string name="setPswText">Set new password to securely store your notes</string>
+    <string name="passwordHint">Password</string>
     <string name="decryptButton">Decrypt my notes</string>
+    <string name="setPswButton">Set password</string>
+
+    <string name="savePassword">Do you want to set a new password?</string>
 
     <string name="appDescription">Your notes always with you</string>
 
@@ -28,8 +34,8 @@
     <string name="noteEmpty">Nothing to save</string>
 
     <string name="exitDialog">Do you want to exit without save?</string>
-    <string name="exitDialogContinue">No</string>
-    <string name="exitDialogExit">Yes</string>
+    <string name="dialogNo">No</string>
+    <string name="dialogYes">Yes</string>
 
     <string name="delete">Delete</string>
     <string name="share">Share</string>
