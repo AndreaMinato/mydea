@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="pswText">Introduzca la contraseña para ver sus notas</string>
+    <string name="setPswText">Establecer una nueva contraseña para almacenar de forma segura sus notas</string>
+    <string name="passwordHint">Contraseña</string>
     <string name="decryptButton">Descifra mis notas</string>
+    <string name="setPswButton">Establecer contraseña</string>
+
+    <string name="savePassword">Establecer una nueva contraseña?</string>
 
     <string name="appDescription">Sus notas siempre contigo</string>
 
@@ -25,8 +31,8 @@
     <string name="noteEmpty">Nada para guardar</string>
 
     <string name="exitDialog">¿Quiere salir sin guardar?</string>
-    <string name="exitDialogContinue">No</string>
-    <string name="exitDialogExit">Si</string>
+    <string name="dialogNo">No</string>
+    <string name="dialogYes">Si</string>
 
     <string name="delete">Elimina</string>
     <string name="share">Comparte</string>
