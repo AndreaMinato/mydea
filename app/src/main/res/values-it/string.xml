@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="decryptButton">Decripta le mie note</string>
+
     <string name="appDescription">Le tue note sempre con te</string>
 
     <string name="navCatAll">Tutte</string>

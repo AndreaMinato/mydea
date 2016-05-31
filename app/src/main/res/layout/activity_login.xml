@@ -13,7 +13,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Decrypt myNotes"
+        android:text="@string/decryptButton"
         android:id="@+id/button_decrypt"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
