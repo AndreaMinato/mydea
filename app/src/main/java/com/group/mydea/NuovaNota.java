@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,7 +65,6 @@ public class NuovaNota extends AppCompatActivity {
     private String audioOutputPath = " ";
 
     public static String TAG="debug tag";
-    public static String TAG = "debug tag";
     private static String BITMAP = "bitmap";
 
 
