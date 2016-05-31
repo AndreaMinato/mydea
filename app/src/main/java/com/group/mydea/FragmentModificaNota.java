@@ -151,7 +151,7 @@ public class FragmentModificaNota extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Activity context) {
 
         super.onAttach(context);
 

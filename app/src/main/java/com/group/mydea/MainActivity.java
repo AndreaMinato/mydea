@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayoutManager layoutManager;
 
     private CouchDB database;
-    private CryptData myCypher=new CryptData();
+    private CryptData myCypher = new CryptData();
     private FloatingActionButton fab;
     private ArrayList<Nota> note;
     private ArrayList<Nota> myFilteredNotes = new ArrayList<Nota>();
@@ -65,12 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<FloatingActionButton> fabList = new ArrayList<>();
 
     public static String TAG = "debug tag";
-
-
-
-
-
-
 
 
     @Override
@@ -114,17 +108,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (note.size() == 0) {
             createNotes();
-            myCypher.encryptAllNotes(note,database);
+            myCypher.encryptAllNotes(note, database);
         }
 
         showNotes(note);
 
     }
-
-
-
-
-
 
 
     @Override
@@ -312,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showNotes(ArrayList<Nota> note) {
 
-        note=myCypher.decryptAllNotes(note);
+        note = myCypher.decryptAllNotes(note);
 
         cardAdapter = new AdapterNota(note, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(cardAdapter);
@@ -337,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void refreshNotes(int pos, Nota nota){
+    public void refreshNotes(int pos, Nota nota) {
         note.add(nota);
         cardAdapter.notifyDataSetChanged();
     }
@@ -345,40 +334,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void itemUpdated(Nota nota, int pos) {
 
-        scambioNota(nota,pos);
+        // scambioNota(nota,pos);
 
         Log.d(TAG, "Updating Lists...");
-        cardAdapter.notifyDataSetChanged();
+
+        note.set(pos, nota);
+        //cardAdapter.notifyDataSetChanged();
         showNotes(note);
     }
 
-    private void scambioNota(Nota nota,int pos){
+ /*   private void scambioNota(Nota nota,int pos){
 
-        /**This method replace the oldNote with the updated one.*/
+        /**This method replace the oldNote with the updated one.
 
         Nota tmpNote=new Nota();
         tmpNote=nota;
-        note.remove(pos);
+        //note.remove(pos);
         note.set(pos, tmpNote);
 
         Log.d(TAG, "Nota[" + pos + "] has been updated.");
-    }
+    }*/
 
-    public void  getNoteFromDB(){
+    public void getNoteFromDB() {
         try {
             note = database.leggiNote();
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
-            Log.d(TAG,"Impossibile leggere note dal DB: "+e);
+            Log.d(TAG, "Impossibile leggere note dal DB: " + e);
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(TAG, "Impossibile leggere note dal DB: " + e);
         }
     }
 
-    private void createNotes(){
+    private void createNotes() {
 
-        Log.d(TAG,"Creating 15 new notes...");
+        Log.d(TAG, "Creating 15 new notes...");
 
         Random rnd = new Random();
         note = new ArrayList<>();
