@@ -12,13 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-
-class MalformedHexColorException extends RuntimeException {
-    public MalformedHexColorException() {
-        super("Colore non valido (HEX exception)");
-    }
-}
-
 public class Nota implements Comparable<Nota> , Parcelable{
 
     private static final String TAG = "Nota";
