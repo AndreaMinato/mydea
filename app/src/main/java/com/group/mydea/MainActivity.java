@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AdapterNota cardAdapter;
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
+    //private LinearLayoutManager layoutManager;
+    private StaggeredGridLayoutManager layoutManager;
 
     private CouchDB database;
     private CryptData myCypher = new CryptData();
@@ -207,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void doSearch(String inputText) {
-        Log.d(TAG, "Searching: " + inputText);
+        Log.d("lol", "Searching: " + inputText);
 
         ArrayList<Nota> tmpFilteredNotes = new ArrayList<Nota>();
 
@@ -216,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tmpFilteredNotes.add(note.get(i));
             }
         }
-        Log.d(TAG, "Note trovate: " + tmpFilteredNotes.size());
+        Log.d("lol", "Note trovate: " + tmpFilteredNotes.size());
         showNotes(tmpFilteredNotes);
     }
 
@@ -305,7 +307,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         cardAdapter = new AdapterNota(note, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(cardAdapter);
-        layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
+        //layoutManager = new GridLayoutManager(getApplicationContext(), getResources().getInteger(R.integer.resolution), GridLayoutManager.VERTICAL, false);
+        layoutManager = new StaggeredGridLayoutManager(getResources().getInteger(R.integer.resolution),StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
     }
 
