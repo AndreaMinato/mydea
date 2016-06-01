@@ -236,61 +236,62 @@ public class NuovaNota extends AppCompatActivity {
         }
 
 
-        assert fabGal != null;
-        fabGal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-            }
-        });
+        if (fabGal != null) {
+            fabGal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                }
+            });
+        }
+        if (fabImg != null) {
+            fabImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dispatchTakePictureIntent();
+                }
+            });
+        }
 
-        assert fabImg != null;
-        fabImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
+        if (btnRec != null) {
+            btnRec.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dexter.checkPermission(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
 
+                            recTimer = new Timer();
+                            if (!isRecording) {
+                                startRecording();
+                                Toast.makeText(NuovaNota.this, "Registrazione avviata", Toast.LENGTH_LONG).show();
+                                btnRec.setBackgroundColor(Color.RED);
 
-        assert btnRec != null;
-        btnRec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dexter.checkPermission(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-
-                        recTimer = new Timer();
-                        if (!isRecording) {
-                            startRecording();
-                            Toast.makeText(NuovaNota.this, "Registrazione avviata", Toast.LENGTH_LONG).show();
-                            btnRec.setBackgroundColor(Color.RED);
-
-                        } else {
-                            stopRecording();
-                            btnRec.setBackgroundColor(Color.WHITE);
+                            } else {
+                                stopRecording();
+                                btnRec.setBackgroundColor(Color.WHITE);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        //Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            //Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
 
-                    }
+                        }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                            token.continuePermissionRequest();
 
-                    }
-                }, Manifest.permission.RECORD_AUDIO);
+                        }
+                    }, Manifest.permission.RECORD_AUDIO);
 
-            }
-        });
+                }
+            });
+        }
 
         LinearLayout player = (LinearLayout) findViewById(R.id.player);
 
