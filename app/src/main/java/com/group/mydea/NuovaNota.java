@@ -268,11 +268,9 @@ public class NuovaNota extends AppCompatActivity {
                             if (!isRecording) {
                                 startRecording();
                                 Toast.makeText(NuovaNota.this, "Registrazione avviata", Toast.LENGTH_LONG).show();
-                                btnRec.setBackgroundColor(Color.RED);
-
+                                btnRec.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_stop_24dp));
                             } else {
                                 stopRecording();
-                                btnRec.setBackgroundColor(Color.WHITE);
                             }
                         }
 
