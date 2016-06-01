@@ -133,6 +133,23 @@ public class CouchDB {
         Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
     }
 
+    public void eliminaNote(ArrayList<Nota> note){
+
+        long time = System.currentTimeMillis();
+
+        for (Nota nota : note) {
+            try {
+                eliminaNota(nota);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (CouchbaseLiteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Log.d(TAG, String.format("note salvate in %s ms", System.currentTimeMillis() - time));
+    }
+
     public Nota leggiNota(String id) {
         // TODO
         return null;

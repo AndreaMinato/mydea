@@ -21,7 +21,7 @@ public class CryptData {
 
     public static String TAG = "debug tag";
     public static String CRYPT_PSW = "password";
-    String psw = CRYPT_PSW;
+    String psw;
     Context ctx;
 
 
@@ -56,7 +56,6 @@ public class CryptData {
 
         return mySha256Str;
     }
-
 
     public String encryptData(String text) {
         /*String password = "password";
