@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="permissionAudio">Attivare il permesso di utilizzare il microfono</string>
+    <string name="permissionCamera">Attivare il permesso di utilizzare la fotocamera</string>
 
     <string name="pswText">Inserisci la tua password per vedere le note</string>
     <string name="setPswText">Imposta una nuova password per memorizzare in modo sicuro le note</string>
@@ -24,6 +26,11 @@
     <string name="newPriorityMed">Media</string>
     <string name="newPriorityLow">Bassa</string>
     <string name="newSave">Salva</string>
+
+    <string name="editPicture">Vuoi scattare una foto?</string>
+    <string name="recStarted">Registrazione avviata</string>
+    <string name="recording">Registrazione</string>
+    <string name="recSaved">Registrazione salvata</string>
 
     <string name="noteUntitled">Senza titolo</string>
     <string name="noteSaved">Nota salvata correttamente</string>

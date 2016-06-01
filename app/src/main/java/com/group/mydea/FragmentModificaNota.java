@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -78,18 +77,15 @@ public class FragmentModificaNota extends DialogFragment {
     private Nota oldNota;
     private Nota newNota;
     private int pos;
-    private String notaColor;
-    private int notaTag;
-
+    private Uri outputFileUri;
     public static String TAG = "debug tag";
     public static String NOTA = "gfcg";
     private static final int SELECT_PICTURE = 1;
     int TAKE_PHOTO_CODE = 0;
 
     CryptData myCypher;
-    CouchDB database;
+    private CouchDB database;
     TextView mTvTitolo, mTvTestoNota;
-    FrameLayout layoutFrag;
     Button save;
     String myID;
     String path;
@@ -132,13 +128,20 @@ public class FragmentModificaNota extends DialogFragment {
 
         /**TODO: Controlla che myImgNota sia effettivamente valido*/
 
-        if (myImgNota != null) {
+        /*if (myImgNota != null) {
             myImgNota = myImgNota.toString();
-        }
+        }*/
 
         if (audioOutputPath != " ")
             path = audioOutputPath;
 
+        if (outputFileUri == null) {
+            outputFileUri = Uri.parse("");
+            Log.d(TAG, "URI " + "URI Nullo");
+        }
+
+
+        Log.d(TAG, "URII: " + outputFileUri.toString());
 
         newNota = myCypher.encryptNota(database,
                 myID,
@@ -147,11 +150,12 @@ public class FragmentModificaNota extends DialogFragment {
                 oldNota.getTag(),
                 mTvTitolo.getText().toString(),
                 mTvTestoNota.getText().toString(),
-                myImgNota.toString(),
+                myImgNota,
                 path,
                 oldNota.getCreationDate(),
                 oldNota.getPriority());
 
+        Log.d(TAG, "URI " + outputFileUri);
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
 
@@ -177,7 +181,6 @@ public class FragmentModificaNota extends DialogFragment {
         View vView = inflater.inflate(R.layout.fragment_fragment_modifica_nota, container, false);
 
 
-        layoutFrag=(FrameLayout)vView.findViewById(R.id.layoutfrag);
         mTvTitolo = (TextView) vView.findViewById(R.id.tvtTitoloNota);
         mTvTestoNota = (TextView) vView.findViewById(R.id.tvtTestoNota);
 
@@ -189,18 +192,15 @@ public class FragmentModificaNota extends DialogFragment {
             myID = oldNota.getID();
             path = oldNota.getAudio();
             myImgNota = oldNota.getImage();
-            notaColor=oldNota.getColor();
-            notaTag=oldNota.getTag();
-
-            Log.d(TAG, "onCreateView: " + myID);
+            outputFileUri = Uri.parse(oldNota.getImage());
+            Log.d(TAG, "URI 3" + outputFileUri);
         }
 
-        setBackgroundCol(notaTag);
 
         imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
 
         if (!myImgNota.equals(" ")) {
-            Log.d(TAG, "PostImg URI=" + myImgNota + ".");
+            Log.d(TAG, "PostImg URI=" + outputFileUri + ".");
             setImg(Uri.parse(myImgNota));
         }
         fabImg = vView.findViewById(R.id.fabImg);
@@ -215,8 +215,8 @@ public class FragmentModificaNota extends DialogFragment {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         new AlertDialog.Builder(getActivity())
-                                .setTitle("Do you want to take a pic?")
-                                .setPositiveButton("Yep!", new DialogInterface.OnClickListener() {
+                                .setTitle(R.string.editPicture)
+                                .setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         Dexter.checkPermission(new PermissionListener() {
@@ -228,7 +228,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                                             @Override
                                             public void onPermissionDenied(PermissionDeniedResponse response) {
-                                                Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getActivity().getApplicationContext(), R.string.permissionCamera, Toast.LENGTH_LONG).show();
 
                                             }
 
@@ -241,7 +241,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                                     }
                                 })
-                                .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(R.string.dialogNo, new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         /**Select file from gallery*/
@@ -254,7 +254,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), R.string.permissionCamera, Toast.LENGTH_LONG).show();
 
                     }
 
@@ -318,7 +318,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                             @Override
                             public void onPermissionDenied(PermissionDeniedResponse response) {
-                                Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity().getApplicationContext(), R.string.permissionAudio, Toast.LENGTH_LONG).show();
 
                             }
 
@@ -333,7 +333,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), R.string.permissionAudio, Toast.LENGTH_LONG).show();
 
                     }
 
@@ -401,6 +401,13 @@ public class FragmentModificaNota extends DialogFragment {
                 setImg(selectedImageUri);
                 myImgNota = selectedImageUri.toString();
             }
+            if (requestCode == TAKE_PHOTO_CODE){
+/*                Uri selectedImageUri = data.getData();
+                Log.d(TAG, "Selected img path: " + selectedImageUri.getPath());
+
+                setImg(selectedImageUri);*/
+                Log.d(TAG, "URII2: " + outputFileUri);
+            }
         }
     }
 
@@ -417,14 +424,15 @@ public class FragmentModificaNota extends DialogFragment {
         Log.d(TAG, "Take a pic, bro!");
 
         int time = (int) (System.currentTimeMillis());
-        String timeStp = "imgPost" + "_" + new Timestamp(time).toString().replace("-", "").replace(" ", "").replace(".", "").replace(":", "");
-        String myPicFile = dir + timeStp + ".jpg";
-        File newImgfile = new File(myPicFile);
+        //String timeStp = "imgPost" + "_" + new Timestamp(time).toString().replace("-", "").replace(" ", "").replace(".", "").replace(":", "");
+        //String myPicFile = dir  + ".jpg";
+        File newImgfile = new File(dir+time+".jpg");
         try {
 
             newImgfile.createNewFile();
 
-            Uri outputFileUri = Uri.fromFile(newImgfile);
+            outputFileUri = Uri.fromFile(newImgfile);
+            Log.d(TAG, "URI QUI: " + outputFileUri);
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
             startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
@@ -433,8 +441,9 @@ public class FragmentModificaNota extends DialogFragment {
             TODO: handle permission.
              */
 
+            Log.d(TAG, "URI QUI2: " + outputFileUri);
             setImg(outputFileUri);
-            myImgNota = outputFileUri.toString();
+            //myImgNota = outputFileUri.toString();
 
         } catch (IOException e) {
             Log.d(TAG, "Error on taking a pic: " + e.toString());
@@ -447,7 +456,7 @@ public class FragmentModificaNota extends DialogFragment {
 
         //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg.getAbsolutePath()+".jpg";
 
-        Log.d(TAG, "FilePath URI:" + fileImg);
+        Log.d(TAG, "FilePath URI:" + outputFileUri);
 
 
         try {
@@ -488,7 +497,7 @@ public class FragmentModificaNota extends DialogFragment {
             mediaRecorder.start();
             isRecording = true;
 
-            timeProgressSnackbar = Snackbar.make(linearLayout, "Regsitriamo" + " - 00:00", Snackbar.LENGTH_INDEFINITE);
+            timeProgressSnackbar = Snackbar.make(linearLayout, R.string.recording + " - 00:00", Snackbar.LENGTH_INDEFINITE);
             timeProgressSnackbar.show();
             recTimer = new Timer();
             recTimer.schedule(createTimerTask(), 1000, 1000);
@@ -506,7 +515,7 @@ public class FragmentModificaNota extends DialogFragment {
         if (timeProgressSnackbar != null) {
             timeProgressSnackbar.dismiss();
         }
-        Toast.makeText(getActivity(), "Registrazione salvata", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.recSaved, Toast.LENGTH_SHORT).show();
     }
 
     private MediaRecorder setupRecorder() {
@@ -535,41 +544,13 @@ public class FragmentModificaNota extends DialogFragment {
                 handler.post(new Runnable() {
                                  @Override
                                  public void run() {
-                                     timeProgressSnackbar.setText("Registriamo" + " - " + sdf.format(data));
+                                     timeProgressSnackbar.setText(R.string.recording + " - " + sdf.format(data));
                                  }
                              }
 
                 );
             }
         };
-    }
-
-    private void setBackgroundCol(int tag){
-
-        int postColor;
-        Log.d(TAG, "Post Category tag: " + tag);
-        switch (tag){
-            case 1:
-                postColor=Color.parseColor("#c6ecf0");
-                break;
-            case 2:
-                postColor=Color.parseColor("#fadbf6");
-                break;
-            case 3:
-                postColor=Color.parseColor("#d7f7cf");
-                break;
-            case 4:
-                postColor=Color.parseColor("#efdbae");
-                break;
-
-            default:
-                postColor=Color.parseColor("#000000");
-                break;
-        }
-
-        Log.d(TAG, "setBackgroundCol: " + postColor);
-        layoutFrag.setBackgroundColor(postColor);
-
     }
 
 

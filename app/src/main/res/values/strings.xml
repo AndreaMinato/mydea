@@ -4,6 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="permissionAudio">Please enable permission to use the microphone</string>
+    <string name="permissionCamera">Please enable permission to use the camera</string>
+
     <string name="pswText">Enter your password to get your notes</string>
     <string name="setPswText">Set new password to securely store your notes</string>
     <string name="passwordHint">Password</string>
@@ -28,6 +31,11 @@
     <string name="newPriorityMed">Medium</string>
     <string name="newPriorityLow">Low</string>
     <string name="newSave">Save</string>
+
+    <string name="editPicture">Do you want to take a picture?</string>
+    <string name="recStarted">Recording started</string>
+    <string name="recording">Recording</string>
+    <string name="recSaved">Recording saved</string>
 
     <string name="noteUntitled">Untitled</string>
     <string name="noteSaved">Saved with success</string>

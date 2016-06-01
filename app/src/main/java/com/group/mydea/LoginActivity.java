@@ -142,11 +142,11 @@ public class LoginActivity extends AppCompatActivity {
     private void setUpGUI() {
 
         if (pswIsSet) {
-            tvStatus.setText("Enter your to get your notes:");
-            btnCommitActions.setText("Decrypt my Notes!");
+            tvStatus.setText(R.string.pswText);
+            btnCommitActions.setText(R.string.decryptButton);
         } else {
-            tvStatus.setText("Set new password to securely store your notes:");
-            btnCommitActions.setText("Set password");
+            tvStatus.setText(R.string.setPswText);
+            btnCommitActions.setText(R.string.setPswButton);
         }
 
         tvError.setText("");

@@ -110,8 +110,8 @@ public class Nota implements Comparable<Nota>, Parcelable {
         return image;
     }
 
-    public void setImage(String imgage) {
-        this.image = imgage;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getAudio() {
@@ -165,7 +165,7 @@ public class Nota implements Comparable<Nota>, Parcelable {
         if (creationDate != null)
             dest.writeString(creationDate.toString());
         else
-            dest.writeString("01/01/2999");
+            dest.writeString("01/01/0101");
     }
 
     public final static Parcelable.Creator<Nota> CREATOR = new ClassLoaderCreator<Nota>() {
@@ -199,7 +199,6 @@ public class Nota implements Comparable<Nota>, Parcelable {
         audio = in.readString();
         priority = in.readInt();
         tag = in.readInt();
-        image = in.readString();
         try {
             creationDate = formatter.parse(in.readString());
         } catch (Exception e) {
