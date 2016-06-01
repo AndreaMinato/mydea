@@ -77,7 +77,7 @@ public class FragmentModificaNota extends DialogFragment {
     private Nota oldNota;
     private Nota newNota;
     private int pos;
-
+    private Uri outputFileUri;
     public static String TAG = "debug tag";
     public static String NOTA = "gfcg";
     private static final int SELECT_PICTURE = 1;
@@ -128,13 +128,20 @@ public class FragmentModificaNota extends DialogFragment {
 
         /**TODO: Controlla che myImgNota sia effettivamente valido*/
 
-        if (myImgNota != null) {
+        /*if (myImgNota != null) {
             myImgNota = myImgNota.toString();
-        }
+        }*/
 
         if (audioOutputPath != " ")
             path = audioOutputPath;
 
+        if (outputFileUri == null) {
+            outputFileUri = Uri.parse("");
+            Log.d(TAG, "URI " + "URI Nullo");
+        }
+
+
+        Log.d(TAG, "URII: " + outputFileUri.toString());
 
         newNota = myCypher.encryptNota(database,
                 myID,
@@ -143,11 +150,12 @@ public class FragmentModificaNota extends DialogFragment {
                 oldNota.getTag(),
                 mTvTitolo.getText().toString(),
                 mTvTestoNota.getText().toString(),
-                myImgNota.toString(),
+                myImgNota,
                 path,
                 oldNota.getCreationDate(),
                 oldNota.getPriority());
 
+        Log.d(TAG, "URI " + outputFileUri);
         listener.itemUpdated(newNota, pos);
         //getActivity().onBackPressed();
 
@@ -184,15 +192,15 @@ public class FragmentModificaNota extends DialogFragment {
             myID = oldNota.getID();
             path = oldNota.getAudio();
             myImgNota = oldNota.getImage();
-
-            Log.d(TAG, "onCreateView: " + myID);
+            outputFileUri = Uri.parse(oldNota.getImage());
+            Log.d(TAG, "URI 3" + outputFileUri);
         }
 
 
         imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
 
         if (!myImgNota.equals(" ")) {
-            Log.d(TAG, "PostImg URI=" + myImgNota + ".");
+            Log.d(TAG, "PostImg URI=" + outputFileUri + ".");
             setImg(Uri.parse(myImgNota));
         }
         fabImg = vView.findViewById(R.id.fabImg);
@@ -393,6 +401,13 @@ public class FragmentModificaNota extends DialogFragment {
                 setImg(selectedImageUri);
                 myImgNota = selectedImageUri.toString();
             }
+            if (requestCode == TAKE_PHOTO_CODE){
+/*                Uri selectedImageUri = data.getData();
+                Log.d(TAG, "Selected img path: " + selectedImageUri.getPath());
+
+                setImg(selectedImageUri);*/
+                Log.d(TAG, "URII2: " + outputFileUri);
+            }
         }
     }
 
@@ -409,14 +424,15 @@ public class FragmentModificaNota extends DialogFragment {
         Log.d(TAG, "Take a pic, bro!");
 
         int time = (int) (System.currentTimeMillis());
-        String timeStp = "imgPost" + "_" + new Timestamp(time).toString().replace("-", "").replace(" ", "").replace(".", "").replace(":", "");
-        String myPicFile = dir + timeStp + ".jpg";
-        File newImgfile = new File(myPicFile);
+        //String timeStp = "imgPost" + "_" + new Timestamp(time).toString().replace("-", "").replace(" ", "").replace(".", "").replace(":", "");
+        //String myPicFile = dir  + ".jpg";
+        File newImgfile = new File(dir+time+".jpg");
         try {
 
             newImgfile.createNewFile();
 
-            Uri outputFileUri = Uri.fromFile(newImgfile);
+            outputFileUri = Uri.fromFile(newImgfile);
+            Log.d(TAG, "URI QUI: " + outputFileUri);
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
             startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
@@ -425,8 +441,9 @@ public class FragmentModificaNota extends DialogFragment {
             TODO: handle permission.
              */
 
+            Log.d(TAG, "URI QUI2: " + outputFileUri);
             setImg(outputFileUri);
-            myImgNota = outputFileUri.toString();
+            //myImgNota = outputFileUri.toString();
 
         } catch (IOException e) {
             Log.d(TAG, "Error on taking a pic: " + e.toString());
@@ -439,7 +456,7 @@ public class FragmentModificaNota extends DialogFragment {
 
         //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg.getAbsolutePath()+".jpg";
 
-        Log.d(TAG, "FilePath URI:" + fileImg);
+        Log.d(TAG, "FilePath URI:" + outputFileUri);
 
 
         try {

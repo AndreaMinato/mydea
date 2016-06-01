@@ -115,7 +115,9 @@ public class CouchDB {
 
     public void eliminaNota(Nota nota) throws IOException, CouchbaseLiteException {
         Document document = db.getDocument(nota.getID());
-        document.delete();
+        if (document != null) {
+            document.delete();
+        }
     }
 
 
@@ -196,7 +198,7 @@ public class CouchDB {
     }
 
 
-    public void overwriteEncryptionPassword(final String newPsw)throws IOException, CouchbaseLiteException {
+    public void overwriteEncryptionPassword(final String newPsw) throws IOException, CouchbaseLiteException {
         long time = System.currentTimeMillis();
 
         final Document document = db.getDocument(TAG_PSW);
@@ -206,7 +208,7 @@ public class CouchDB {
             public boolean update(UnsavedRevision newRevision) {
 
                 Map<String, Object> properties = newRevision.getUserProperties();
-                properties.put(TAG_PSW,newPsw);
+                properties.put(TAG_PSW, newPsw);
 
                 newRevision.setUserProperties(properties);
 
