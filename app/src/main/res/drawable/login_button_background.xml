@@ -11,12 +11,14 @@
         android:height="60dp"
         />
     <gradient
-        android:gradientRadius="45"
+        android:gradientRadius="90"
         android:centerX="33%"
         android:centerColor="#7c4dff"
-        android:startColor="#b094ff"
-        android:endColor="@color/colorPrimaryLight"
+        android:startColor="@color/buttonPressed"
+        android:endColor="@color/buttonPressed"
         android:type="linear"
         />
+    <solid
+        android:color="@color/colorAccent" />
 
 </shape>
