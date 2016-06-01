@@ -147,7 +147,8 @@ public class NuovaNota extends AppCompatActivity {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            //startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            startActivityForResult(Intent.createChooser(takePictureIntent, "Select Picture"), REQUEST_IMAGE_CAPTURE);
         }
     }
 
@@ -163,9 +164,8 @@ public class NuovaNota extends AppCompatActivity {
             Log.d(TAG, "sono dentro");
             Bundle extras = data.getExtras();
             Uri uriImg = data.getData();
-            if (uriImg != null) {
-                pathImg = uriImg.toString();
-            }
+            pathImg = uriImg.toString();
+
             Log.d(TAG, "URL " + pathImg);
 
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -333,9 +333,11 @@ public class NuovaNota extends AppCompatActivity {
 
                 nuova.setText(corpo.getText().toString());
                 if (pathGal != null) {
+                    Log.d(TAG, "salvo immagine galleria");
                     nuova.setImage(pathGal);
                 }
                 if (pathImg != null) {
+                    Log.d(TAG, "salvo immagine fotocamera");
                     nuova.setImage(pathImg);
                 }
                 nuova.setAudio(audioOutputPath);
