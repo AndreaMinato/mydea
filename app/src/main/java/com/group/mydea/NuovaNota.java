@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
@@ -224,7 +225,7 @@ public class NuovaNota extends AppCompatActivity {
         tempolibero = (RadioButton) findViewById(R.id.radioFreetime);
         View fabImg = findViewById(R.id.fabImg);
         View fabGal = findViewById(R.id.fabGal);
-        View btnRec = findViewById(R.id.btnRec);
+        final View btnRec = findViewById(R.id.btnRec);
         /*final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
         final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);*/
         immagine = (ImageView) findViewById(R.id.imgviewFoto);
@@ -266,8 +267,12 @@ public class NuovaNota extends AppCompatActivity {
                         recTimer = new Timer();
                         if (!isRecording) {
                             startRecording();
+                            Toast.makeText(NuovaNota.this, "Registrazione avviata", Toast.LENGTH_LONG).show();
+                            btnRec.setBackgroundColor(Color.RED);
+
                         } else {
                             stopRecording();
+                            btnRec.setBackgroundColor(Color.WHITE);
                         }
                     }
 
@@ -332,7 +337,7 @@ public class NuovaNota extends AppCompatActivity {
                 if (pathImg != null) {
                     nuova.setImage(pathImg);
                 }
-                //nuova.setAudio("audio");
+                nuova.setAudio(audioOutputPath);
                 nuova.setCreationDate(new Date());
 
                 if ((bassa).isChecked()) {
