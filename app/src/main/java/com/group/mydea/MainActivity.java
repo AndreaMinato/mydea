@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private CouchDB database;
     private CryptData myCypher;
-    ;// = new CryptData();
     private String myEncPsw = "";
     private FloatingActionButton fab;
     private ArrayList<Nota> note;
@@ -212,8 +211,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ArrayList<Nota> tmpFilteredNotes = new ArrayList<Nota>();
 
-        for (int i = 0; i < note.size(); i++) {
-            if (note.get(i).getTitle().toLowerCase().contains(inputText.toLowerCase()) || note.get(i).getText().toLowerCase().contains(inputText.toLowerCase())) {
+        ArrayList <Nota> searchNotes=myCypher.decryptAllNotes(note);
+
+        for (int i = 0; i < searchNotes.size(); i++) {
+            if (searchNotes.get(i).getTitle().toLowerCase().contains(inputText.toLowerCase()) || searchNotes.get(i).getText().toLowerCase().contains(inputText.toLowerCase())) {
                 tmpFilteredNotes.add(note.get(i));
             }
         }

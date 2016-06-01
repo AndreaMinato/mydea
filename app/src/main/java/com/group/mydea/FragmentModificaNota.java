@@ -123,6 +123,9 @@ public class FragmentModificaNota extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
 
+        if (isRecording)
+            stopRecording();
+
         /**TODO: Controlla che myImgNota sia effettivamente valido*/
 
         if (myImgNota != null) {

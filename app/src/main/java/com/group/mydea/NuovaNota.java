@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
@@ -224,7 +225,7 @@ public class NuovaNota extends AppCompatActivity {
         tempolibero = (RadioButton) findViewById(R.id.radioFreetime);
         View fabImg = findViewById(R.id.fabImg);
         View fabGal = findViewById(R.id.fabGal);
-        View btnRec = findViewById(R.id.btnRec);
+        final View btnRec = findViewById(R.id.btnRec);
         /*final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
         final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);*/
         immagine = (ImageView) findViewById(R.id.imgviewFoto);
@@ -235,57 +236,62 @@ public class NuovaNota extends AppCompatActivity {
         }
 
 
-        assert fabGal != null;
-        fabGal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-            }
-        });
+        if (fabGal != null) {
+            fabGal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                }
+            });
+        }
+        if (fabImg != null) {
+            fabImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dispatchTakePictureIntent();
+                }
+            });
+        }
 
-        assert fabImg != null;
-        fabImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
+        if (btnRec != null) {
+            btnRec.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dexter.checkPermission(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
 
+                            recTimer = new Timer();
+                            if (!isRecording) {
+                                startRecording();
+                                Toast.makeText(NuovaNota.this, "Registrazione avviata", Toast.LENGTH_LONG).show();
+                                btnRec.setBackgroundColor(Color.RED);
 
-        assert btnRec != null;
-        btnRec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dexter.checkPermission(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-
-                        recTimer = new Timer();
-                        if (!isRecording) {
-                            startRecording();
-                        } else {
-                            stopRecording();
+                            } else {
+                                stopRecording();
+                                btnRec.setBackgroundColor(Color.WHITE);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        //Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            //Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
 
-                    }
+                        }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                            token.continuePermissionRequest();
 
-                    }
-                }, Manifest.permission.RECORD_AUDIO);
+                        }
+                    }, Manifest.permission.RECORD_AUDIO);
 
-            }
-        });
+                }
+            });
+        }
 
         LinearLayout player = (LinearLayout) findViewById(R.id.player);
 
@@ -332,7 +338,7 @@ public class NuovaNota extends AppCompatActivity {
                 if (pathImg != null) {
                     nuova.setImage(pathImg);
                 }
-                //nuova.setAudio("audio");
+                nuova.setAudio(audioOutputPath);
                 nuova.setCreationDate(new Date());
 
                 if ((bassa).isChecked()) {
