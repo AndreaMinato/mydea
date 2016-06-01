@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="permissionAudio">Habilitar el permiso de usar el micrófono</string>
+    <string name="permissionCamera">Habilitar el permiso de usar la cámara</string>
 
     <string name="pswText">Introduzca la contraseña para ver sus notas</string>
     <string name="setPswText">Establecer una nueva contraseña para almacenar de forma segura sus notas</string>
@@ -7,7 +9,7 @@
     <string name="decryptButton">Descifra mis notas</string>
     <string name="setPswButton">Establecer contraseña</string>
 
-    <string name="savePassword">Establecer una nueva contraseña?</string>
+    <string name="savePassword">¿Establecer una nueva contraseña?</string>
 
     <string name="appDescription">Sus notas siempre contigo</string>
 
@@ -25,6 +27,11 @@
     <string name="newPriorityMed">Media</string>
     <string name="newPriorityLow">Baja</string>
     <string name="newSave">Guardar</string>
+
+    <string name="editPicture">¿Quiere tomar una foto?</string>
+    <string name="recStarted">Grabación comenzada</string>
+    <string name="recording">Grabación</string>
+    <string name="recSaved">Grabación guardada</string>
 
     <string name="noteUntitled">Sin título</string>
     <string name="noteSaved">Guardado correctamente</string>

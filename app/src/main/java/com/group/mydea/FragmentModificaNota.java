@@ -215,8 +215,8 @@ public class FragmentModificaNota extends DialogFragment {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         new AlertDialog.Builder(getActivity())
-                                .setTitle("Do you want to take a pic?")
-                                .setPositiveButton("Yep!", new DialogInterface.OnClickListener() {
+                                .setTitle(R.string.editPicture)
+                                .setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         Dexter.checkPermission(new PermissionListener() {
@@ -228,7 +228,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                                             @Override
                                             public void onPermissionDenied(PermissionDeniedResponse response) {
-                                                Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getActivity().getApplicationContext(), R.string.permissionCamera, Toast.LENGTH_LONG).show();
 
                                             }
 
@@ -241,7 +241,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                                     }
                                 })
-                                .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(R.string.dialogNo, new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         /**Select file from gallery*/
@@ -254,7 +254,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), R.string.permissionCamera, Toast.LENGTH_LONG).show();
 
                     }
 
@@ -318,7 +318,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                             @Override
                             public void onPermissionDenied(PermissionDeniedResponse response) {
-                                Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity().getApplicationContext(), R.string.permissionAudio, Toast.LENGTH_LONG).show();
 
                             }
 
@@ -333,7 +333,7 @@ public class FragmentModificaNota extends DialogFragment {
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), R.string.permissionAudio, Toast.LENGTH_LONG).show();
 
                     }
 
@@ -497,7 +497,7 @@ public class FragmentModificaNota extends DialogFragment {
             mediaRecorder.start();
             isRecording = true;
 
-            timeProgressSnackbar = Snackbar.make(linearLayout, "Regsitriamo" + " - 00:00", Snackbar.LENGTH_INDEFINITE);
+            timeProgressSnackbar = Snackbar.make(linearLayout, R.string.recording + " - 00:00", Snackbar.LENGTH_INDEFINITE);
             timeProgressSnackbar.show();
             recTimer = new Timer();
             recTimer.schedule(createTimerTask(), 1000, 1000);
@@ -515,7 +515,7 @@ public class FragmentModificaNota extends DialogFragment {
         if (timeProgressSnackbar != null) {
             timeProgressSnackbar.dismiss();
         }
-        Toast.makeText(getActivity(), "Registrazione salvata", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.recSaved, Toast.LENGTH_SHORT).show();
     }
 
     private MediaRecorder setupRecorder() {
@@ -544,7 +544,7 @@ public class FragmentModificaNota extends DialogFragment {
                 handler.post(new Runnable() {
                                  @Override
                                  public void run() {
-                                     timeProgressSnackbar.setText("Registriamo" + " - " + sdf.format(data));
+                                     timeProgressSnackbar.setText(R.string.recording + " - " + sdf.format(data));
                                  }
                              }
 

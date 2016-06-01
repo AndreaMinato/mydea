@@ -156,28 +156,38 @@
         android:layout_alignEnd="@+id/imgviewFoto"
         android:layout_alignRight="@+id/imgviewFoto"
         android:layout_alignTop="@+id/editTitle"
-        fab:fab_expandDirection="down">
+        fab:fab_expandDirection="down"
+        fab:fab_addButtonColorNormal="@color/colorAccent"
+        fab:fab_addButtonColorPressed="@color/buttonPressed"
+        >
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_camera_alt_24dp"
-            android:tint="@android:color/white" />
+            android:tint="@android:color/white"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/buttonPressed"
+            />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabGal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_collections_24dp"
-            android:tint="@android:color/white" />
+            android:tint="@android:color/white"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/buttonPressed"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnRec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_mic_24dp"
-            android:tint="@android:color/white" />
+            android:tint="@android:color/white"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/buttonPressed"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
