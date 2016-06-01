@@ -147,7 +147,8 @@ public class NuovaNota extends AppCompatActivity {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            //startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            startActivityForResult(Intent.createChooser(takePictureIntent, "Select Picture"), REQUEST_IMAGE_CAPTURE);
         }
     }
 
@@ -163,9 +164,8 @@ public class NuovaNota extends AppCompatActivity {
             Log.d(TAG, "sono dentro");
             Bundle extras = data.getExtras();
             Uri uriImg = data.getData();
-            if (uriImg != null) {
-                pathImg = uriImg.toString();
-            }
+            pathImg = uriImg.toString();
+
             Log.d(TAG, "URL " + pathImg);
 
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -236,61 +236,63 @@ public class NuovaNota extends AppCompatActivity {
         }
 
 
-        assert fabGal != null;
-        fabGal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-            }
-        });
+        if (fabGal != null) {
+            fabGal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                }
+            });
+        }
+        if (fabImg != null) {
+            fabImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dispatchTakePictureIntent();
+                }
+            });
+        }
 
-        assert fabImg != null;
-        fabImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
 
+        if (btnRec != null) {
+            btnRec.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dexter.checkPermission(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
 
-        assert btnRec != null;
-        btnRec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dexter.checkPermission(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                            recTimer = new Timer();
+                            if (!isRecording) {
+                                startRecording();
+                                Toast.makeText(NuovaNota.this, R.string.recStarted, Toast.LENGTH_LONG).show();
+                                btnRec.setBackgroundColor(Color.RED);
 
-                        recTimer = new Timer();
-                        if (!isRecording) {
-                            startRecording();
-                            Toast.makeText(NuovaNota.this, R.string.recStarted, Toast.LENGTH_LONG).show();
-                            btnRec.setBackgroundColor(Color.RED);
-
-                        } else {
-                            stopRecording();
-                            btnRec.setBackgroundColor(Color.WHITE);
+                            } else {
+                                stopRecording();
+                                btnRec.setBackgroundColor(Color.WHITE);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        //Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            //Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
 
-                    }
+                        }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                            token.continuePermissionRequest();
 
-                    }
-                }, Manifest.permission.RECORD_AUDIO);
+                        }
+                    }, Manifest.permission.RECORD_AUDIO);
 
-            }
-        });
+                }
+            });
+        }
 
         LinearLayout player = (LinearLayout) findViewById(R.id.player);
 
@@ -331,9 +333,11 @@ public class NuovaNota extends AppCompatActivity {
 
                 nuova.setText(corpo.getText().toString());
                 if (pathGal != null) {
+                    Log.d(TAG, "salvo immagine galleria");
                     nuova.setImage(pathGal);
                 }
                 if (pathImg != null) {
+                    Log.d(TAG, "salvo immagine fotocamera");
                     nuova.setImage(pathImg);
                 }
                 nuova.setAudio(audioOutputPath);

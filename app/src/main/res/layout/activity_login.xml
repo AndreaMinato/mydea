@@ -10,25 +10,14 @@
     tools:context="com.group.mydea.LoginActivity"
     android:background="@drawable/login_background">
 
-    <Button
-        android:id="@+id/button_decrypt"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="32dp"
+        android:id="@+id/imageView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp"
-        android:text="@string/decryptButton"
-        android:background="@drawable/login_button_background"
-        />
-
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:hint="@string/passwordHint"
-        android:inputType="textPassword" />
+        android:src="@drawable/logo_mydea"
+        android:layout_above="@+id/tvEnterPsw" />
 
     <TextView
         android:id="@+id/tvEnterPsw"
@@ -40,12 +29,31 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="31dp" />
 
-    <ImageView
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:hint="@string/passwordHint"
+        android:inputType="textPassword" />
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:id="@+id/imageView2"
+        android:text="Error"
+        android:id="@+id/tvError"
+        android:layout_below="@+id/editTextPassword"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo_mydea"
-        android:layout_above="@+id/tvEnterPsw" />
+        android:textSize="17dp"
+        android:gravity="center"/>
+    <Button
+        android:id="@+id/button_decrypt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvError"
+        android:layout_marginTop="15dp"
+        android:text="@string/decryptButton"
+        android:background="@drawable/login_button_background" />
+
 </RelativeLayout>

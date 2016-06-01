@@ -18,7 +18,7 @@ import java.io.IOException;
 public class LoginActivity extends AppCompatActivity {
 
     EditText etInputPsw;
-    TextView tvStatus;
+    TextView tvStatus,tvError;
     Button btnCommitActions;
 
     private CryptData myCypher;//=new CryptData();
@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         etInputPsw = (EditText) findViewById(R.id.editTextPassword);
         tvStatus = (TextView) findViewById(R.id.tvEnterPsw);
         btnCommitActions = (Button) findViewById(R.id.button_decrypt);
+        tvError=(TextView) findViewById(R.id.tvError);
 
         database = new CouchDB(getApplicationContext());
 
@@ -71,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         setUpGUI();
 
 
@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                setUpGUI();
                 inputPsw = etInputPsw.getText().toString();
 
                 try {
@@ -88,11 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                         if (myCypher.generateSha256(inputPsw).equals(database.getEncryptionPassword())) {
                             Log.d(TAG, "Password is Correct.");
 
+
                             Intent vIntent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(vIntent);
-
                         } else {
                             Log.d(TAG, "Password is Incorrect.\nInput psw:" + myCypher.generateSha256(inputPsw) + "\nSettedPsw:" + database.getEncryptionPassword());
+                            showError("WOHA! It looks like password is not correct... :/");
                         }
 
                     } else {
@@ -106,8 +108,11 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface arg0, int arg1) {
 
                                         Log.d(TAG, "Setting new encryptionPsw:" + inputPsw);
-
                                         setEncryptionPassword(inputPsw);
+
+                                        Intent vIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(vIntent);
+
                                     }
                                 })
                                 .setNegativeButton(R.string.dialogNo, new DialogInterface.OnClickListener() {
@@ -115,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface arg0, int arg1) {
 
                                         Log.d(TAG, "Psw not setted.");
+                                        showError("Password not set. You need a password in order to use "+ R.string.app_name+" and securely store your notes!");
 
                                     }
                                 }).create().show();
@@ -134,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setUpGUI() {
+
         if (pswIsSet) {
             tvStatus.setText(R.string.pswText);
             btnCommitActions.setText(R.string.decryptButton);
@@ -141,6 +148,15 @@ public class LoginActivity extends AppCompatActivity {
             tvStatus.setText(R.string.setPswText);
             btnCommitActions.setText(R.string.setPswButton);
         }
+
+        tvError.setText("");
+        tvError.setVisibility(View.INVISIBLE);
+    }
+
+    private void showError(String errStr){
+
+        tvError.setText(errStr);
+        tvError.setVisibility(View.VISIBLE);
     }
 
     private boolean checkIfPswIsSet() throws CouchbaseLiteException, IOException {

@@ -85,6 +85,12 @@ public class SettingsActivity extends AppCompatActivity {
                                             //save notes
                                             database.salvaNote(note);
 
+                                            /**TODO: DELETE ALL NOTES. kek*/
+
+                                            //Do login again.
+                                            Intent vIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                                            startActivity(vIntent);
+
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                             Log.d(TAG, "Error on updating Encryption password: " + e);
