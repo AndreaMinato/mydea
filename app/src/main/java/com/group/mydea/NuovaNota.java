@@ -1,10 +1,16 @@
 package com.group.mydea;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,11 +20,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
+import com.couchbase.lite.CouchbaseLiteException;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class NuovaNota extends AppCompatActivity {
 
@@ -38,12 +58,91 @@ public class NuovaNota extends AppCompatActivity {
     String pathImg, pathGal;
 
 
-    public static String TAG = "debug tag";
+
+    private MediaRecorder mediaRecorder;
+    private Timer recTimer;
+    private boolean isRecording;
+    private Snackbar timeProgressSnackbar;
+    private String audioOutputPath = " ";
+
+    public static String TAG="debug tag";
     private static String BITMAP = "bitmap";
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PICK_IMAGE = 2; //il numero deve essere diverso da REQUEST_IMAGE_CAPTURE
+
+
+    private void startRecording() {
+
+
+        mediaRecorder = setupRecorder();
+        if (mediaRecorder != null) {
+            try {
+                mediaRecorder.prepare();
+            } catch (IOException e) {
+                Log.d("AUDIO", "prepare() failed");
+                e.printStackTrace();
+            }
+            mediaRecorder.start();
+            isRecording = true;
+
+            //timeProgressSnackbar = Snackbar.make(linearLayout, "Regsitriamo" + " - 00:00", Snackbar.LENGTH_INDEFINITE);
+            //timeProgressSnackbar.show();
+            recTimer = new Timer();
+            recTimer.schedule(createTimerTask(), 1000, 1000);
+        }
+    }
+
+    private void stopRecording() {
+        isRecording = false;
+        mediaRecorder.stop();
+        mediaRecorder.reset();
+        mediaRecorder.release();
+        mediaRecorder = null;
+        recTimer.cancel();
+
+        if (timeProgressSnackbar != null) {
+            timeProgressSnackbar.dismiss();
+        }
+        Toast.makeText(this, "Registrazione salvata", Toast.LENGTH_SHORT).show();
+    }
+
+    private MediaRecorder setupRecorder() {
+        MediaRecorder recorder = new MediaRecorder();
+        isRecording = false;
+        audioOutputPath = this.getExternalFilesDir("MydeaAudios") + "/" + (new Date()).getTime() + ".3gp";
+        Log.d("Setup recorder", "Path: " + audioOutputPath);
+
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        recorder.setOutputFile(audioOutputPath);
+        return recorder;
+    }
+
+
+    private TimerTask createTimerTask() {
+        final Handler handler = new Handler();
+        return new TimerTask() {
+            private Date data = new Date(0);
+            private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+
+            @Override
+            public void run() {
+                data.setTime(data.getTime() + 1000);
+                handler.post(new Runnable() {
+                                 @Override
+                                 public void run() {
+                                     //timeProgressSnackbar.setText("Registriamo" + " - " + sdf.format(data));
+                                 }
+                             }
+
+                );
+            }
+        };
+    }
+
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -61,6 +160,7 @@ public class NuovaNota extends AppCompatActivity {
 
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Log.d(TAG, "sono dentro");
             Bundle extras = data.getExtras();
             Uri uriImg = data.getData();
             if (uriImg != null) {
@@ -125,6 +225,7 @@ public class NuovaNota extends AppCompatActivity {
         tempolibero = (RadioButton) findViewById(R.id.radioFreetime);
         View fabImg = findViewById(R.id.fabImg);
         View fabGal = findViewById(R.id.fabGal);
+        final View btnRec = findViewById(R.id.btnRec);
         /*final FloatingActionButton fabImg = (FloatingActionButton)findViewById(R.id.fabImg);
         final FloatingActionButton fabGal = (FloatingActionButton)findViewById(R.id.fabGal);*/
         immagine = (ImageView) findViewById(R.id.imgviewFoto);
@@ -135,25 +236,71 @@ public class NuovaNota extends AppCompatActivity {
         }
 
 
-        assert fabGal != null;
-        fabGal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-            }
-        });
+        if (fabGal != null) {
+            fabGal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                }
+            });
+        }
+        if (fabImg != null) {
+            fabImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dispatchTakePictureIntent();
+                }
+            });
+        }
 
-        assert fabImg != null;
-        fabImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
+        if (btnRec != null) {
+            btnRec.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dexter.checkPermission(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
+
+                            recTimer = new Timer();
+                            if (!isRecording) {
+                                startRecording();
+                                Toast.makeText(NuovaNota.this, "Registrazione avviata", Toast.LENGTH_LONG).show();
+                                btnRec.setBackgroundColor(Color.RED);
+
+                            } else {
+                                stopRecording();
+                                btnRec.setBackgroundColor(Color.WHITE);
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            //Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                            token.continuePermissionRequest();
+
+                        }
+                    }, Manifest.permission.RECORD_AUDIO);
+
+                }
+            });
+        }
+
+        LinearLayout player = (LinearLayout) findViewById(R.id.player);
+
+
+
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -191,7 +338,7 @@ public class NuovaNota extends AppCompatActivity {
                 if (pathImg != null) {
                     nuova.setImage(pathImg);
                 }
-                //nuova.setAudio("audio");
+                nuova.setAudio(audioOutputPath);
                 nuova.setCreationDate(new Date());
 
                 if ((bassa).isChecked()) {
