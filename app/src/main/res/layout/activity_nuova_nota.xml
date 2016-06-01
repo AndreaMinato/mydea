@@ -157,7 +157,9 @@
         android:layout_alignRight="@+id/imgviewFoto"
         android:layout_alignTop="@+id/editTitle"
         fab:fab_expandDirection="down"
-        fab:fab_addButtonColorNormal="@color/colorAccent">
+        fab:fab_addButtonColorNormal="@color/colorAccent"
+        fab:fab_addButtonColorPressed="@color/buttonPressed"
+        >
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabImg"
