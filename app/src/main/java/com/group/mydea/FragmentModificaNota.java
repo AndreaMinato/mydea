@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -77,6 +78,8 @@ public class FragmentModificaNota extends DialogFragment {
     private Nota oldNota;
     private Nota newNota;
     private int pos;
+    private String notaColor;
+    private int notaTag;
 
     public static String TAG = "debug tag";
     public static String NOTA = "gfcg";
@@ -84,8 +87,9 @@ public class FragmentModificaNota extends DialogFragment {
     int TAKE_PHOTO_CODE = 0;
 
     CryptData myCypher;
-    private CouchDB database;
+    CouchDB database;
     TextView mTvTitolo, mTvTestoNota;
+    FrameLayout layoutFrag;
     Button save;
     String myID;
     String path;
@@ -173,6 +177,7 @@ public class FragmentModificaNota extends DialogFragment {
         View vView = inflater.inflate(R.layout.fragment_fragment_modifica_nota, container, false);
 
 
+        layoutFrag=(FrameLayout)vView.findViewById(R.id.layoutfrag);
         mTvTitolo = (TextView) vView.findViewById(R.id.tvtTitoloNota);
         mTvTestoNota = (TextView) vView.findViewById(R.id.tvtTestoNota);
 
@@ -184,10 +189,13 @@ public class FragmentModificaNota extends DialogFragment {
             myID = oldNota.getID();
             path = oldNota.getAudio();
             myImgNota = oldNota.getImage();
+            notaColor=oldNota.getColor();
+            notaTag=oldNota.getTag();
 
             Log.d(TAG, "onCreateView: " + myID);
         }
 
+        setBackgroundCol(notaTag);
 
         imgNota = (ImageView) vView.findViewById(R.id.imageViewNota);
 
@@ -534,6 +542,34 @@ public class FragmentModificaNota extends DialogFragment {
                 );
             }
         };
+    }
+
+    private void setBackgroundCol(int tag){
+
+        int postColor;
+        Log.d(TAG, "Post Category tag: " + tag);
+        switch (tag){
+            case 1:
+                postColor=Color.parseColor("#c6ecf0");
+                break;
+            case 2:
+                postColor=Color.parseColor("#fadbf6");
+                break;
+            case 3:
+                postColor=Color.parseColor("#d7f7cf");
+                break;
+            case 4:
+                postColor=Color.parseColor("#efdbae");
+                break;
+
+            default:
+                postColor=Color.parseColor("#000000");
+                break;
+        }
+
+        Log.d(TAG, "setBackgroundCol: " + postColor);
+        layoutFrag.setBackgroundColor(postColor);
+
     }
 
 
