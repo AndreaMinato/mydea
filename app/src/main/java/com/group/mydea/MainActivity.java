@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private CouchDB database;
     private CryptData myCypher;
-    ;// = new CryptData();
     private String myEncPsw = "";
     private FloatingActionButton fab;
     private ArrayList<Nota> note;

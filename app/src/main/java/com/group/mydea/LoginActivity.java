@@ -88,9 +88,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (myCypher.generateSha256(inputPsw).equals(database.getEncryptionPassword())) {
                             Log.d(TAG, "Password is Correct.");
 
+
                             Intent vIntent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(vIntent);
-
                         } else {
                             Log.d(TAG, "Password is Incorrect.\nInput psw:" + myCypher.generateSha256(inputPsw) + "\nSettedPsw:" + database.getEncryptionPassword());
                         }
