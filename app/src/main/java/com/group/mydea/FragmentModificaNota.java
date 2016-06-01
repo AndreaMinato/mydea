@@ -200,83 +200,45 @@ public class FragmentModificaNota extends DialogFragment {
 
                 Log.d(TAG, "Fab img hasbeen pressed.");
 
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("Do you want to take a pic?")
-                        .setPositiveButton("Yep!", new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                Dexter.checkPermission(new PermissionListener() {
-                                    @Override
-                                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                                        Toast.makeText(getActivity().getApplicationContext(), "Permessoooooo", Toast.LENGTH_LONG).show();
-
-                                        takePicture();
-                                    }
-
-                                    @Override
-                                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                                        Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
-
-                                    }
-
-                                    @Override
-                                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                                        Toast.makeText(getActivity().getApplicationContext(), "Cosa stranaaaaa", Toast.LENGTH_LONG).show();
-                                        token.continuePermissionRequest();
-
-                                    }
-                                }, Manifest.permission.CAMERA);
-
-                            }
-                        })
-                        .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                /**Select file from gallery*/
-                                getImgFromGallery();
-                            }
-                        }).create().show();
-
-
-            }
-        });
-
-
-        linearLayout = (FrameLayout) vView.findViewById(R.id.layoutfrag);
-
-
-        database = new CouchDB(getActivity());
-
-        try {
-
-            myEncPsw = database.getEncryptionPassword();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-
-        /**
-         * TODO: gestire se La password per encriptare le note non è settata
-         */
-        myCypher = new CryptData(myEncPsw, getActivity());
-
-
-        View btnRec = vView.findViewById(R.id.btnRec);
-        btnRec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 Dexter.checkPermission(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("Do you want to take a pic?")
+                                .setPositiveButton("Yep!", new DialogInterface.OnClickListener() {
 
-                        recTimer = new Timer();
-                        if (!isRecording) {
-                            startRecording();
-                        } else {
-                            stopRecording();
-                        }
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        Dexter.checkPermission(new PermissionListener() {
+                                            @Override
+                                            public void onPermissionGranted(PermissionGrantedResponse response) {
+
+                                                takePicture();
+                                            }
+
+                                            @Override
+                                            public void onPermissionDenied(PermissionDeniedResponse response) {
+                                                Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+
+                                            }
+
+                                            @Override
+                                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                                                token.continuePermissionRequest();
+
+                                            }
+                                        }, Manifest.permission.CAMERA);
+
+                                    }
+                                })
+                                .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        /**Select file from gallery*/
+                                        getImgFromGallery();
+                                    }
+                                }).create().show();
+
+
                     }
 
                     @Override
@@ -288,17 +250,99 @@ public class FragmentModificaNota extends DialogFragment {
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
                         token.continuePermissionRequest();
+                    }
+                }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+
+        });
+
+
+        linearLayout = (FrameLayout) vView.findViewById(R.id.layoutfrag);
+
+
+        database = new
+
+                CouchDB(getActivity()
+
+        );
+
+        try {
+            myEncPsw = database.getEncryptionPassword();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+
+        /**
+         * TODO: gestire se La password per encriptare le note non è settata
+         */
+        myCypher = new
+
+                CryptData(myEncPsw, getActivity()
+
+        );
+
+
+        View btnRec = vView.findViewById(R.id.btnRec);
+        btnRec.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                Dexter.checkPermission(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        Dexter.checkPermission(new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted(PermissionGrantedResponse response) {
+
+                                recTimer = new Timer();
+                                if (!isRecording) {
+                                    startRecording();
+                                } else {
+                                    stopRecording();
+                                }
+                            }
+
+                            @Override
+                            public void onPermissionDenied(PermissionDeniedResponse response) {
+                                Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                                token.continuePermissionRequest();
+
+                            }
+                        }, Manifest.permission.RECORD_AUDIO);
 
                     }
-                }, Manifest.permission.RECORD_AUDIO);
 
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Se non mi dai i permessi cazzo vuoi registrare?", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }
+
+                        , Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         });
+
 
         LinearLayout player = (LinearLayout) vView.findViewById(R.id.player);
 
 
-        if (path != null && !path.equals(" ")) {
+        if (path != null && !path.equals(" "))
+
+        {
             player.setVisibility(View.VISIBLE);
             ImageView mPlayMedia = (ImageView) vView.findViewById(R.id.play);
             ImageView mPauseMedia = (ImageView) vView.findViewById(R.id.pause);
@@ -318,7 +362,9 @@ public class FragmentModificaNota extends DialogFragment {
            /* AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
                     .useDefaultUi(player, inflater);*/
 
-        } else {
+        } else
+
+        {
             player.setVisibility(View.GONE);
         }
 
@@ -488,6 +534,4 @@ public class FragmentModificaNota extends DialogFragment {
     }
 
 
-}
-
-        
+};
