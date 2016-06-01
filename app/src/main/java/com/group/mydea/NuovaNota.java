@@ -105,7 +105,7 @@ public class NuovaNota extends AppCompatActivity {
         if (timeProgressSnackbar != null) {
             timeProgressSnackbar.dismiss();
         }
-        Toast.makeText(this, "Registrazione salvata", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.recSaved, Toast.LENGTH_SHORT).show();
     }
 
     private MediaRecorder setupRecorder() {
@@ -267,7 +267,7 @@ public class NuovaNota extends AppCompatActivity {
                         recTimer = new Timer();
                         if (!isRecording) {
                             startRecording();
-                            Toast.makeText(NuovaNota.this, "Registrazione avviata", Toast.LENGTH_LONG).show();
+                            Toast.makeText(NuovaNota.this, R.string.recStarted, Toast.LENGTH_LONG).show();
                             btnRec.setBackgroundColor(Color.RED);
 
                         } else {
@@ -315,7 +315,6 @@ public class NuovaNota extends AppCompatActivity {
                 Nota nuova = new Nota();
                 nuova.setId(nuova.getID() + 1);
                 nuova.setTitle(titolo.getText().toString());
-                //nuova.setColor("Blue");
 
                 if (lavoro.isChecked()) {
                     nuova.setTag(1);
@@ -360,7 +359,8 @@ public class NuovaNota extends AppCompatActivity {
 
                 if (!(((corpo.getText().toString().trim().isEmpty())) && ((titolo.getText().toString().trim().isEmpty())))) {
                     if (titolo.getText().toString().trim().isEmpty()) {
-                        nuova.setTitle("Senza titolo");
+                        String empty = getResources().getString(R.string.noteUntitled);
+                        nuova.setTitle(empty);
                     }
                     try {
                         database.salvaNota(nuova);

@@ -61,8 +61,8 @@ public class SettingsActivity extends AppCompatActivity {
                 /*TODO: Sistemare alertDialog*/
 
                 new AlertDialog.Builder(SettingsActivity.this)
-                        .setTitle("Do you want to save new password?")
-                        .setPositiveButton("Yep!", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.savePassword)
+                        .setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {  //MODIFICA!!!!!!
 
                                     public void onClick(DialogInterface arg0, int arg1) {
 
@@ -95,7 +95,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                                     }
                                 })
-                        .setNegativeButton("Nope.", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.dialogNo, new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         Log.d(TAG, "Psw not setted.");
