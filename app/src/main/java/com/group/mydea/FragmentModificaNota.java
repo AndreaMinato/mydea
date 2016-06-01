@@ -333,205 +333,205 @@ public class FragmentModificaNota extends DialogFragment {
                 }
 
                         , Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+        });
 
 
-                LinearLayout player = (LinearLayout) vView.findViewById(R.id.player);
+        LinearLayout player = (LinearLayout) vView.findViewById(R.id.player);
 
 
-                if (path != null && !path.equals(" "))
+        if (path != null && !path.equals(" "))
 
-                {
-                    player.setVisibility(View.VISIBLE);
-                    ImageView mPlayMedia = (ImageView) vView.findViewById(R.id.play);
-                    ImageView mPauseMedia = (ImageView) vView.findViewById(R.id.pause);
-                    SeekBar mMediaSeekBar = (SeekBar) vView.findViewById(R.id.media_seekbar);
-                    TextView mRunTime = (TextView) vView.findViewById(R.id.playback_time);
-                    //TextView mTotalTime = (TextView)vView.findViewById(R.id.total_time);
+        {
+            player.setVisibility(View.VISIBLE);
+            ImageView mPlayMedia = (ImageView) vView.findViewById(R.id.play);
+            ImageView mPauseMedia = (ImageView) vView.findViewById(R.id.pause);
+            SeekBar mMediaSeekBar = (SeekBar) vView.findViewById(R.id.media_seekbar);
+            TextView mRunTime = (TextView) vView.findViewById(R.id.playback_time);
+            //TextView mTotalTime = (TextView)vView.findViewById(R.id.total_time);
 
 
-                    AudioWife.getInstance()
-                            .init(getActivity().getApplicationContext(), Uri.parse(path))
-                            .setPlayView(mPlayMedia)
-                            .setPauseView(mPauseMedia)
-                            .setSeekBar(mMediaSeekBar)
-                            .setRuntimeView(mRunTime);
-                    //.setTotalTimeView(mTotalTime);
+            AudioWife.getInstance()
+                    .init(getActivity().getApplicationContext(), Uri.parse(path))
+                    .setPlayView(mPlayMedia)
+                    .setPauseView(mPauseMedia)
+                    .setSeekBar(mMediaSeekBar)
+                    .setRuntimeView(mRunTime);
+            //.setTotalTimeView(mTotalTime);
 
            /* AudioWife.getInstance().init(getActivity().getApplicationContext(), Uri.parse(path))
                     .useDefaultUi(player, inflater);*/
 
-                } else
+        } else
 
-                {
-                    player.setVisibility(View.GONE);
-                }
+        {
+            player.setVisibility(View.GONE);
+        }
 
-                return vView;
+        return vView;
+    }
+
+    private void getImgFromGallery() {
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), SELECT_PICTURE);
+    }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                Uri selectedImageUri = data.getData();
+                Log.d(TAG, "Selected img path: " + selectedImageUri.getPath());
+
+                setImg(selectedImageUri);
+                myImgNota = selectedImageUri.toString();
             }
-
-            private void getImgFromGallery() {
-
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,
-                        "Select Picture"), SELECT_PICTURE);
-            }
+        }
+    }
 
 
-            public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                if (resultCode == Activity.RESULT_OK) {
-                    if (requestCode == SELECT_PICTURE) {
-                        Uri selectedImageUri = data.getData();
-                        Log.d(TAG, "Selected img path: " + selectedImageUri.getPath());
+    private void takePicture() {
 
-                        setImg(selectedImageUri);
-                        myImgNota = selectedImageUri.toString();
-                    }
-                }
-            }
+        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
+        File newdir = new File(dir);
+
+        if (!newdir.exists())
+            newdir.mkdirs();
 
 
-            private void takePicture() {
+        Log.d(TAG, "Take a pic, bro!");
 
-                final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-                File newdir = new File(dir);
+        int time = (int) (System.currentTimeMillis());
+        String timeStp = "imgPost" + "_" + new Timestamp(time).toString().replace("-", "").replace(" ", "").replace(".", "").replace(":", "");
+        String myPicFile = dir + timeStp + ".jpg";
+        File newImgfile = new File(myPicFile);
+        try {
 
-                if (!newdir.exists())
-                    newdir.mkdirs();
+            newImgfile.createNewFile();
 
-
-                Log.d(TAG, "Take a pic, bro!");
-
-                int time = (int) (System.currentTimeMillis());
-                String timeStp = "imgPost" + "_" + new Timestamp(time).toString().replace("-", "").replace(" ", "").replace(".", "").replace(":", "");
-                String myPicFile = dir + timeStp + ".jpg";
-                File newImgfile = new File(myPicFile);
-                try {
-
-                    newImgfile.createNewFile();
-
-                    Uri outputFileUri = Uri.fromFile(newImgfile);
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
+            Uri outputFileUri = Uri.fromFile(newImgfile);
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
             /*
             TODO: callback (wait for pic)
             TODO: handle permission.
              */
 
-                    setImg(outputFileUri);
-                    myImgNota = outputFileUri.toString();
+            setImg(outputFileUri);
+            myImgNota = outputFileUri.toString();
 
-                } catch (IOException e) {
-                    Log.d(TAG, "Error on taking a pic: " + e.toString());
-                }
-
-            }
-
-
-            private void setImg(Uri fileImg) {
-
-                //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg.getAbsolutePath()+".jpg";
-
-                Log.d(TAG, "FilePath URI:" + fileImg);
-
-
-                try {
-                    Picasso.with(getActivity())
-                            .load(fileImg)
-                            .resize(800, 600).onlyScaleDown().centerInside()
-                            .error(R.drawable.couldnotloadimg)
-                            .into(imgNota, new Callback() {
-
-                                @Override
-                                public void onSuccess() {
-
-                                    Log.d(TAG, "Image setted correctly.");
-                                }
-
-                                @Override
-                                public void onError() {
-
-                                    Log.d(TAG, "Image not setted correctly.");
-                                }
-                            });
-                } catch (Exception e) {
-                    Log.d(TAG, "Image not setted correctly: " + e);
-                }
-            }
-
-            private void startRecording() {
-
-
-                mediaRecorder = setupRecorder();
-                if (mediaRecorder != null) {
-                    try {
-                        mediaRecorder.prepare();
-                    } catch (IOException e) {
-                        Log.d("AUDIO", "prepare() failed");
-                        e.printStackTrace();
-                    }
-                    mediaRecorder.start();
-                    isRecording = true;
-
-                    timeProgressSnackbar = Snackbar.make(linearLayout, "Regsitriamo" + " - 00:00", Snackbar.LENGTH_INDEFINITE);
-                    timeProgressSnackbar.show();
-                    recTimer = new Timer();
-                    recTimer.schedule(createTimerTask(), 1000, 1000);
-                }
-            }
-
-            private void stopRecording() {
-                isRecording = false;
-                mediaRecorder.stop();
-                mediaRecorder.reset();
-                mediaRecorder.release();
-                mediaRecorder = null;
-                recTimer.cancel();
-
-                if (timeProgressSnackbar != null) {
-                    timeProgressSnackbar.dismiss();
-                }
-                Toast.makeText(getActivity(), "Registrazione salvata", Toast.LENGTH_SHORT).show();
-            }
-
-            private MediaRecorder setupRecorder() {
-                MediaRecorder recorder = new MediaRecorder();
-                isRecording = false;
-                audioOutputPath = getActivity().getExternalFilesDir("MydeaAudios") + "/" + (new Date()).getTime() + ".3gp";
-                Log.d("Setup recorder", "Path: " + audioOutputPath);
-
-                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-                recorder.setOutputFile(audioOutputPath);
-                return recorder;
-            }
-
-
-            private TimerTask createTimerTask() {
-                final Handler handler = new Handler();
-                return new TimerTask() {
-                    private Date data = new Date(0);
-                    private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
-
-                    @Override
-                    public void run() {
-                        data.setTime(data.getTime() + 1000);
-                        handler.post(new Runnable() {
-                                         @Override
-                                         public void run() {
-                                             timeProgressSnackbar.setText("Registriamo" + " - " + sdf.format(data));
-                                         }
-                                     }
-
-                        );
-                    }
-                };
-            }
-
-
+        } catch (IOException e) {
+            Log.d(TAG, "Error on taking a pic: " + e.toString());
         }
 
-        
+    }
+
+
+    private void setImg(Uri fileImg) {
+
+        //String myExtFilePath=Environment.getExternalStorageDirectory()+fileImg.getAbsolutePath()+".jpg";
+
+        Log.d(TAG, "FilePath URI:" + fileImg);
+
+
+        try {
+            Picasso.with(getActivity())
+                    .load(fileImg)
+                    .resize(800, 600).onlyScaleDown().centerInside()
+                    .error(R.drawable.couldnotloadimg)
+                    .into(imgNota, new Callback() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            Log.d(TAG, "Image setted correctly.");
+                        }
+
+                        @Override
+                        public void onError() {
+
+                            Log.d(TAG, "Image not setted correctly.");
+                        }
+                    });
+        } catch (Exception e) {
+            Log.d(TAG, "Image not setted correctly: " + e);
+        }
+    }
+
+    private void startRecording() {
+
+
+        mediaRecorder = setupRecorder();
+        if (mediaRecorder != null) {
+            try {
+                mediaRecorder.prepare();
+            } catch (IOException e) {
+                Log.d("AUDIO", "prepare() failed");
+                e.printStackTrace();
+            }
+            mediaRecorder.start();
+            isRecording = true;
+
+            timeProgressSnackbar = Snackbar.make(linearLayout, "Regsitriamo" + " - 00:00", Snackbar.LENGTH_INDEFINITE);
+            timeProgressSnackbar.show();
+            recTimer = new Timer();
+            recTimer.schedule(createTimerTask(), 1000, 1000);
+        }
+    }
+
+    private void stopRecording() {
+        isRecording = false;
+        mediaRecorder.stop();
+        mediaRecorder.reset();
+        mediaRecorder.release();
+        mediaRecorder = null;
+        recTimer.cancel();
+
+        if (timeProgressSnackbar != null) {
+            timeProgressSnackbar.dismiss();
+        }
+        Toast.makeText(getActivity(), "Registrazione salvata", Toast.LENGTH_SHORT).show();
+    }
+
+    private MediaRecorder setupRecorder() {
+        MediaRecorder recorder = new MediaRecorder();
+        isRecording = false;
+        audioOutputPath = getActivity().getExternalFilesDir("MydeaAudios") + "/" + (new Date()).getTime() + ".3gp";
+        Log.d("Setup recorder", "Path: " + audioOutputPath);
+
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        recorder.setOutputFile(audioOutputPath);
+        return recorder;
+    }
+
+
+    private TimerTask createTimerTask() {
+        final Handler handler = new Handler();
+        return new TimerTask() {
+            private Date data = new Date(0);
+            private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+
+            @Override
+            public void run() {
+                data.setTime(data.getTime() + 1000);
+                handler.post(new Runnable() {
+                                 @Override
+                                 public void run() {
+                                     timeProgressSnackbar.setText("Registriamo" + " - " + sdf.format(data));
+                                 }
+                             }
+
+                );
+            }
+        };
+    }
+
+
+};
