@@ -48,4 +48,8 @@
     <string name="action_search">Buscar</string>
     <string name="searchHint">Buscar entre las notas</string>
     <string name="action_settings">Ajustes</string>
+
+    <string name="pswChangeTxt">Cambia la contraseña</string>
+    <string name="pswChangeInput">Nueva contraseña</string>
+    <string name="pswChangeConfirm">Confirmar</string>
 </resources>

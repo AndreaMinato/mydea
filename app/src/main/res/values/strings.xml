@@ -53,6 +53,10 @@
     <string name="searchHint">Find in notes</string>
     <string name="action_settings">Settings</string>
 
+    <string name="pswChangeTxt">Change password</string>
+    <string name="pswChangeInput">New password</string>
+    <string name="pswChangeConfirm">Confirm</string>
+
     <string name="transition_name_title">transition:TITLE</string>
     <string name="transition_name_text">transition:TEXT</string>
     <string name="title_activity_login">Sign in</string>
