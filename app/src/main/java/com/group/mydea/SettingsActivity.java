@@ -85,6 +85,8 @@ public class SettingsActivity extends AppCompatActivity {
                                             //save notes
                                             database.salvaNote(note);
 
+                                            /**TODO: DELETE ALL NOTES. kek*/
+
                                             //Do login again.
                                             Intent vIntent = new Intent(getApplicationContext(), LoginActivity.class);
                                             startActivity(vIntent);
