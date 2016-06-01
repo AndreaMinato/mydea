@@ -7,4 +7,6 @@
     <color name="colorFab">#DC5C4B</color>
     <color name="colorPrimaryLight">#B2EBF2</color>
 
+    <color name="buttonPressed">#D1C4E9</color>
+
 </resources>
