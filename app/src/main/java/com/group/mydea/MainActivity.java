@@ -210,13 +210,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "Searching: " + inputText);
 
         ArrayList<Nota> tmpFilteredNotes = new ArrayList<Nota>();
-
         ArrayList <Nota> searchNotes=myCypher.decryptAllNotes(note);
 
         for (int i = 0; i < searchNotes.size(); i++) {
-            if (searchNotes.get(i).getTitle().toLowerCase().contains(inputText.toLowerCase()) || searchNotes.get(i).getText().toLowerCase().contains(inputText.toLowerCase())) {
-                tmpFilteredNotes.add(note.get(i));
-            }
+
+                if (searchNotes.get(i).getTitle().toLowerCase().contains(inputText.toLowerCase()) || searchNotes.get(i).getText().toLowerCase().contains(inputText.toLowerCase())) {
+                    tmpFilteredNotes.add(note.get(i));
+                }
         }
         Log.d(TAG, "Note trovate: " + tmpFilteredNotes.size());
         showNotes(tmpFilteredNotes);
